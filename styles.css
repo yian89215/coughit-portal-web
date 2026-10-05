@@ -284,16 +284,31 @@ a { color: inherit; }
   display: grid;
   gap: 10px;
   margin: 28px 0 32px;
+  max-height: 356px;
+  padding-right: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--ink) #e7e7e3;
+  scrollbar-width: thin;
+}
+.translation-list::-webkit-scrollbar { width: 8px; }
+.translation-list::-webkit-scrollbar-track { background: #e7e7e3; }
+.translation-list::-webkit-scrollbar-thumb { background: var(--ink); }
+
+.translation-list::after {
+  content: '';
+  height: 30px;
 }
 
 .translation {
   display: grid;
-  grid-template-columns: 38px minmax(100px, 0.7fr) 28px minmax(150px, 1fr) minmax(220px, 1.65fr);
+  grid-template-columns: 38px minmax(180px, 0.85fr) 28px minmax(300px, 1.55fr);
   align-items: center;
   gap: 10px;
   padding: 10px;
   border: 1px solid var(--hairline);
   background: #fafaf8;
+  min-height: 126px;
 }
 
 .translation-no {
@@ -302,6 +317,10 @@ a { color: inherit; }
   font-weight: 700;
   text-align: center;
   letter-spacing: 0.08em;
+}
+
+.sample-panel {
+  min-width: 0;
 }
 
 .translation button {
@@ -323,8 +342,11 @@ a { color: inherit; }
 }
 .translation button:hover,
 .translation button.is-playing { background: var(--ink); color: var(--paper); }
-.translation button[data-sample="cough"] .sample-icon { color: var(--ink); }
-.translation button.is-playing .sample-icon { color: var(--paper); }
+.translation button [data-play-icon] {
+  width: 1em;
+  flex: none;
+  text-align: center;
+}
 
 .translation-arrow {
   color: var(--muted);
@@ -332,10 +354,11 @@ a { color: inherit; }
   text-align: center;
 }
 
-.translation canvas {
+.sample-panel canvas {
   display: block;
   width: 100%;
-  height: 72px;
+  height: 58px;
+  margin-top: 7px;
   border: 1px solid var(--hairline);
   background: #f7f7f5;
 }
@@ -455,7 +478,8 @@ a { color: inherit; }
 .player-overlay svg { width: 34px; height: 34px; fill: var(--ink); margin-left: 4px; }
 .player-overlay:hover { background: var(--ink); }
 .player-overlay:hover svg { fill: var(--paper); }
-.player.is-playing .player-overlay { display: none; }
+.player-overlay svg[hidden] { display: none; }
+.player.is-playing .player-overlay { opacity: 0.82; }
 
 .player-bar {
   display: flex;
@@ -582,23 +606,22 @@ body:not(.draft) .todo { display: none; }
 
 @media (max-width: 840px) {
   .translation {
-    grid-template-columns: 32px 1fr 22px 1.3fr;
+    grid-template-columns: 32px minmax(150px, 1fr) 22px minmax(210px, 1.3fr);
   }
-  .translation canvas {
-    grid-column: 2 / -1;
-    height: 82px;
-  }
+  .translation-list { max-height: 346px; }
+  .sample-panel canvas { height: 58px; }
   .midi-frame canvas { height: 210px; }
 }
 
 @media (max-width: 560px) {
   .translation {
-    grid-template-columns: 28px 1fr 18px 1.25fr;
+    grid-template-columns: 28px 1fr 18px 1fr;
     gap: 6px;
     padding: 8px;
   }
   .translation button { padding: 8px; font-size: 12px; }
-  .translation canvas { grid-column: 1 / -1; }
+  .sample-panel canvas { height: 54px; }
+  .translation-list { max-height: 330px; padding-right: 5px; }
   .final-label { align-items: flex-start; flex-direction: column; gap: 2px; }
 }
 
