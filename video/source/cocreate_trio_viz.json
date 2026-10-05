@@ -1,0 +1,2085 @@
+{
+  "type": "trio",
+  "duration_sec": 32.0,
+  "midi_offset_sec": 0.0,
+  "tempo_bpm": 120.0,
+  "tracks": [
+    {
+      "id": "mel",
+      "program": 40,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 75,
+          "start": 0.7159090909090908,
+          "end": 0.8045454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 82,
+          "start": 0.8545454545454545,
+          "end": 1.1613636363636364,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 84,
+          "start": 1.1704545454545454,
+          "end": 1.2977272727272726,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 82,
+          "start": 1.309090909090909,
+          "end": 1.3863636363636362,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 75,
+          "start": 1.3954545454545453,
+          "end": 1.5545454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 75,
+          "start": 1.7318181818181817,
+          "end": 1.7409090909090907,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 75,
+          "start": 1.7795454545454545,
+          "end": 2.065909090909091,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 58,
+          "start": 2.5545454545454542,
+          "end": 2.6522727272727273,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 51,
+          "start": 2.661363636363636,
+          "end": 2.8477272727272727,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 55,
+          "start": 2.859090909090909,
+          "end": 2.977272727272727,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 75,
+          "start": 3.2954545454545454,
+          "end": 3.3545454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 84,
+          "start": 3.3636363636363633,
+          "end": 3.4318181818181817,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 75,
+          "start": 3.6999999999999997,
+          "end": 3.8863636363636362,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 82,
+          "start": 3.875,
+          "end": 3.965909090909091,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 82,
+          "start": 3.9568181818181816,
+          "end": 3.965909090909091,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 75,
+          "start": 4.75,
+          "end": 4.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 4.875,
+          "end": 5.125,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 84,
+          "start": 5.125,
+          "end": 5.25,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 5.25,
+          "end": 5.375,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 5.375,
+          "end": 5.5,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 5.75,
+          "end": 5.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 6.5,
+          "end": 6.625,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 6.625,
+          "end": 6.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 6.875,
+          "end": 7.0,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 7.25,
+          "end": 7.375,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 7.375,
+          "end": 7.5,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 7.75,
+          "end": 7.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 7.875,
+          "end": 8.0,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 9.368181818181817,
+          "end": 9.452272727272726,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 85,
+          "start": 9.463636363636363,
+          "end": 9.547727272727272,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 78,
+          "start": 9.559090909090909,
+          "end": 9.84090909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 75,
+          "start": 9.877272727272727,
+          "end": 9.975,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 68,
+          "start": 9.986363636363636,
+          "end": 10.131818181818181,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 63,
+          "start": 10.143181818181818,
+          "end": 10.288636363636364,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 61,
+          "start": 10.35,
+          "end": 10.459090909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 51,
+          "start": 10.470454545454546,
+          "end": 10.69090909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 75,
+          "start": 11.468181818181817,
+          "end": 11.51590909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 82,
+          "start": 11.552272727272726,
+          "end": 11.970454545454546,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 82,
+          "start": 11.875,
+          "end": 11.970454545454546,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 80,
+          "start": 13.345454545454546,
+          "end": 13.470454545454546,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 13.470454545454546,
+          "end": 13.595454545454546,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 13.845454545454544,
+          "end": 13.970454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 68,
+          "start": 13.970454545454544,
+          "end": 14.095454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 63,
+          "start": 14.095454545454544,
+          "end": 14.220454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 14.345454545454544,
+          "end": 14.470454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 14.470454545454544,
+          "end": 14.720454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 15.470454545454544,
+          "end": 15.845454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 15.845454545454544,
+          "end": 15.970454545454544,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 72,
+          "start": 16.547727272727272,
+          "end": 16.568181818181817,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 68,
+          "start": 16.59318181818182,
+          "end": 16.925,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 75,
+          "start": 16.94772727272727,
+          "end": 17.259090909090908,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 68,
+          "start": 17.279545454545453,
+          "end": 17.411363636363635,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 68,
+          "start": 17.436363636363634,
+          "end": 17.479545454545455,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 75,
+          "start": 17.5,
+          "end": 17.520454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 79,
+          "start": 17.543181818181818,
+          "end": 17.69772727272727,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 84,
+          "start": 17.720454545454544,
+          "end": 17.763636363636362,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 82,
+          "start": 17.829545454545453,
+          "end": 18.206818181818182,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 72,
+          "start": 18.229545454545455,
+          "end": 18.384090909090908,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 72,
+          "start": 18.40681818181818,
+          "end": 18.827272727272728,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 80,
+          "start": 18.849999999999998,
+          "end": 18.870454545454546,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 79,
+          "start": 18.870454545454546,
+          "end": 19.002272727272725,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 70,
+          "start": 19.025,
+          "end": 19.336363636363636,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 60,
+          "start": 19.35909090909091,
+          "end": 19.579545454545453,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 50,
+          "start": 19.602272727272727,
+          "end": 19.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 50,
+          "start": 19.845454545454544,
+          "end": 19.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 72,
+          "start": 20.55909090909091,
+          "end": 20.68409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 20.93409090909091,
+          "end": 21.18409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 21.18409090909091,
+          "end": 21.43409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 21.43409090909091,
+          "end": 21.55909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 79,
+          "start": 21.55909090909091,
+          "end": 21.68409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 84,
+          "start": 21.68409090909091,
+          "end": 21.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 21.80909090909091,
+          "end": 22.18409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 72,
+          "start": 22.18409090909091,
+          "end": 22.30909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 72,
+          "start": 22.30909090909091,
+          "end": 22.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 22.80909090909091,
+          "end": 22.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 79,
+          "start": 22.93409090909091,
+          "end": 23.30909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 23.30909090909091,
+          "end": 23.55909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 23.55909090909091,
+          "end": 23.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 91,
+          "start": 23.80909090909091,
+          "end": 23.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 73,
+          "start": 24.55909090909091,
+          "end": 24.68409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 24.68409090909091,
+          "end": 24.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 24.93409090909091,
+          "end": 25.05909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 80,
+          "start": 25.05909090909091,
+          "end": 25.18409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 25.18409090909091,
+          "end": 25.30909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 25.30909090909091,
+          "end": 25.43409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 80,
+          "start": 25.55909090909091,
+          "end": 25.68409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 80,
+          "start": 25.68409090909091,
+          "end": 25.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 80,
+          "start": 25.80909090909091,
+          "end": 26.18409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 26.30909090909091,
+          "end": 26.43409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 26.43409090909091,
+          "end": 26.68409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 70,
+          "start": 26.68409090909091,
+          "end": 26.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 26.80909090909091,
+          "end": 27.05909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 27.05909090909091,
+          "end": 27.18409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 65,
+          "start": 27.18409090909091,
+          "end": 27.30909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 77,
+          "start": 27.30909090909091,
+          "end": 27.43409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 27.43409090909091,
+          "end": 27.55909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 89,
+          "start": 27.55909090909091,
+          "end": 27.68409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 70,
+          "start": 27.68409090909091,
+          "end": 27.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 27.80909090909091,
+          "end": 27.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 28.68409090909091,
+          "end": 28.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 28.80909090909091,
+          "end": 29.05909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 84,
+          "start": 29.05909090909091,
+          "end": 29.18409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 80,
+          "start": 29.18409090909091,
+          "end": 29.30909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 29.30909090909091,
+          "end": 29.43409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 29.68409090909091,
+          "end": 29.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 30.43409090909091,
+          "end": 30.55909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 30.55909090909091,
+          "end": 30.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 84,
+          "start": 30.80909090909091,
+          "end": 30.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 31.18409090909091,
+          "end": 31.30909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 31.30909090909091,
+          "end": 31.43409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 31.68409090909091,
+          "end": 31.80909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 31.80909090909091,
+          "end": 31.93409090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    },
+    {
+      "id": "acc",
+      "program": 41,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 53,
+          "start": 0.7159090909090908,
+          "end": 0.8045454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 58,
+          "start": 0.8227272727272726,
+          "end": 1.159090909090909,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 60,
+          "start": 1.1681818181818182,
+          "end": 1.2954545454545454,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 56,
+          "start": 1.3068181818181817,
+          "end": 1.5545454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 53,
+          "start": 1.7318181818181817,
+          "end": 1.7409090909090907,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 53,
+          "start": 1.7795454545454545,
+          "end": 2.536363636363636,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 41,
+          "start": 2.5568181818181817,
+          "end": 2.6954545454545453,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 39,
+          "start": 2.7045454545454546,
+          "end": 3.2818181818181817,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 55,
+          "start": 3.2909090909090906,
+          "end": 3.359090909090909,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 60,
+          "start": 3.368181818181818,
+          "end": 3.6545454545454543,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 55,
+          "start": 3.693181818181818,
+          "end": 3.8909090909090907,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 58,
+          "start": 3.875,
+          "end": 3.9704545454545452,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 58,
+          "start": 3.961363636363636,
+          "end": 3.9704545454545452,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 53,
+          "start": 4.75,
+          "end": 4.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 4.875,
+          "end": 5.125,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 5.125,
+          "end": 5.25,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 5.25,
+          "end": 5.5,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 5.75,
+          "end": 5.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 6.5,
+          "end": 6.75,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 48,
+          "start": 6.75,
+          "end": 7.25,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 7.25,
+          "end": 7.375,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 7.375,
+          "end": 7.75,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 7.75,
+          "end": 7.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 7.875,
+          "end": 8.0,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 9.372727272727273,
+          "end": 9.854545454545454,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 51,
+          "start": 9.89090909090909,
+          "end": 10.15,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 47,
+          "start": 10.161363636363635,
+          "end": 10.306818181818182,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 44,
+          "start": 10.368181818181817,
+          "end": 10.552272727272726,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 37,
+          "start": 10.563636363636363,
+          "end": 10.709090909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 53,
+          "start": 11.49090909090909,
+          "end": 11.538636363636362,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 58,
+          "start": 11.575,
+          "end": 11.98181818181818,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 58,
+          "start": 11.875,
+          "end": 11.98181818181818,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 56,
+          "start": 13.35681818181818,
+          "end": 13.85681818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 13.85681818181818,
+          "end": 14.10681818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 47,
+          "start": 14.10681818181818,
+          "end": 14.23181818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 14.35681818181818,
+          "end": 14.48181818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 37,
+          "start": 14.60681818181818,
+          "end": 14.73181818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 15.48181818181818,
+          "end": 15.60681818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 15.60681818181818,
+          "end": 15.85681818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 15.85681818181818,
+          "end": 15.98181818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 16.56590909090909,
+          "end": 16.94772727272727,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 53,
+          "start": 16.972727272727273,
+          "end": 17.445454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 51,
+          "start": 17.46818181818182,
+          "end": 17.53181818181818,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 56,
+          "start": 17.554545454545455,
+          "end": 17.802272727272726,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 60,
+          "start": 17.870454545454546,
+          "end": 18.252272727272725,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 53,
+          "start": 18.275,
+          "end": 18.43181818181818,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 51,
+          "start": 18.454545454545453,
+          "end": 18.879545454545454,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 58,
+          "start": 18.902272727272727,
+          "end": 18.922727272727272,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 51,
+          "start": 18.922727272727272,
+          "end": 19.395454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 44,
+          "start": 19.418181818181818,
+          "end": 19.64090909090909,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 37,
+          "start": 19.663636363636364,
+          "end": 19.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 37,
+          "start": 19.85681818181818,
+          "end": 19.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 51,
+          "start": 20.579545454545453,
+          "end": 20.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 20.954545454545453,
+          "end": 21.454545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 21.454545454545453,
+          "end": 21.579545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 21.579545454545453,
+          "end": 21.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 21.829545454545453,
+          "end": 22.204545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 22.204545454545453,
+          "end": 22.454545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 22.454545454545453,
+          "end": 22.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 54,
+          "start": 22.829545454545453,
+          "end": 22.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 22.954545454545453,
+          "end": 23.329545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 23.329545454545453,
+          "end": 23.579545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 37,
+          "start": 23.579545454545453,
+          "end": 23.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 37,
+          "start": 23.829545454545453,
+          "end": 23.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 24.704545454545453,
+          "end": 24.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 24.829545454545453,
+          "end": 25.079545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 25.079545454545453,
+          "end": 25.329545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 25.329545454545453,
+          "end": 25.579545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 25.579545454545453,
+          "end": 25.704545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 25.704545454545453,
+          "end": 25.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 25.829545454545453,
+          "end": 26.329545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 26.329545454545453,
+          "end": 26.454545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 27.329545454545453,
+          "end": 27.579545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 27.579545454545453,
+          "end": 27.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 49,
+          "start": 27.829545454545453,
+          "end": 27.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 28.704545454545453,
+          "end": 28.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 28.829545454545453,
+          "end": 29.079545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 29.079545454545453,
+          "end": 29.204545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 29.204545454545453,
+          "end": 29.454545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 29.704545454545453,
+          "end": 29.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 30.454545454545453,
+          "end": 30.704545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 48,
+          "start": 30.704545454545453,
+          "end": 31.204545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 31.204545454545453,
+          "end": 31.329545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 31.329545454545453,
+          "end": 31.579545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 31.704545454545453,
+          "end": 31.829545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 31.829545454545453,
+          "end": 31.954545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    },
+    {
+      "id": "bass",
+      "program": 43,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 41,
+          "start": 0.7159090909090908,
+          "end": 0.8045454545454545,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 46,
+          "start": 0.8545454545454545,
+          "end": 1.1613636363636364,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 48,
+          "start": 1.1704545454545454,
+          "end": 1.2977272727272726,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 44,
+          "start": 1.309090909090909,
+          "end": 1.5568181818181817,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 41,
+          "start": 1.734090909090909,
+          "end": 1.7431818181818182,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 41,
+          "start": 1.7818181818181817,
+          "end": 2.5386363636363636,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 27,
+          "start": 2.559090909090909,
+          "end": 3.2954545454545454,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 46,
+          "start": 3.3045454545454542,
+          "end": 3.661363636363636,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 43,
+          "start": 3.711363636363636,
+          "end": 3.8977272727272725,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 46,
+          "start": 3.875,
+          "end": 3.977272727272727,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 46,
+          "start": 3.968181818181818,
+          "end": 3.977272727272727,
+          "velocity": 80,
+          "contributor_user_id": "other_1",
+          "contributor_cough_index": 1
+        },
+        {
+          "pitch": 41,
+          "start": 4.75,
+          "end": 4.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 48,
+          "start": 4.875,
+          "end": 5.125,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 5.125,
+          "end": 5.25,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 5.25,
+          "end": 5.5,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 5.75,
+          "end": 5.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 6.5,
+          "end": 7.25,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 7.25,
+          "end": 7.625,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 7.75,
+          "end": 7.875,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 9.372727272727273,
+          "end": 9.854545454545454,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 39,
+          "start": 9.89090909090909,
+          "end": 10.309090909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 27,
+          "start": 10.384090909090908,
+          "end": 10.69090909090909,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 41,
+          "start": 11.495454545454544,
+          "end": 11.543181818181818,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 46,
+          "start": 11.579545454545453,
+          "end": 11.986363636363636,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 46,
+          "start": 11.875,
+          "end": 11.986363636363636,
+          "velocity": 80,
+          "contributor_user_id": "me",
+          "contributor_cough_index": 0
+        },
+        {
+          "pitch": 44,
+          "start": 13.361363636363636,
+          "end": 13.861363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 13.861363636363636,
+          "end": 14.236363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 14.361363636363636,
+          "end": 14.736363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 15.486363636363636,
+          "end": 15.611363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 15.611363636363636,
+          "end": 15.861363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 15.861363636363636,
+          "end": 15.986363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 16.570454545454545,
+          "end": 17.45,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 41,
+          "start": 17.474999999999998,
+          "end": 17.811363636363634,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 41,
+          "start": 17.9,
+          "end": 18.438636363636363,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 43,
+          "start": 18.46363636363636,
+          "end": 18.913636363636364,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 32,
+          "start": 18.936363636363634,
+          "end": 19.972727272727273,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 32,
+          "start": 19.861363636363635,
+          "end": 19.972727272727273,
+          "velocity": 80,
+          "contributor_user_id": "other_2",
+          "contributor_cough_index": 2
+        },
+        {
+          "pitch": 41,
+          "start": 20.597727272727273,
+          "end": 21.472727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 21.472727272727273,
+          "end": 21.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 21.847727272727273,
+          "end": 22.472727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 43,
+          "start": 22.472727272727273,
+          "end": 22.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 32,
+          "start": 22.972727272727273,
+          "end": 23.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 32,
+          "start": 23.847727272727273,
+          "end": 23.972727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 24.722727272727273,
+          "end": 25.097727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 25.097727272727273,
+          "end": 25.347727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 25.347727272727273,
+          "end": 25.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 25.847727272727273,
+          "end": 26.347727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 26.472727272727273,
+          "end": 26.972727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 27,
+          "start": 27.097727272727273,
+          "end": 27.597727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 27.847727272727273,
+          "end": 27.972727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 28.722727272727273,
+          "end": 28.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 28.847727272727273,
+          "end": 29.097727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 29.097727272727273,
+          "end": 29.222727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 29.222727272727273,
+          "end": 29.472727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 29.722727272727273,
+          "end": 29.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 30.472727272727273,
+          "end": 31.222727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 31.222727272727273,
+          "end": 31.722727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 43,
+          "start": 31.722727272727273,
+          "end": 31.847727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 31.847727272727273,
+          "end": 31.972727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    }
+  ]
+}

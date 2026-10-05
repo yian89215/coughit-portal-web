@@ -1,0 +1,372 @@
+/* CoughIt site, minimal-art look shared with the app (variant A):
+   white paper, ink, pure grays, square corners, heavy rules.
+   Red is the only hue and is reserved for "a cough was caught". */
+
+:root {
+  --paper: #ffffff;
+  --ink: #111111;
+  --ink-2: #444444;
+  --muted: #666666;
+  --hairline: #dadada;
+  --alert: #e5303f;
+
+  --rule: 1.5px;
+  --gutter: clamp(20px, 5vw, 64px);
+  --max: 1240px;
+  --hero-circle: clamp(120px, 16vw, 200px);
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -80px;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  z-index: 20;
+  text-decoration: none;
+}
+.skip:focus { top: 12px; }
+
+/* ---------- Top bar ---------- */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 var(--gutter);
+  background: var(--paper);
+  border-bottom: var(--rule) solid var(--ink);
+}
+
+.wordmark {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.top-nav { display: flex; gap: clamp(18px, 3vw, 36px); }
+
+.top-nav a {
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink-2);
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+}
+.top-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ---------- Hero ---------- */
+.hero {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(48px, 9vh, 104px) var(--gutter) clamp(56px, 10vh, 112px);
+}
+
+.tagline {
+  font-size: clamp(1.9rem, 8vw, 6.6rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+/* The app's own start button, replayed under the tagline. */
+.listen {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  margin-top: clamp(40px, 7vh, 80px);
+}
+
+.listen-stage {
+  position: relative;
+  width: var(--hero-circle);
+  height: var(--hero-circle);
+}
+
+.listen-circle,
+.listen-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.listen-circle {
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  transition: border-color 0.25s ease;
+}
+
+/* The mark: hollow ring when idle, filled dot while listening, red on a cough. */
+.listen-mark {
+  width: 19%;
+  height: 19%;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.listen-pulse {
+  border: 1.5px solid var(--ink);
+  opacity: 0;
+}
+
+.listen-stage[data-state="listening"] .listen-mark,
+.listen-stage[data-state="cough"] .listen-mark {
+  background: var(--ink);
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.listen-stage[data-state="listening"] .listen-pulse,
+.listen-stage[data-state="cough"] .listen-pulse {
+  animation: ring 1.4s ease-out infinite;
+}
+
+.listen-stage[data-state="cough"] .listen-circle { border-color: var(--alert); }
+.listen-stage[data-state="cough"] .listen-mark { background: var(--alert); border-color: var(--alert); }
+.listen-stage[data-state="cough"] .listen-pulse { border-color: var(--alert); }
+
+@keyframes breathe {
+  0%, 100% { transform: scale(0.86); }
+  50%      { transform: scale(1.1); }
+}
+
+@keyframes ring {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  100% { transform: scale(1.24); opacity: 0; }
+}
+
+.listen-caption {
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 500;
+  line-height: 1.35;
+  max-width: 14em;
+  min-height: 2.7em;
+}
+
+/* ---------- Blocks ---------- */
+.block {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(56px, 9vh, 104px);
+}
+
+.block-head {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding-top: 20px;
+  margin-bottom: clamp(24px, 4vh, 44px);
+  border-top: var(--rule) solid var(--ink);
+}
+
+.block-no {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.block-title {
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.prose { max-width: 40rem; }
+.prose p { font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.6; }
+.prose p + p { margin-top: 1em; }
+
+/* ---------- Player ---------- */
+.player {
+  border: var(--rule) solid var(--ink);
+  background: var(--paper);
+}
+
+.player-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.player-media { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--paper); }
+
+.player-overlay {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.player-overlay svg { width: 34px; height: 34px; fill: var(--ink); margin-left: 4px; }
+.player-overlay:hover { background: var(--ink); }
+.player-overlay:hover svg { fill: var(--paper); }
+.player.is-playing .player-overlay { display: none; }
+
+.player-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  background: var(--paper);
+  border-top: var(--rule) solid var(--ink);
+}
+
+.player-btn {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.player-btn svg { width: 22px; height: 22px; fill: var(--ink); stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; }
+.player-btn svg[hidden] { display: none; }
+.player-btn svg .wave { fill: none; }
+.player-btn:hover svg { opacity: 0.6; }
+
+/* Thin ink track: the fill must never be the loudest thing in the frame. */
+.player-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: var(--hairline);
+  cursor: pointer;
+}
+.player-track::before { content: ""; position: absolute; inset: -18px 0; } /* bigger hit area */
+.player-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--ink); }
+
+.player-time {
+  flex: none;
+  min-width: 3.2em;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Actions ---------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: clamp(28px, 4vh, 44px);
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 64px;
+  padding: 0 22px;
+  border: var(--rule) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.action-text { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; padding: 12px 0; }
+.action svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.action:hover, .action-primary { background: var(--ink); color: var(--paper); }
+.action-primary:hover { background: var(--paper); color: var(--ink); }
+
+.aside {
+  margin-top: 24px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.aside a { color: var(--ink); font-weight: 500; text-underline-offset: 3px; }
+.aside a:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Footer ---------- */
+.foot {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 56px;
+}
+.foot-inner {
+  padding-top: 20px;
+  border-top: var(--rule) solid var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 36px;
+  font-size: 15px;
+  color: var(--muted);
+}
+.foot a { color: var(--ink-2); text-underline-offset: 3px; }
+.foot a:hover { color: var(--ink); }
+
+/* ---------- Draft placeholders (remove class "draft" from <body> when copy is final) ---------- */
+.draft .todo {
+  border: 1.5px dashed var(--ink-2);
+  padding: 10px 14px;
+  color: var(--ink-2);
+  font-size: 16px;
+  line-height: 1.5;
+  background: repeating-linear-gradient(135deg, #fafafa 0 8px, #fff 8px 16px);
+}
+body:not(.draft) .todo { display: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .top { height: 56px; }
+  .top-nav { gap: 16px; }
+  .listen { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .listen-caption { min-height: 1.4em; }
+  .actions { flex-direction: column; }
+  .action { width: 100%; }
+  .player-overlay { width: 72px; height: 72px; }
+  .player-time { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .listen-stage[data-state] .listen-mark,
+  .listen-stage[data-state] .listen-pulse { animation: none; }
+}

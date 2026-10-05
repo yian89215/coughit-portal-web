@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoughIt</title>
+<meta name="description" content="Transform your cough into music. CoughIt is an app that turns the sound of a cough into melody and rhythm.">
+<meta property="og:title" content="CoughIt">
+<meta property="og:description" content="Transform your cough into music.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/video-poster.jpg">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=5">
+</head>
+<!--
+  Draft state: every unfinished piece is wrapped in an element with class "todo".
+  While <body class="draft"> is set, those pieces show as dashed placeholders.
+  When the copy is final, replace each .todo element and remove the "draft" class.
+  The full list lives in TODO.md.
+-->
+<body class="draft">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="wordmark" href="#top" aria-label="CoughIt, back to top">CoughIt</a>
+  <nav class="top-nav" aria-label="Sections">
+    <a href="#watch">Watch</a>
+    <a href="#about">About</a>
+    <a href="#join">Join</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <h1 class="tagline">Transform your cough<br>into music.</h1>
+
+    <figure class="listen" aria-hidden="true">
+      <div class="listen-stage" id="listen" data-state="idle">
+        <span class="listen-pulse"></span>
+        <span class="listen-circle">
+          <span class="listen-mark"></span>
+        </span>
+      </div>
+      <figcaption class="listen-caption" id="listen-caption">Tap to begin cough detection.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ 01 WATCH ============ -->
+  <section class="block" id="watch" aria-labelledby="watch-title">
+    <header class="block-head">
+      <span class="block-no">01</span>
+      <h2 class="block-title" id="watch-title">Watch</h2>
+    </header>
+
+    <div class="player" data-player>
+      <div class="player-stage">
+      <video class="player-media" preload="metadata" poster="assets/video-poster.jpg" playsinline>
+        <source src="assets/coughit-demo.mp4" type="video/mp4">
+      </video>
+      <button class="player-overlay" type="button" data-playtoggle aria-label="Play video">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+      </button>
+      </div>
+      <div class="player-bar">
+        <button class="player-btn" type="button" data-playtoggle aria-label="Play video">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 4.5h4v15H6zM14 4.5h4v15h-4z"/></svg>
+        </button>
+        <div class="player-track" data-track role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="player-fill" data-fill></div>
+        </div>
+        <span class="player-time" data-time>0:00</span>
+        <button class="player-btn" type="button" data-mute aria-label="Mute" aria-pressed="false">
+          <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z"/><path class="wave" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" fill="none"/></svg>
+          <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z"/><path class="wave" d="M16 9.5l5 5M21 9.5l-5 5" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 ABOUT ============ -->
+  <section class="block" id="about" aria-labelledby="about-title">
+    <header class="block-head">
+      <span class="block-no">02</span>
+      <h2 class="block-title" id="about-title">About</h2>
+    </header>
+
+    <div class="prose">
+      <!-- TODO(copy): 3 to 5 sentences taken from the paper's revised text. Do not rewrite it. No em dashes. -->
+      <p class="todo" data-todo="about-copy">TODO: About copy (3 to 5 sentences from the paper, to be added by the team).</p>
+    </div>
+  </section>
+
+  <!-- ============ 03 JOIN ============ -->
+  <section class="block" id="join" aria-labelledby="join-title">
+    <header class="block-head">
+      <span class="block-no">03</span>
+      <h2 class="block-title" id="join-title">Join</h2>
+    </header>
+
+    <div class="prose">
+      <!-- TODO(copy): one sentence inviting people to take part, then the buttons below. -->
+      <p class="todo" data-todo="join-copy">TODO: One sentence inviting people to take part.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action action-primary" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
+        <span class="action-text">Join the study</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
+      </a>
+      <a class="action" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener">
+        <span class="action-text">Download on the App Store</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
+      </a>
+    </div>
+
+    <p class="aside">
+      Android download and study details:
+      <a href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">Study page in English</a>
+      <span aria-hidden="true">/</span>
+      <a href="https://dreamalitylab.cc/coughit/" target="_blank" rel="noopener" lang="zh-Hant">研究說明頁(繁體中文)</a>
+    </p>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="foot-inner">
+    <p class="foot-line">&copy; 2026 CoughIt</p>
+    <!-- TODO(contact): short, project-specific email; plus one line such as "For collaboration, press, or participation, contact ...". -->
+    <p class="foot-line todo" data-todo="contact">TODO: Contact email and the collaboration / press / participation line.</p>
+    <p class="foot-line"><a href="https://dreamalitylab.cc" target="_blank" rel="noopener">dreamalitylab.cc</a></p>
+  </div>
+</footer>
+
+<script src="script.js?v=5"></script>
+</body>
+</html>
