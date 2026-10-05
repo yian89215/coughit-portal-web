@@ -1,0 +1,317 @@
+{
+  "type": "trio",
+  "duration_sec": 4.0,
+  "midi_offset_sec": 0.0,
+  "tempo_bpm": 120.0,
+  "tracks": [
+    {
+      "id": "mel",
+      "program": 40,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 75,
+          "start": 0.7159090909090908,
+          "end": 0.8045454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 0.8545454545454545,
+          "end": 1.1613636363636364,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 84,
+          "start": 1.1704545454545454,
+          "end": 1.2977272727272726,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 1.309090909090909,
+          "end": 1.3863636363636362,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 1.3954545454545453,
+          "end": 1.5545454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 1.7318181818181817,
+          "end": 1.7409090909090907,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 1.7795454545454545,
+          "end": 2.065909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 2.5545454545454542,
+          "end": 2.6522727272727273,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 2.661363636363636,
+          "end": 2.8477272727272727,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 2.859090909090909,
+          "end": 2.977272727272727,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 3.2954545454545454,
+          "end": 3.3545454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 84,
+          "start": 3.3636363636363633,
+          "end": 3.4318181818181817,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 3.6999999999999997,
+          "end": 3.8863636363636362,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 3.9568181818181816,
+          "end": 3.965909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    },
+    {
+      "id": "acc",
+      "program": 41,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 53,
+          "start": 0.7159090909090908,
+          "end": 0.8045454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 0.8227272727272726,
+          "end": 1.159090909090909,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 1.1681818181818182,
+          "end": 1.2954545454545454,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 56,
+          "start": 1.3068181818181817,
+          "end": 1.5545454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 1.7318181818181817,
+          "end": 1.7409090909090907,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 1.7795454545454545,
+          "end": 2.536363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 2.5568181818181817,
+          "end": 2.6954545454545453,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 2.7045454545454546,
+          "end": 3.2818181818181817,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 3.2909090909090906,
+          "end": 3.359090909090909,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 60,
+          "start": 3.368181818181818,
+          "end": 3.6545454545454543,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 55,
+          "start": 3.693181818181818,
+          "end": 3.8909090909090907,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 3.961363636363636,
+          "end": 3.9704545454545452,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    },
+    {
+      "id": "bass",
+      "program": 43,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 41,
+          "start": 0.7159090909090908,
+          "end": 0.8045454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 0.8545454545454545,
+          "end": 1.1613636363636364,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 48,
+          "start": 1.1704545454545454,
+          "end": 1.2977272727272726,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 1.309090909090909,
+          "end": 1.5568181818181817,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 1.734090909090909,
+          "end": 1.7431818181818182,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 1.7818181818181817,
+          "end": 2.5386363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 27,
+          "start": 2.559090909090909,
+          "end": 3.2954545454545454,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 3.3045454545454542,
+          "end": 3.661363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 43,
+          "start": 3.711363636363636,
+          "end": 3.8977272727272725,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 3.968181818181818,
+          "end": 3.977272727272727,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    }
+  ]
+}

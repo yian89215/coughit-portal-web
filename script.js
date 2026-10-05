@@ -33,160 +33,160 @@
   })();
 })();
 
-// Interactive co-creation demos: map each cough contributor to its MIDI notes.
+// Interactive co-creation demos: cough → generated motif → final composition.
 (function () {
   const demos = Array.from(document.querySelectorAll('[data-music-demo]'));
   if (!demos.length) return;
 
-  const coughSource = 'assets/cough.wav';
-  const contributorColors = ['#e5303f', '#111111', '#777777'];
+  const colors = ['#e5303f', '#111111', '#777777'];
+  let activeAudio = null;
+  let activeButton = null;
+  let activeFrame = 0;
+  let activeOnStop = null;
+
+  const stopActive = () => {
+    cancelAnimationFrame(activeFrame);
+    if (activeAudio) {
+      activeAudio.pause();
+      activeAudio.currentTime = 0;
+    }
+    if (activeButton) activeButton.classList.remove('is-playing');
+    const onStop = activeOnStop;
+    activeAudio = null;
+    activeButton = null;
+    activeOnStop = null;
+    if (onStop) onStop();
+  };
+
+  const notesFrom = (midi) => midi.tracks.flatMap((track, trackIndex) =>
+    track.notes.map((note) => ({ ...note, trackIndex }))
+  );
+
+  const drawRoll = (canvas, midi, currentTime = 0, playbackDuration = 0) => {
+    if (!midi) return;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+    const scale = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.round(rect.width * scale));
+    canvas.height = Math.max(1, Math.round(rect.height * scale));
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    const w = rect.width;
+    const h = rect.height;
+    const pad = 10;
+    const notes = notesFrom(midi);
+    const duration = midi.duration_sec || playbackDuration || 1;
+    const pitches = notes.map((note) => note.pitch);
+    const minPitch = Math.min(...pitches);
+    const maxPitch = Math.max(...pitches);
+    const rows = Math.max(maxPitch - minPitch + 1, midi.type === 'drum' ? 12 : 24);
+
+    ctx.fillStyle = '#f7f7f5';
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#dededb';
+    ctx.lineWidth = 1;
+    for (let second = 0; second <= duration; second += Math.max(1, Math.round(duration / 8))) {
+      const x = pad + (second / duration) * (w - pad * 2);
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+
+    notes.forEach((note) => {
+      const x = pad + (note.start / duration) * (w - pad * 2);
+      const noteWidth = Math.max(2, ((note.end - note.start) / duration) * (w - pad * 2));
+      const row = midi.type === 'drum' ? note.pitch - minPitch : maxPitch - note.pitch + note.trackIndex * 2;
+      const totalRows = rows + Math.max(0, midi.tracks.length - 1) * 2;
+      const y = 6 + (row / totalRows) * (h - 14);
+      const contributor = note.contributor_cough_index;
+      const colorIndex = contributor === 0 || contributor === 1 || contributor === 2
+        ? contributor : note.trackIndex % colors.length;
+      ctx.fillStyle = contributor === null || contributor === undefined ? '#c9c9c5' : colors[colorIndex];
+      ctx.fillRect(x, y, noteWidth, midi.type === 'drum' ? 3 : 4);
+    });
+
+    if (currentTime > 0 && playbackDuration > 0) {
+      const cursorX = pad + (currentTime / playbackDuration) * (w - pad * 2);
+      ctx.strokeStyle = '#e5303f';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(cursorX, 0); ctx.lineTo(cursorX, h); ctx.stroke();
+    }
+  };
+
+  const play = (audio, button, onFrame, onEnd) => {
+    if (activeAudio === audio && !audio.paused) { stopActive(); return; }
+    stopActive();
+    activeAudio = audio;
+    activeButton = button;
+    activeOnStop = onEnd;
+    button.classList.add('is-playing');
+    audio.play();
+    const tick = () => {
+      onFrame();
+      if (!audio.paused) activeFrame = requestAnimationFrame(tick);
+    };
+    tick();
+    audio.onended = stopActive;
+  };
 
   demos.forEach((demo) => {
-    const audio = demo.querySelector('[data-demo-audio]');
-    const playButton = demo.querySelector('[data-demo-play]');
-    const playLabel = demo.querySelector('[data-demo-play-icon]');
-    const canvas = demo.querySelector('[data-midi-canvas]');
+    const finalAudio = demo.querySelector('[data-demo-audio]');
+    const finalButton = demo.querySelector('[data-demo-play]');
+    const finalLabel = demo.querySelector('[data-demo-play-icon]');
+    const finalCanvas = demo.querySelector('[data-midi-canvas]');
     const status = demo.querySelector('[data-midi-status]');
     const progress = demo.querySelector('[data-demo-progress]');
-    const coughButtons = Array.from(demo.querySelectorAll('[data-cough]'));
-    const ctx = canvas.getContext('2d');
-    let midi = null;
-    let selected = null;
-    let animationFrame = 0;
+    let finalMidi = null;
 
-    const allNotes = () => midi.tracks.flatMap((track, trackIndex) =>
-      track.notes.map((note) => ({ ...note, trackIndex }))
-    );
+    fetch(demo.dataset.finalMidi).then((response) => response.json()).then((data) => {
+      finalMidi = data;
+      status.hidden = true;
+      drawRoll(finalCanvas, finalMidi);
+    }).catch(() => { status.textContent = 'MIDI visualization unavailable'; });
 
-    const draw = () => {
-      if (!midi) return;
-      const rect = canvas.getBoundingClientRect();
-      const scale = Math.min(window.devicePixelRatio || 1, 2);
-      const width = Math.max(1, Math.round(rect.width * scale));
-      const height = Math.max(1, Math.round(rect.height * scale));
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-      }
-      ctx.setTransform(scale, 0, 0, scale, 0, 0);
-      const w = rect.width;
-      const h = rect.height;
-      const pad = 14;
-      const notes = allNotes();
-      const duration = midi.duration_sec || audio.duration || 1;
-      const pitches = notes.map((note) => note.pitch);
-      const minPitch = Math.min(...pitches);
-      const maxPitch = Math.max(...pitches);
-      const rows = Math.max(maxPitch - minPitch + 1, demo.dataset.kind === 'drum' ? 16 : 28);
-
-      ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = '#f7f7f5';
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.strokeStyle = '#dededb';
-      ctx.lineWidth = 1;
-      for (let beat = 0; beat <= duration; beat += 2) {
-        const x = pad + (beat / duration) * (w - pad * 2);
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-
-      notes.forEach((note) => {
-        const contributor = note.contributor_cough_index;
-        const x = pad + (note.start / duration) * (w - pad * 2);
-        const noteWidth = Math.max(2, ((note.end - note.start) / duration) * (w - pad * 2));
-        const pitchRow = demo.dataset.kind === 'drum' ? note.pitch - minPitch : maxPitch - note.pitch;
-        const trackOffset = demo.dataset.kind === 'trio' ? note.trackIndex * 2 : 0;
-        const y = 8 + ((pitchRow + trackOffset) / (rows + (midi.tracks.length - 1) * 2)) * (h - 18);
-        const noteHeight = demo.dataset.kind === 'drum' ? 3.5 : 4.5;
-        const isContribution = contributor === 0 || contributor === 1 || contributor === 2;
-        ctx.globalAlpha = selected === null || contributor === selected ? 0.92 : 0.14;
-        ctx.fillStyle = isContribution ? contributorColors[contributor] : '#c9c9c5';
-        ctx.fillRect(x, y, noteWidth, noteHeight);
-      });
-      ctx.globalAlpha = 1;
-
-      if (audio.duration && audio.currentTime > 0) {
-        const cursorX = pad + (audio.currentTime / audio.duration) * (w - pad * 2);
-        ctx.strokeStyle = '#e5303f';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(cursorX, 0);
-        ctx.lineTo(cursorX, h);
-        ctx.stroke();
-      }
-    };
-
-    const updatePlayback = () => {
-      const ratio = audio.duration ? audio.currentTime / audio.duration : 0;
-      progress.style.width = (ratio * 100) + '%';
-      draw();
-      if (!audio.paused) animationFrame = requestAnimationFrame(updatePlayback);
-    };
-
-    fetch(demo.dataset.midi)
-      .then((response) => {
-        if (!response.ok) throw new Error('MIDI data unavailable');
-        return response.json();
-      })
-      .then((data) => {
-        midi = data;
-        status.hidden = true;
-        draw();
-      })
-      .catch(() => { status.textContent = 'MIDI visualization unavailable'; });
-
-    playButton.addEventListener('click', () => {
-      demos.forEach((other) => {
-        if (other !== demo) other.querySelector('[data-demo-audio]').pause();
-      });
-      if (audio.paused) audio.play(); else audio.pause();
-    });
-
-    audio.addEventListener('play', () => {
-      playLabel.textContent = 'Pause';
-      playButton.setAttribute('aria-label', 'Pause ' + demo.querySelector('h3').textContent);
-      cancelAnimationFrame(animationFrame);
-      updatePlayback();
-    });
-    audio.addEventListener('pause', () => {
-      playLabel.textContent = 'Play';
-      playButton.setAttribute('aria-label', 'Play ' + demo.querySelector('h3').textContent);
-      cancelAnimationFrame(animationFrame);
-      draw();
-    });
-    audio.addEventListener('ended', () => {
-      audio.currentTime = 0;
-      progress.style.width = '0%';
-      draw();
-    });
-
-    coughButtons.forEach((button, index) => {
-      button.addEventListener('click', () => {
-        selected = selected === index ? null : index;
-        coughButtons.forEach((item, itemIndex) => {
-          const active = selected === itemIndex;
-          item.classList.toggle('is-active', active);
-          item.setAttribute('aria-pressed', String(active));
-        });
-        const cough = new Audio(coughSource);
-        cough.playbackRate = [0.94, 1, 1.06][index];
-        cough.volume = 0.82;
-        cough.play();
-        draw();
+    finalButton.addEventListener('click', () => {
+      const name = demo.querySelector('h3').textContent;
+      play(finalAudio, finalButton, () => {
+        finalLabel.textContent = 'Pause ' + name;
+        progress.style.width = ((finalAudio.currentTime / finalAudio.duration) * 100 || 0) + '%';
+        drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration);
+      }, () => {
+        finalLabel.textContent = 'Play ' + name;
+        progress.style.width = '0%';
+        drawRoll(finalCanvas, finalMidi);
       });
     });
 
-    canvas.addEventListener('click', (event) => {
-      if (!audio.duration) return;
-      const rect = canvas.getBoundingClientRect();
-      audio.currentTime = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)) * audio.duration;
-      draw();
+    finalCanvas.addEventListener('click', (event) => {
+      if (!finalAudio.duration) return;
+      const rect = finalCanvas.getBoundingClientRect();
+      finalAudio.currentTime = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)) * finalAudio.duration;
+      drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration);
     });
 
-    new ResizeObserver(draw).observe(canvas);
+    demo.querySelectorAll('[data-contribution]').forEach((contribution) => {
+      const canvas = contribution.querySelector('[data-motif-canvas]');
+      const coughButton = contribution.querySelector('[data-sample="cough"]');
+      const motifButton = contribution.querySelector('[data-sample="motif"]');
+      const coughAudio = new Audio(contribution.dataset.coughAudio);
+      const motifAudio = new Audio(contribution.dataset.motifAudio);
+      let motifMidi = null;
+
+      fetch(contribution.dataset.motifMidi).then((response) => response.json()).then((data) => {
+        motifMidi = data;
+        drawRoll(canvas, motifMidi);
+      });
+
+      coughButton.addEventListener('click', () => {
+        play(coughAudio, coughButton, () => {}, () => {});
+      });
+      motifButton.addEventListener('click', () => {
+        play(motifAudio, motifButton, () => {
+          drawRoll(canvas, motifMidi, motifAudio.currentTime, motifAudio.duration);
+        }, () => drawRoll(canvas, motifMidi));
+      });
+
+      new ResizeObserver(() => drawRoll(canvas, motifMidi)).observe(canvas);
+    });
+
+    new ResizeObserver(() => drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration)).observe(finalCanvas);
   });
 })();
 

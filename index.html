@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
@@ -95,52 +95,86 @@
     </div>
 
     <div class="demo-grid">
-      <article class="music-demo" data-music-demo data-kind="drum" data-audio="assets/cocreate-drum.wav" data-midi="assets/cocreate-drum-viz.json">
+      <article class="music-demo" data-music-demo data-kind="drum" data-final-audio="assets/demo/drum/final.wav" data-final-midi="assets/demo/drum/final.json">
         <header class="demo-head">
           <div>
             <p class="demo-kicker">Rhythm</p>
             <h3>Co-create Drum</h3>
           </div>
-          <button class="demo-play" type="button" data-demo-play aria-label="Play Co-create Drum">
-            <span data-demo-play-icon>Play</span>
-          </button>
         </header>
-        <p class="demo-copy">Three coughs become three rhythmic voices, then grow into a co-created beat.</p>
-        <div class="cough-inputs" aria-label="Drum cough contributions">
-          <button type="button" data-cough="0"><span>01</span>Cough</button>
-          <button type="button" data-cough="1"><span>02</span>Cough</button>
-          <button type="button" data-cough="2"><span>03</span>Cough</button>
+        <p class="demo-copy">Compare each cough with the drum motif generated from it, then hear the complete co-created track.</p>
+        <div class="translation-list">
+          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-15.wav" data-motif-audio="assets/demo/drum/motif-15.wav" data-motif-midi="assets/demo/drum/motif-15.json">
+            <span class="translation-no">01</span>
+            <button type="button" data-sample="cough"><span class="sample-icon">●</span><span>Cough</span></button>
+            <span class="translation-arrow" aria-hidden="true">→</span>
+            <button type="button" data-sample="motif"><span class="sample-icon">▶</span><span>Crash motif</span></button>
+            <canvas data-motif-canvas role="img" aria-label="MIDI notes generated from cough 1"></canvas>
+          </div>
+          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-13.wav" data-motif-audio="assets/demo/drum/motif-13.wav" data-motif-midi="assets/demo/drum/motif-13.json">
+            <span class="translation-no">02</span>
+            <button type="button" data-sample="cough"><span class="sample-icon">●</span><span>Cough</span></button>
+            <span class="translation-arrow" aria-hidden="true">→</span>
+            <button type="button" data-sample="motif"><span class="sample-icon">▶</span><span>Kick motif</span></button>
+            <canvas data-motif-canvas role="img" aria-label="MIDI notes generated from cough 2"></canvas>
+          </div>
+          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-8.wav" data-motif-audio="assets/demo/drum/motif-8.wav" data-motif-midi="assets/demo/drum/motif-8.json">
+            <span class="translation-no">03</span>
+            <button type="button" data-sample="cough"><span class="sample-icon">●</span><span>Cough</span></button>
+            <span class="translation-arrow" aria-hidden="true">→</span>
+            <button type="button" data-sample="motif"><span class="sample-icon">▶</span><span>Open hi-hat motif</span></button>
+            <canvas data-motif-canvas role="img" aria-label="MIDI notes generated from cough 3"></canvas>
+          </div>
         </div>
+        <div class="final-label"><span>Final composition</span><span>Seven contributors</span></div>
         <div class="midi-frame">
-          <canvas data-midi-canvas role="img" aria-label="Drum MIDI piano roll with three cough contributions"></canvas>
+          <canvas data-midi-canvas role="img" aria-label="Co-create Drum MIDI piano roll"></canvas>
           <span class="midi-status" data-midi-status>Loading MIDI</span>
         </div>
+        <button class="demo-play demo-play-wide" type="button" data-demo-play aria-label="Play Co-create Drum"><span data-demo-play-icon>Play Co-create Drum</span></button>
         <div class="demo-timeline"><span data-demo-progress></span></div>
-        <audio preload="metadata" data-demo-audio src="assets/cocreate-drum.wav"></audio>
+        <audio preload="metadata" data-demo-audio src="assets/demo/drum/final.wav"></audio>
       </article>
 
-      <article class="music-demo" data-music-demo data-kind="trio" data-audio="assets/cocreate-trio.wav" data-midi="assets/cocreate-trio-viz.json">
+      <article class="music-demo" data-music-demo data-kind="trio" data-final-audio="assets/demo/trio/final.wav" data-final-midi="assets/demo/trio/final.json">
         <header class="demo-head">
           <div>
             <p class="demo-kicker">Harmony</p>
             <h3>Co-create Trio</h3>
           </div>
-          <button class="demo-play" type="button" data-demo-play aria-label="Play Co-create Trio">
-            <span data-demo-play-icon>Play</span>
-          </button>
         </header>
-        <p class="demo-copy">Three coughs become melodic, accompanying, and bass voices inside one ensemble.</p>
-        <div class="cough-inputs" aria-label="Trio cough contributions">
-          <button type="button" data-cough="0"><span>01</span>Cough</button>
-          <button type="button" data-cough="1"><span>02</span>Cough</button>
-          <button type="button" data-cough="2"><span>03</span>Cough</button>
+        <p class="demo-copy">Compare each cough with its generated melodic motif, then hear all three contributions become one trio.</p>
+        <div class="translation-list">
+          <div class="translation" data-contribution data-cough-audio="assets/demo/trio/cough-3.wav" data-motif-audio="assets/demo/trio/motif-3.wav" data-motif-midi="assets/demo/trio/motif-3.json">
+            <span class="translation-no">01</span>
+            <button type="button" data-sample="cough"><span class="sample-icon">●</span><span>Cough</span></button>
+            <span class="translation-arrow" aria-hidden="true">→</span>
+            <button type="button" data-sample="motif"><span class="sample-icon">▶</span><span>Generated motif</span></button>
+            <canvas data-motif-canvas role="img" aria-label="MIDI notes generated from cough 1"></canvas>
+          </div>
+          <div class="translation" data-contribution data-cough-audio="assets/demo/trio/cough-15.wav" data-motif-audio="assets/demo/trio/motif-15.wav" data-motif-midi="assets/demo/trio/motif-15.json">
+            <span class="translation-no">02</span>
+            <button type="button" data-sample="cough"><span class="sample-icon">●</span><span>Cough</span></button>
+            <span class="translation-arrow" aria-hidden="true">→</span>
+            <button type="button" data-sample="motif"><span class="sample-icon">▶</span><span>Generated motif</span></button>
+            <canvas data-motif-canvas role="img" aria-label="MIDI notes generated from cough 2"></canvas>
+          </div>
+          <div class="translation" data-contribution data-cough-audio="assets/demo/trio/cough-8.wav" data-motif-audio="assets/demo/trio/motif-8.wav" data-motif-midi="assets/demo/trio/motif-8.json">
+            <span class="translation-no">03</span>
+            <button type="button" data-sample="cough"><span class="sample-icon">●</span><span>Cough</span></button>
+            <span class="translation-arrow" aria-hidden="true">→</span>
+            <button type="button" data-sample="motif"><span class="sample-icon">▶</span><span>Generated motif</span></button>
+            <canvas data-motif-canvas role="img" aria-label="MIDI notes generated from cough 3"></canvas>
+          </div>
         </div>
+        <div class="final-label"><span>Final composition</span><span>Three contributors</span></div>
         <div class="midi-frame">
-          <canvas data-midi-canvas role="img" aria-label="Trio MIDI piano roll with three cough contributions"></canvas>
+          <canvas data-midi-canvas role="img" aria-label="Co-create Trio MIDI piano roll"></canvas>
           <span class="midi-status" data-midi-status>Loading MIDI</span>
         </div>
+        <button class="demo-play demo-play-wide" type="button" data-demo-play aria-label="Play Co-create Trio"><span data-demo-play-icon>Play Co-create Trio</span></button>
         <div class="demo-timeline"><span data-demo-progress></span></div>
-        <audio preload="metadata" data-demo-audio src="assets/cocreate-trio.wav"></audio>
+        <audio preload="metadata" data-demo-audio src="assets/demo/trio/final.wav"></audio>
       </article>
     </div>
   </section>
@@ -186,6 +220,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=7"></script>
 </body>
 </html>

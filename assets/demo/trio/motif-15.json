@@ -1,0 +1,205 @@
+{
+  "type": "trio",
+  "duration_sec": 4.0,
+  "midi_offset_sec": 0.0,
+  "tempo_bpm": 120.0,
+  "tracks": [
+    {
+      "id": "mel",
+      "program": 40,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 77,
+          "start": 1.3681818181818182,
+          "end": 1.4522727272727272,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 85,
+          "start": 1.4636363636363636,
+          "end": 1.5477272727272726,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 78,
+          "start": 1.559090909090909,
+          "end": 1.8409090909090908,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 1.8772727272727272,
+          "end": 1.9749999999999999,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 68,
+          "start": 1.9863636363636363,
+          "end": 2.131818181818182,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 63,
+          "start": 2.143181818181818,
+          "end": 2.2886363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 61,
+          "start": 2.35,
+          "end": 2.459090909090909,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 2.4704545454545452,
+          "end": 2.690909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 75,
+          "start": 3.468181818181818,
+          "end": 3.5159090909090907,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 82,
+          "start": 3.5522727272727272,
+          "end": 3.9704545454545452,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    },
+    {
+      "id": "acc",
+      "program": 41,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 56,
+          "start": 1.3727272727272726,
+          "end": 1.8545454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 51,
+          "start": 1.8909090909090909,
+          "end": 2.15,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 47,
+          "start": 2.161363636363636,
+          "end": 2.3068181818181817,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 44,
+          "start": 2.368181818181818,
+          "end": 2.5522727272727272,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 37,
+          "start": 2.5636363636363635,
+          "end": 2.709090909090909,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 53,
+          "start": 3.4909090909090907,
+          "end": 3.5386363636363636,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 58,
+          "start": 3.5749999999999997,
+          "end": 3.9818181818181815,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    },
+    {
+      "id": "bass",
+      "program": 43,
+      "is_drum": false,
+      "notes": [
+        {
+          "pitch": 44,
+          "start": 1.3727272727272726,
+          "end": 1.8545454545454545,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 39,
+          "start": 1.8909090909090909,
+          "end": 2.309090909090909,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 27,
+          "start": 2.384090909090909,
+          "end": 2.690909090909091,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 41,
+          "start": 3.495454545454545,
+          "end": 3.543181818181818,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        },
+        {
+          "pitch": 46,
+          "start": 3.5795454545454546,
+          "end": 3.9863636363636363,
+          "velocity": 80,
+          "contributor_user_id": null,
+          "contributor_cough_index": null
+        }
+      ]
+    }
+  ]
+}
