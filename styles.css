@@ -93,10 +93,21 @@ a { color: inherit; }
 }
 
 .tagline {
-  font-size: clamp(1.9rem, 8vw, 6.6rem);
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -0.04em;
+}
+.tagline-title {
+  display: block;
+  font-size: clamp(3.6rem, 9vw, 7.4rem);
+}
+.tagline-sub {
+  display: block;
+  max-width: 18em;
+  margin-top: 0.18em;
+  font-size: clamp(1.75rem, 4.2vw, 3.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 
 /* The app's own start button, replayed under the tagline. */
@@ -174,6 +185,19 @@ a { color: inherit; }
   line-height: 1.35;
   max-width: 14em;
   min-height: 2.7em;
+}
+.app-store-link {
+  display: inline-flex;
+  line-height: 0;
+}
+.app-store-link img {
+  display: block;
+  width: 180px;
+  height: auto;
+}
+.app-store-link:focus-visible {
+  outline: 3px solid #1d154a;
+  outline-offset: 5px;
 }
 
 /* ---------- Blocks ---------- */

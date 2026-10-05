@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
 
@@ -33,7 +33,7 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="top">
-    <h1 class="tagline">Transform your cough<br>into music.</h1>
+    <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Start listening to your cough, creatively.</span></h1>
 
     <figure class="listen" aria-hidden="true">
       <div class="listen-stage" id="listen" data-state="idle">
@@ -42,7 +42,11 @@
           <span class="listen-mark"></span>
         </span>
       </div>
-      <figcaption class="listen-caption" id="listen-caption">Tap to begin cough detection.</figcaption>
+      <figcaption class="listen-caption">
+        <a class="app-store-link" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener" aria-label="Download CoughIt on the App Store">
+          <img src="assets/download-on-app-store.png" width="163" height="55" alt="Download on the App Store">
+        </a>
+      </figcaption>
     </figure>
   </section>
 
@@ -92,7 +96,7 @@
     </header>
 
     <div class="section-intro">
-      <p>Hear how individual coughs become musical material, then come together as a shared composition. Play each cough and its matching instrument response, or hear the complete result.</p>
+      <p>Play each cough and its corresponding musical segment, then hear the final shared musical piece.</p>
     </div>
 
     <div class="demo-grid">
@@ -176,7 +180,7 @@
     </header>
 
     <div class="prose">
-      <p>Help us understand how bodily sounds can become creative material and how people can make music together. Choose your preferred language to learn about the study and take part.</p>
+      <p>Help us understand how CoughIt supports creative expression and collaborative music-making.</p>
     </div>
 
     <div class="actions">
@@ -186,10 +190,6 @@
       </a>
       <a class="action" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
         <span class="action-text">Join the User Study (English)</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
-      </a>
-      <a class="action" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener">
-        <span class="action-text">Download on the App Store</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
     </div>
@@ -206,6 +206,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=11"></script>
+<script src="script.js?v=12"></script>
 </body>
 </html>

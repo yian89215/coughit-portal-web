@@ -1,14 +1,7 @@
 // Hero: replays the app's own start button states (idle, listening, cough).
 (function () {
   const stage = document.getElementById('listen');
-  const caption = document.getElementById('listen-caption');
-  if (!stage || !caption) return;
-
-  const text = {
-    idle: 'Tap to begin cough detection.',
-    listening: 'Tap to end cough detection.',
-    cough: 'Tap to end cough detection.'
-  };
+  if (!stage) return;
   const loop = [
     ['idle', 2400],
     ['listening', 3600],
@@ -19,7 +12,6 @@
 
   function set(state) {
     stage.dataset.state = state;
-    caption.textContent = text[state];
   }
 
   if (reduced) { set('idle'); return; }
