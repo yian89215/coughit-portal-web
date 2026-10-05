@@ -284,7 +284,7 @@ a { color: inherit; }
   display: grid;
   gap: 10px;
   margin: 28px 0 32px;
-  max-height: 356px;
+  max-height: 204px;
   padding-right: 8px;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -608,7 +608,7 @@ body:not(.draft) .todo { display: none; }
   .translation {
     grid-template-columns: 32px minmax(150px, 1fr) 22px minmax(210px, 1.3fr);
   }
-  .translation-list { max-height: 346px; }
+  .translation-list { max-height: 200px; }
   .sample-panel canvas { height: 58px; }
   .midi-frame canvas { height: 210px; }
 }
@@ -621,7 +621,7 @@ body:not(.draft) .todo { display: none; }
   }
   .translation button { padding: 8px; font-size: 12px; }
   .sample-panel canvas { height: 54px; }
-  .translation-list { max-height: 330px; padding-right: 5px; }
+  .translation-list { max-height: 196px; padding-right: 5px; }
   .final-label { align-items: flex-start; flex-direction: column; gap: 2px; }
 }
 
