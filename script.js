@@ -52,7 +52,7 @@
     if (icon) icon.textContent = playing ? '❚❚' : '▶';
   };
 
-  const stopActive = () => {
+  const stopActive = (completed = false) => {
     cancelAnimationFrame(activeFrame);
     if (activeAudio) {
       activeAudio.pause();
@@ -63,7 +63,7 @@
     activeAudio = null;
     activeButton = null;
     activeOnStop = null;
-    if (onStop) onStop();
+    if (onStop) onStop(completed);
   };
 
   const notesFrom = (midi) => midi.tracks.flatMap((track, trackIndex) =>
@@ -86,11 +86,12 @@
     const pitches = notes.map((note) => note.pitch);
     const minPitch = Math.min(...pitches);
     const maxPitch = Math.max(...pitches);
-    const rows = Math.max(maxPitch - minPitch + 1, midi.type === 'drum' ? 12 : 24);
+    const mergeTracks = canvas.hasAttribute('data-midi-canvas');
+    const rows = Math.max(maxPitch - minPitch + 1, midi.type === 'drum' ? 10 : 14);
 
     ctx.fillStyle = '#f7f7f5';
     ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = '#dededb';
+    ctx.strokeStyle = '#e7e6ff';
     ctx.lineWidth = 1;
     for (let second = 0; second <= duration; second += Math.max(1, Math.round(duration / 8))) {
       const x = pad + (second / duration) * (w - pad * 2);
@@ -100,17 +101,23 @@
     notes.forEach((note) => {
       const x = pad + (note.start / duration) * (w - pad * 2);
       const noteWidth = Math.max(2, ((note.end - note.start) / duration) * (w - pad * 2));
-      const row = midi.type === 'drum' ? note.pitch - minPitch : maxPitch - note.pitch + note.trackIndex * 2;
-      const totalRows = rows + Math.max(0, midi.tracks.length - 1) * 2;
+      const row = midi.type === 'drum' ? note.pitch - minPitch : maxPitch - note.pitch + (mergeTracks ? 0 : note.trackIndex * 2);
+      const totalRows = rows + (mergeTracks ? 0 : Math.max(0, midi.tracks.length - 1) * 2);
       const y = 6 + (row / totalRows) * (h - 14);
-      ctx.fillStyle = '#111111';
+      ctx.fillStyle = '#646464';
       ctx.fillRect(x, y, noteWidth, midi.type === 'drum' ? 3 : 4);
+      if (currentTime > note.start) {
+        const playedEnd = Math.min(note.end, currentTime);
+        const playedWidth = Math.max(0, ((playedEnd - note.start) / duration) * (w - pad * 2));
+        ctx.fillStyle = '#111111';
+        ctx.fillRect(x, y, playedWidth, midi.type === 'drum' ? 3 : 4);
+      }
     });
 
     if (currentTime > 0 && playbackDuration > 0) {
       const cursorX = pad + Math.min(1, currentTime / playbackDuration) * (w - pad * 2);
-      ctx.strokeStyle = '#111111';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#1d154a';
+      ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(cursorX, 0); ctx.lineTo(cursorX, h); ctx.stroke();
     }
   };
@@ -130,27 +137,33 @@
 
     ctx.fillStyle = '#f7f7f5';
     ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = '#111111';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let x = 0; x < w; x += 1) {
-      const start = Math.floor(x * samplesPerPixel);
-      const end = Math.min(data.length, start + samplesPerPixel);
-      let min = 1;
-      let max = -1;
-      for (let i = start; i < end; i += 1) {
-        min = Math.min(min, data[i]);
-        max = Math.max(max, data[i]);
+    const paintWave = (color) => {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let x = 0; x < w; x += 1) {
+        const start = Math.floor(x * samplesPerPixel);
+        const end = Math.min(data.length, start + samplesPerPixel);
+        let min = 1;
+        let max = -1;
+        for (let i = start; i < end; i += 1) {
+          min = Math.min(min, data[i]);
+          max = Math.max(max, data[i]);
+        }
+        ctx.moveTo(x + 0.5, (1 + min) * h / 2);
+        ctx.lineTo(x + 0.5, (1 + max) * h / 2);
       }
-      ctx.moveTo(x + 0.5, (1 + min) * h / 2);
-      ctx.lineTo(x + 0.5, (1 + max) * h / 2);
-    }
-    ctx.stroke();
+      ctx.stroke();
+    };
 
+    paintWave('#c8c8c8');
     if (progress > 0) {
-      const x = Math.min(1, progress) * w;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, Math.min(1, progress) * w, h);
+      ctx.clip();
+      paintWave('#111111');
+      ctx.restore();
     }
   };
 
@@ -161,13 +174,13 @@
     activeButton = button;
     activeOnStop = onEnd;
     setButtonPlaying(button, true);
-    audio.play().catch(stopActive);
+    audio.play().catch(() => stopActive(false));
     const tick = () => {
       onFrame();
       if (!audio.paused) activeFrame = requestAnimationFrame(tick);
     };
     tick();
-    audio.onended = stopActive;
+    audio.onended = () => stopActive(true);
   };
 
   demos.forEach((demo) => {
@@ -191,10 +204,10 @@
         finalLabel.textContent = '❚❚ Pause ' + name;
         progress.style.width = ((finalAudio.currentTime / finalAudio.duration) * 100 || 0) + '%';
         drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration);
-      }, () => {
+      }, (completed) => {
         finalLabel.textContent = '▶ Play ' + name;
-        progress.style.width = '0%';
-        drawRoll(finalCanvas, finalMidi);
+        progress.style.width = completed ? '100%' : '0%';
+        drawRoll(finalCanvas, finalMidi, completed ? finalAudio.duration : 0, finalAudio.duration);
       });
     });
 
@@ -238,14 +251,17 @@
       coughButton.addEventListener('click', () => {
         play(coughAudio, coughButton, () => {
           drawWaveform(waveform, coughBuffer, coughAudio.currentTime / coughAudio.duration);
-        }, () => drawWaveform(waveform, coughBuffer));
+        }, (completed) => drawWaveform(waveform, coughBuffer, completed ? 1 : 0));
       });
       motifButton.addEventListener('click', () => {
         play(motifAudio, motifButton, () => {
           const midiDuration = (motifMidi && motifMidi.duration_sec) || motifAudio.duration || 1;
           const midiTime = Math.max(0, Math.min(midiDuration, motifAudio.currentTime - syncStart));
           drawRoll(canvas, motifMidi, midiTime, midiDuration);
-        }, () => drawRoll(canvas, motifMidi));
+        }, (completed) => {
+          const midiDuration = (motifMidi && motifMidi.duration_sec) || motifAudio.duration || 1;
+          drawRoll(canvas, motifMidi, completed ? midiDuration : 0, midiDuration);
+        });
       });
 
       new ResizeObserver(() => {
