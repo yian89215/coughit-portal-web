@@ -14,24 +14,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
-<!--
-  Draft state: every unfinished piece is wrapped in an element with class "todo".
-  While <body class="draft"> is set, those pieces show as dashed placeholders.
-  When the copy is final, replace each .todo element and remove the "draft" class.
-  The full list lives in TODO.md.
--->
-<body class="draft">
+<body>
 
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="top">
   <a class="wordmark" href="#top" aria-label="CoughIt, back to top">CoughIt</a>
   <nav class="top-nav" aria-label="Sections">
-    <a href="#watch">Watch</a>
-    <a href="#about">About</a>
-    <a href="#join">Join</a>
+    <a href="#overview">Overview</a>
+    <a href="#demo">Interactive Demo</a>
+    <a href="#research">Research</a>
   </nav>
 </header>
 
@@ -52,12 +46,16 @@
     </figure>
   </section>
 
-  <!-- ============ 01 WATCH ============ -->
-  <section class="block" id="watch" aria-labelledby="watch-title">
+  <!-- ============ 01 OVERVIEW ============ -->
+  <section class="block" id="overview" aria-labelledby="overview-title">
     <header class="block-head">
       <span class="block-no">01</span>
-      <h2 class="block-title" id="watch-title">Watch</h2>
+      <h2 class="block-title" id="overview-title">Overview</h2>
     </header>
+
+    <div class="section-intro">
+      <p>CoughIt turns cough sounds into musical material for individual expression and collaborative creation.</p>
+    </div>
 
     <div class="player" data-player>
       <div class="player-stage">
@@ -85,34 +83,82 @@
     </div>
   </section>
 
-  <!-- ============ 02 ABOUT ============ -->
-  <section class="block" id="about" aria-labelledby="about-title">
+  <!-- ============ 02 INTERACTIVE DEMO ============ -->
+  <section class="block" id="demo" aria-labelledby="demo-title">
     <header class="block-head">
       <span class="block-no">02</span>
-      <h2 class="block-title" id="about-title">About</h2>
+      <h2 class="block-title" id="demo-title">Interactive Demo</h2>
     </header>
 
-    <div class="prose">
-      <!-- TODO(copy): 3 to 5 sentences taken from the paper's revised text. Do not rewrite it. No em dashes. -->
-      <p class="todo" data-todo="about-copy">TODO: About copy (3 to 5 sentences from the paper, to be added by the team).</p>
+    <div class="section-intro">
+      <p>Hear how three cough contributions become one shared composition. Select a cough to locate its MIDI notes, or play the complete result.</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="music-demo" data-music-demo data-kind="drum" data-audio="assets/cocreate-drum.wav" data-midi="assets/cocreate-drum-viz.json">
+        <header class="demo-head">
+          <div>
+            <p class="demo-kicker">Rhythm</p>
+            <h3>Co-create Drum</h3>
+          </div>
+          <button class="demo-play" type="button" data-demo-play aria-label="Play Co-create Drum">
+            <span data-demo-play-icon>Play</span>
+          </button>
+        </header>
+        <p class="demo-copy">Three coughs become three rhythmic voices, then grow into a co-created beat.</p>
+        <div class="cough-inputs" aria-label="Drum cough contributions">
+          <button type="button" data-cough="0"><span>01</span>Cough</button>
+          <button type="button" data-cough="1"><span>02</span>Cough</button>
+          <button type="button" data-cough="2"><span>03</span>Cough</button>
+        </div>
+        <div class="midi-frame">
+          <canvas data-midi-canvas role="img" aria-label="Drum MIDI piano roll with three cough contributions"></canvas>
+          <span class="midi-status" data-midi-status>Loading MIDI</span>
+        </div>
+        <div class="demo-timeline"><span data-demo-progress></span></div>
+        <audio preload="metadata" data-demo-audio src="assets/cocreate-drum.wav"></audio>
+      </article>
+
+      <article class="music-demo" data-music-demo data-kind="trio" data-audio="assets/cocreate-trio.wav" data-midi="assets/cocreate-trio-viz.json">
+        <header class="demo-head">
+          <div>
+            <p class="demo-kicker">Harmony</p>
+            <h3>Co-create Trio</h3>
+          </div>
+          <button class="demo-play" type="button" data-demo-play aria-label="Play Co-create Trio">
+            <span data-demo-play-icon>Play</span>
+          </button>
+        </header>
+        <p class="demo-copy">Three coughs become melodic, accompanying, and bass voices inside one ensemble.</p>
+        <div class="cough-inputs" aria-label="Trio cough contributions">
+          <button type="button" data-cough="0"><span>01</span>Cough</button>
+          <button type="button" data-cough="1"><span>02</span>Cough</button>
+          <button type="button" data-cough="2"><span>03</span>Cough</button>
+        </div>
+        <div class="midi-frame">
+          <canvas data-midi-canvas role="img" aria-label="Trio MIDI piano roll with three cough contributions"></canvas>
+          <span class="midi-status" data-midi-status>Loading MIDI</span>
+        </div>
+        <div class="demo-timeline"><span data-demo-progress></span></div>
+        <audio preload="metadata" data-demo-audio src="assets/cocreate-trio.wav"></audio>
+      </article>
     </div>
   </section>
 
-  <!-- ============ 03 JOIN ============ -->
-  <section class="block" id="join" aria-labelledby="join-title">
+  <!-- ============ 03 RESEARCH ============ -->
+  <section class="block" id="research" aria-labelledby="research-title">
     <header class="block-head">
       <span class="block-no">03</span>
-      <h2 class="block-title" id="join-title">Join</h2>
+      <h2 class="block-title" id="research-title">Research</h2>
     </header>
 
     <div class="prose">
-      <!-- TODO(copy): one sentence inviting people to take part, then the buttons below. -->
-      <p class="todo" data-todo="join-copy">TODO: One sentence inviting people to take part.</p>
+      <p>CoughIt explores how bodily sounds can become creative material and how people can build music together through everyday interaction.</p>
     </div>
 
     <div class="actions">
       <a class="action action-primary" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
-        <span class="action-text">Join the study</span>
+        <span class="action-text">View the research</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
       <a class="action" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener">
@@ -122,8 +168,8 @@
     </div>
 
     <p class="aside">
-      Android download and study details:
-      <a href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">Study page in English</a>
+      Research archive:
+      <a href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">English</a>
       <span aria-hidden="true">/</span>
       <a href="https://dreamalitylab.cc/coughit-user-study/" target="_blank" rel="noopener" lang="zh-Hant">研究說明頁(繁體中文)</a>
     </p>
@@ -135,12 +181,11 @@
 <footer class="foot">
   <div class="foot-inner">
     <p class="foot-line">&copy; 2026 CoughIt</p>
-    <!-- TODO(contact): short, project-specific email; plus one line such as "For collaboration, press, or participation, contact ...". -->
-    <p class="foot-line todo" data-todo="contact">TODO: Contact email and the collaboration / press / participation line.</p>
+    <p class="foot-line"><a href="mailto:dreamalitylabcoughit@gmail.com">dreamalitylabcoughit@gmail.com</a></p>
     <p class="foot-line"><a href="https://dreamalitylab.cc" target="_blank" rel="noopener">dreamalitylab.cc</a></p>
   </div>
 </footer>
 
-<script src="script.js?v=5"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>
