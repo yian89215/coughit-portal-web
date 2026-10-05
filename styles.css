@@ -251,6 +251,15 @@ a { color: inherit; }
   line-height: 1.55;
   color: var(--ink-2);
 }
+.section-intro p + p { margin-top: 1em; }
+
+.content-copyright {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 32px;
+  color: var(--muted);
+  font-size: 14px;
+}
 
 /* ---------- Interactive co-creation demos ---------- */
 .demo-grid {
