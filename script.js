@@ -33,12 +33,11 @@
   })();
 })();
 
-// Interactive co-creation demos: cough → generated motif → final composition.
+// Interactive co-creation demos: cough → generated music → final composition.
 (function () {
   const demos = Array.from(document.querySelectorAll('[data-music-demo]'));
   if (!demos.length) return;
 
-  const colors = ['#e5303f', '#111111', '#777777'];
   let activeAudio = null;
   let activeButton = null;
   let activeFrame = 0;
@@ -95,16 +94,13 @@
       const row = midi.type === 'drum' ? note.pitch - minPitch : maxPitch - note.pitch + note.trackIndex * 2;
       const totalRows = rows + Math.max(0, midi.tracks.length - 1) * 2;
       const y = 6 + (row / totalRows) * (h - 14);
-      const contributor = note.contributor_cough_index;
-      const colorIndex = contributor === 0 || contributor === 1 || contributor === 2
-        ? contributor : note.trackIndex % colors.length;
-      ctx.fillStyle = contributor === null || contributor === undefined ? '#c9c9c5' : colors[colorIndex];
+      ctx.fillStyle = '#111111';
       ctx.fillRect(x, y, noteWidth, midi.type === 'drum' ? 3 : 4);
     });
 
     if (currentTime > 0 && playbackDuration > 0) {
       const cursorX = pad + (currentTime / playbackDuration) * (w - pad * 2);
-      ctx.strokeStyle = '#e5303f';
+      ctx.strokeStyle = '#111111';
       ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(cursorX, 0); ctx.lineTo(cursorX, h); ctx.stroke();
     }

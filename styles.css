@@ -323,7 +323,7 @@ a { color: inherit; }
 }
 .translation button:hover,
 .translation button.is-playing { background: var(--ink); color: var(--paper); }
-.translation button[data-sample="cough"] .sample-icon { color: var(--alert); }
+.translation button[data-sample="cough"] .sample-icon { color: var(--ink); }
 .translation button.is-playing .sample-icon { color: var(--paper); }
 
 .translation-arrow {
@@ -422,7 +422,7 @@ a { color: inherit; }
   display: block;
   width: 0;
   height: 100%;
-  background: var(--alert);
+  background: var(--ink);
 }
 
 /* ---------- Player ---------- */
