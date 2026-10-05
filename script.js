@@ -1,30 +1,3 @@
-// Hero: replays the app's own start button states (idle, listening, cough).
-(function () {
-  const stage = document.getElementById('listen');
-  if (!stage) return;
-  const loop = [
-    ['idle', 2400],
-    ['listening', 3600],
-    ['cough', 2200],
-    ['listening', 1800]
-  ];
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function set(state) {
-    stage.dataset.state = state;
-  }
-
-  if (reduced) { set('idle'); return; }
-
-  let i = 0;
-  (function step() {
-    const [state, ms] = loop[i];
-    set(state);
-    i = (i + 1) % loop.length;
-    setTimeout(step, ms);
-  })();
-})();
-
 // Interactive co-creation demos: cough → generated music → final composition.
 (function () {
   const demos = Array.from(document.querySelectorAll('[data-music-demo]'));

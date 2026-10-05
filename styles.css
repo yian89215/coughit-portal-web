@@ -398,7 +398,7 @@ a { color: inherit; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.final-label span:last-child { color: var(--muted); font-weight: 500; }
+.final-label span + span { color: var(--muted); font-weight: 500; }
 
 .demo-play-wide {
   width: 100%;
