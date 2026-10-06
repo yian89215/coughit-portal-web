@@ -2,10 +2,10 @@
 """Assembles assets/coughit-demo.mp4 (+ poster) from the drawn scenes, the
 simulator recording and the demo audio. Needs ffmpeg, Pillow, numpy.
 
-  python3 build.py [WORK_DIR]
+  python3 build.py [WORK_DIR [OUT_DIR]]
 
 WORK_DIR (default ./_work) holds frames and intermediates and is safe to delete.
-Outputs go to ../assets/coughit-demo.mp4 and ../assets/video-poster.jpg.
+Outputs go to OUT_DIR (default ../assets): coughit-demo.mp4 and video-poster.jpg.
 """
 import os
 import subprocess
@@ -17,7 +17,8 @@ import render
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "source")
-OUT = os.path.join(HERE, "..", "assets")
+OUT = os.path.abspath(sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "assets"))
+DEMO = os.path.join(HERE, "..", "assets", "demo")
 WORK = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "_work"))
 os.makedirs(WORK, exist_ok=True)
 
@@ -25,9 +26,9 @@ FPS = 30
 SR = 16000
 
 # ---- timeline (seconds) -------------------------------------------------
-D_TITLE, D_SEP, D_END = 4.0, 2.0, 4.0
-D_STACK = render.STACK_SECONDS                      # 22.0
-D_TRIO = render.TRIO_T1 - render.TRIO_T0            # 9.0
+D_TITLE, D_SEP, D_BRIDGE, D_END = 3.5, 2.0, 2.8, 4.0
+D_RHYTHM = render.PAIR_SECONDS["rhythm"]
+D_MELODY = render.PAIR_SECONDS["melody"]
 
 # Simulator recording: tap at 4.03s, cough detected (red) at 14.10s. Listening
 # is static in between, so that stretch is cut and cross-faded.
@@ -37,14 +38,38 @@ REC_RED_AT = 14.10       # first red frame in the recording
 XFADE = 0.3
 D_PHONE = (REC_A[1] - REC_A[0]) + (REC_B[1] - REC_B[0]) - XFADE
 
+# Optional app screen recordings of the map screen, cropped to the map (no
+# controls). Dropped into source/ as map_drum.mp4 and map_trio.mp4; skipped when absent.
+# (clip name, audio file from the web demo, seconds into the clip when playback starts)
+MAP_CLIPS = [("map_drum", os.path.join("drum", "final.wav"), 1.0),
+             ("map_trio", os.path.join("trio", "final.wav"), 1.0)]
+
+
+def probe_duration(path):
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                          "-of", "csv=p=0", path], capture_output=True, text=True, check=True)
+    return float(out.stdout.strip())
+
+
+MAPS = [(n, a, st, os.path.join(SRC, n + ".mp4")) for n, a, st in MAP_CLIPS
+        if os.path.exists(os.path.join(SRC, n + ".mp4"))]
+MAPS = [(n, a, st, p, probe_duration(p)) for n, a, st, p in MAPS]
+
 T_TITLE = 0.0
 T_SEP1 = T_TITLE + D_TITLE
 T_PHONE = T_SEP1 + D_SEP
 T_SEP2 = T_PHONE + D_PHONE
-T_STACK = T_SEP2 + D_SEP
-T_SEP3 = T_STACK + D_STACK
-T_TRIO = T_SEP3 + D_SEP
-T_END = T_TRIO + D_TRIO
+T_RHYTHM = T_SEP2 + D_SEP
+T_SEP3 = T_RHYTHM + D_RHYTHM
+T_MELODY = T_SEP3 + D_SEP
+T_SEP4 = T_MELODY + D_MELODY
+T_AFTER_BRIDGE = T_SEP4 + D_BRIDGE
+T_MAPS = []
+_t = T_AFTER_BRIDGE
+for _n, _a, _st, _p, _d in MAPS:
+    T_MAPS.append(_t)
+    _t += _d
+T_END = _t if MAPS else T_SEP4   # without map clips the bridge card is left out too
 T_TOTAL = T_END + D_END
 
 # The cough is placed so its first loud burst lands just before the red frame.
@@ -108,6 +133,15 @@ def phone_scene():
     return out
 
 
+def map_scene(name, path, dur):
+    """App screen recording of the map, fitted into the white frame."""
+    out = os.path.join(WORK, f"{name}.mp4")
+    ffmpeg("-i", path, "-vf",
+           f"scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=white,"
+           f"fps={FPS},{fade_vf(dur)}", "-an", "-t", str(dur), *ENC, out)
+    return out
+
+
 # ---- audio ---------------------------------------------------------------
 def soft_limit(x, ceiling=0.89):
     return np.tanh(x / ceiling) * ceiling
@@ -140,8 +174,24 @@ def build_audio():
     cough[-n:] *= np.linspace(1, 0, n)
     place(cough, T_COUGH)
 
-    place(seg(os.path.join(SRC, "cocreate_drum.wav"), 0, D_STACK, -17, 0.2, 1.6), T_STACK)
-    place(seg(os.path.join(SRC, "cocreate_trio.wav"), render.TRIO_T0, D_TRIO, -15, 0.3, 1.6), T_TRIO)
+    def motif(kind, at):
+        c = render.PAIRS[kind]
+        da, db, _ = render.pair_durations(kind)
+        cc, _ = render.read_wav(c["cough"])
+        cc = cc[int(c["cough_range"][0] * SR):int(c["cough_range"][1] * SR)].copy()
+        cc *= 10 ** (-2 / 20) / np.abs(cc).max()
+        n = int(0.05 * SR)
+        cc[:n] *= np.linspace(0, 1, n)
+        cc[-n:] *= np.linspace(1, 0, n)
+        place(cc, at)
+        m0, m1 = c["motif_range"]
+        place(seg(c["motif"], m0, m1 - m0, -17, 0.02, 0.5), at + da + render.GAP)
+
+    motif("rhythm", T_RHYTHM)
+    motif("melody", T_MELODY)
+
+    for (name, audio, start, _p, dur), t0 in zip(MAPS, T_MAPS):
+        place(seg(os.path.join(DEMO, audio), 0, dur - start, -17, 0.2, 1.6), t0 + start)
 
     mix = soft_limit(mix, 0.93)
     pcm = (np.clip(mix, -1, 1) * 32767).astype("<i2")
@@ -161,8 +211,9 @@ def main():
     cards = os.path.join(frames, "cards")
     if not os.path.isdir(cards):
         run([sys.executable, os.path.join(HERE, "render.py"), "cards", cards])
-    for kind, count in (("stack", int(D_STACK * FPS)), ("trio", int(D_TRIO * FPS))):
+    for kind in render.PAIRS:
         d = os.path.join(frames, kind)
+        count = int(round(render.PAIR_SECONDS[kind] * FPS))
         if not (os.path.isdir(d) and len(os.listdir(d)) == count):
             run([sys.executable, os.path.join(HERE, "render.py"), kind, d])
 
@@ -171,11 +222,14 @@ def main():
         still("sep1", os.path.join(cards, "sep1.png"), D_SEP),
         phone_scene(),
         still("sep2", os.path.join(cards, "sep2.png"), D_SEP),
-        sequence("stack", os.path.join(frames, "stack"), D_STACK),
+        sequence("rhythm", os.path.join(frames, "rhythm"), D_RHYTHM),
         still("sep3", os.path.join(cards, "sep3.png"), D_SEP),
-        sequence("trio", os.path.join(frames, "trio"), D_TRIO),
-        still("end", os.path.join(cards, "end.png"), D_END),
+        sequence("melody", os.path.join(frames, "melody"), D_MELODY),
     ]
+    if MAPS:
+        segs.append(still("sep4", os.path.join(cards, "sep4.png"), D_BRIDGE))
+        segs += [map_scene(n, p, d) for n, _a, _st, p, d in MAPS]
+    segs.append(still("end", os.path.join(cards, "end.png"), D_END))
     lst = os.path.join(WORK, "list.txt")
     with open(lst, "w") as f:
         for s in segs:

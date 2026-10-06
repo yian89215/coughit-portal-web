@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Renders the CoughIt web video's drawn scenes (cards, drum stack, trio roll).
+"""Renders the CoughIt web video's drawn scenes (cards, cough-to-rhythm, cough-to-melody).
 
 Look: white paper, ink #111111, pure grays, red only for a caught cough, the
 same system font as the app (SF). Frames are drawn at 2x and downsampled so
 thin rules and type stay crisp. Run via build.sh; needs Pillow + numpy.
 
   python3 render.py cards  OUT_DIR
-  python3 render.py stack  OUT_DIR
-  python3 render.py trio   OUT_DIR
+  python3 render.py rhythm OUT_DIR
+  python3 render.py melody OUT_DIR
 """
 import json
 import math
@@ -128,168 +128,172 @@ def wordmark(d):
 def card_title(end=False):
     img, d = new_canvas()
     wordmark(d)
-    text(d, (MARGIN_X, 330), "Transform your cough", 150, "Heavy", INK, tracking=-0.04)
-    text(d, (MARGIN_X, 330 + 150 * 1.06), "into music.", 150, "Heavy", INK, tracking=-0.04)
     if end:
+        text(d, (MARGIN_X, 330), "Transform your cough", 150, "Heavy", INK, tracking=-0.04)
+        text(d, (MARGIN_X, 330 + 150 * 1.06), "into music.", 150, "Heavy", INK, tracking=-0.04)
         y = 800
         line(d, (MARGIN_X, y - 40), (W - MARGIN_X, y - 40), 1.5)
         text(d, (MARGIN_X, y), "Download on the App Store", 44, "Bold", INK)
         text(d, (MARGIN_X, y + 70), "dreamalitylab.cc/coughit-eng", 34, "Medium", MUTED)
         text(d, (W - MARGIN_X, y + 70), "© 2026 CoughIt", 34, "Medium", MUTED, anchor="ra")
+    else:
+        text(d, (MARGIN_X, 330), "Can a cough", 150, "Heavy", INK, tracking=-0.04)
+        text(d, (MARGIN_X, 330 + 150 * 1.06), "become music?", 150, "Heavy", INK, tracking=-0.04)
     return finish(img)
 
 
 def card_sep(msg):
     img, d = new_canvas()
-    text(d, (W / 2, H / 2), msg, 96, "Heavy", INK, anchor="mm", tracking=0)
+    lines = msg.split("\n")
+    lh = 96 * 1.2
+    y0 = H / 2 - lh * (len(lines) - 1) / 2
+    for i, ln in enumerate(lines):
+        text(d, (W / 2, y0 + i * lh), ln, 96, "Heavy", INK, anchor="mm", tracking=0)
     return finish(img)
+
+
+SEP_CARDS = [
+    "It starts with a cough.",
+    "A cough becomes a rhythm.",
+    "A cough becomes a melody.",
+    "Now imagine many coughs,\nplayed together.",
+]
 
 
 def make_cards(out):
     os.makedirs(out, exist_ok=True)
     card_title().save(os.path.join(out, "title.png"))
     card_title(end=True).save(os.path.join(out, "end.png"))
-    for i, msg in enumerate([
-        "It starts with a cough.",
-        "Each cough becomes a track.",
-        "Three coughs, one piece.",
-    ], 1):
+    for i, msg in enumerate(SEP_CARDS, 1):
         card_sep(msg).save(os.path.join(out, f"sep{i}.png"))
 
 
-# ---------------------------------------------------------------- stack ----
+# --------------------------------------------------- cough -> music pair ----
+# One cough on the left, the music the app makes from it on the right. Both are
+# the web page's first examples (Crash 1 and Trio 1), so the video and the page
+# show the same audio and MIDI.
 
-STACK_SECONDS = 22.0
-STACK_ENTRIES = [  # (time in the drum mix when the first note is heard, label)
-    (0.10, "Crash"),
-    (4.26, "Snare"),
-    (8.13, "Hi-hat"),
-    (12.49, "Kick"),
-]
-OUTPUT_AT = 17.0
-ROW_X0, ROW_X1, ROW_Y = 160, 1760, 560
-ROW_HALF = 190
+DEMO = os.path.join(HERE, "..", "assets", "demo")
+GAP = 0.6   # silence between the cough and its music
+TAIL = 0.6  # hold after the music ends
+
+PAIRS = {
+    "rhythm": dict(
+        cough=os.path.join(DEMO, "drum", "cough-15.wav"), cough_range=(0.7, 3.4),
+        motif=os.path.join(DEMO, "drum", "motif-15.wav"), motif_range=(0.0, 3.8),
+        midi=os.path.join(DEMO, "drum", "motif-15.json"),
+        label="Rhythm", lanes=["Crash"],
+    ),
+    "melody": dict(
+        cough=os.path.join(DEMO, "trio", "cough-3.wav"), cough_range=(0.45, 4.35),
+        motif=os.path.join(DEMO, "trio", "motif-3.wav"), motif_range=(0.5, 4.6),
+        midi=os.path.join(DEMO, "trio", "motif-3.json"),
+        label="Melody", lanes=["Violin", "Viola", "Double bass"],
+    ),
+}
+
+
+def pair_durations(kind):
+    c = PAIRS[kind]
+    da = c["cough_range"][1] - c["cough_range"][0]
+    db = c["motif_range"][1] - c["motif_range"][0]
+    return da, db, da + GAP + db + TAIL
+
+
+PAIR_SECONDS = {k: pair_durations(k)[2] for k in PAIRS}
+
 BAR_PITCH = 6  # px between waveform bars
-_stack = {}
+PANEL_W = 640
+LEFT_X0 = MARGIN_X
+RIGHT_X0 = W - MARGIN_X - PANEL_W
+CENTER_Y = 560
+_pair = {}
 
 
-def stack_setup():
-    if _stack:
-        return
-    x, sr = read_wav(os.path.join(SRC, "cocreate_drum.wav"))
-    x = x[: int(STACK_SECONDS * sr)]
-    cols = (ROW_X1 - ROW_X0) // BAR_PITCH
+def pair_setup(kind):
+    if kind in _pair:
+        return _pair[kind]
+    c = PAIRS[kind]
+    x, sr = read_wav(c["cough"])
+    x = x[int(c["cough_range"][0] * sr):int(c["cough_range"][1] * sr)]
+    cols = PANEL_W // BAR_PITCH
     per = len(x) / cols
     peaks = np.array([np.abs(x[int(i * per):int((i + 1) * per) + 1]).max() for i in range(cols)])
-    peaks = peaks / peaks.max()
-    _stack["bars"] = np.maximum(peaks ** 0.55, 0.012)  # lift quiet hits, keep a thin floor
-    _stack["cols"] = cols
+    bars = np.maximum((peaks / peaks.max()) ** 0.55, 0.012)
+    midi = json.load(open(c["midi"]))
+    notes = [[dict(n) for n in t["notes"]] for t in midi["tracks"]]
+    allnotes = [n for t in notes for n in t]
+    m0 = c["motif_range"][0]
+    m1 = c["motif_range"][1]
+    pitches = [(min(n["pitch"] for n in t), max(n["pitch"] for n in t)) for t in notes]
+    _pair[kind] = dict(bars=bars, cols=cols, notes=notes, m0=m0, m1=m1, pitches=pitches)
+    return _pair[kind]
 
 
-def stack_frame(fi):
-    stack_setup()
+def arrow(d, x0, x1, y, fill):
+    line(d, (x0, y), (x1, y), 3, fill=fill)
+    line(d, (x1 - 22, y - 18), (x1, y), 3, fill=fill)
+    line(d, (x1 - 22, y + 18), (x1, y), 3, fill=fill)
+
+
+def pair_frame(kind, fi):
+    st = pair_setup(kind)
+    c = PAIRS[kind]
+    da, db, _ = pair_durations(kind)
     t = fi / FPS
+    b0 = da + GAP
     img, d = new_canvas()
-    cols = _stack["cols"]
-    bars = _stack["bars"]
-    px_per_s = (ROW_X1 - ROW_X0) / STACK_SECONDS
-    play_x = ROW_X0 + t * px_per_s
 
-    # counter: how many coughs have joined so far
-    n = sum(1 for et, _ in STACK_ENTRIES if t >= et)
-    if n:
-        last_t = [et for et, _ in STACK_ENTRIES if t >= et][-1]
-        pop = ease((t - last_t) / 0.25)
-        text(d, (MARGIN_X, 96), str(n), 230, "Heavy", INK, tracking=-0.04)
-        nw = text_width(str(n), 230, "Heavy", tracking=-0.04)
-        word = "cough" if n == 1 else "coughs"
-        text(d, (MARGIN_X + nw + 28, 250), word, 52, "Bold", INK)
-        if pop < 1:  # soft flash as a new one joins
-            veil = Image.new("RGB", (S(520), S(300)), PAPER)
-            img.paste(Image.blend(img.crop((S(MARGIN_X - 10), S(80), S(MARGIN_X + 510), S(380))), veil, 0.65 * (1 - pop)),
-                      (S(MARGIN_X - 10), S(80)))
-            d = ImageDraw.Draw(img)
-
-    # waveform row: played part ink, unplayed part light gray (as in the app)
+    # left: the cough waveform, played part ink, unplayed part light gray
+    cols, bars = st["cols"], st["bars"]
+    half = 150
+    play_a = LEFT_X0 + min(max(t / da, 0.0), 1.0) * PANEL_W
+    nlanes = len(c["lanes"])
+    lane_h = 220 if nlanes == 1 else 150
+    lane_gap = 40
+    block = nlanes * lane_h + (nlanes - 1) * lane_gap
+    top0 = CENTER_Y - block / 2
+    label_y = min(CENTER_Y - half - 130, top0 - 140)
+    text(d, (LEFT_X0, label_y), "Cough", 46, "Heavy", INK, tracking=-0.02)
     for i in range(cols):
-        x = ROW_X0 + i * BAR_PITCH
-        h = bars[i] * ROW_HALF
-        col = INK if x + BAR_PITCH / 2 <= play_x else UNPLAYED
-        rect(d, (x, ROW_Y - h, x + 3, ROW_Y + h), fill=col)
+        x = LEFT_X0 + i * BAR_PITCH
+        h = bars[i] * half
+        col = INK if x + BAR_PITCH / 2 <= play_a else UNPLAYED
+        rect(d, (x, CENTER_Y - h, x + 3, CENTER_Y + h), fill=col)
+    if 0 < t < da:
+        line(d, (play_a, CENTER_Y - half - 24), (play_a, CENTER_Y + half + 24), 2)
 
-    # playhead
-    line(d, (play_x, ROW_Y - ROW_HALF - 28), (play_x, ROW_Y + ROW_HALF + 28), 2)
-
-    # entry labels under the row, placed at the moment each cough's drum is heard
-    for k, (et, name) in enumerate(STACK_ENTRIES):
-        a = ease((t - et) / 0.3)
-        if a <= 0:
-            continue
-        ex = ROW_X0 + et * px_per_s
-        ink = mix(PAPER, INK, a)
-        sub = mix(PAPER, MUTED, a)
-        line(d, (ex, ROW_Y + ROW_HALF + 22), (ex, ROW_Y + ROW_HALF + 74), 1.5, fill=ink)
-        text(d, (ex + 14, ROW_Y + ROW_HALF + 28), f"Cough {k + 1}", 26, "Medium", sub)
-        text(d, (ex + 14, ROW_Y + ROW_HALF + 62), name, 46, "Heavy", ink, tracking=-0.02)
-
-    # output label
-    a = ease((t - OUTPUT_AT) / 0.4)
+    # arrow and right-hand label appear just before the music starts
+    a = ease((t - (b0 - 0.5)) / 0.4)
     if a > 0:
-        ink = mix(PAPER, INK, a)
-        text(d, (ROW_X1, ROW_Y - ROW_HALF - 70), "Output", 46, "Heavy", ink, anchor="ra", tracking=-0.02)
+        arrow(d, LEFT_X0 + PANEL_W + 70, RIGHT_X0 - 70, CENTER_Y, mix(PAPER, INK, a))
+        text(d, (RIGHT_X0, label_y), c["label"], 46, "Heavy", mix(PAPER, INK, a), tracking=-0.02)
 
-    return finish(img)
-
-
-# ----------------------------------------------------------------- trio ----
-
-TRIO_T0, TRIO_T1 = 18.0, 27.0  # excerpt of cocreate_trio.wav
-TRIO_PPS = 160
-LANE_X0, LANE_X1 = 160, 1760
-LANES_Y = [250, 510, 770]
-LANE_H = 220
-_trio = {}
-
-
-def trio_setup():
-    if _trio:
-        return
-    viz = json.load(open(os.path.join(SRC, "cocreate_trio_viz.json")))
-    order = ["mel", "acc", "bass"]
-    tracks = {t["id"]: t for t in viz["tracks"]}
-    _trio["duration"] = 34.45  # length of cocreate_trio.wav, shown as 00:34 like the app
-    lanes = []
-    for tid in order:
-        notes = tracks[tid]["notes"]
-        pitches = [n["pitch"] for n in notes]
-        lanes.append((notes, min(pitches), max(pitches)))
-    _trio["lanes"] = lanes
-
-
-def trio_frame(fi):
-    trio_setup()
-    t = TRIO_T0 + fi / FPS
-    img, d = new_canvas()
-    head_x = LANE_X0 + (LANE_X1 - LANE_X0) / 3
-    note_w = 0.125 * TRIO_PPS
-    for li, (top, (notes, pmin, pmax)) in enumerate(zip(LANES_Y, _trio["lanes"])):
-        rect(d, (LANE_X0, top, LANE_X1, top + LANE_H), fill=LANE)
-        text(d, (LANE_X0, top - 40), ["Violin", "Viola", "Double bass"][li], 26, "Medium", MUTED)
-        span = max(pmax - pmin, 1)
+    # right: MIDI lanes; notes fade in light, darken as the playhead passes
+    m0, m1 = st["m0"], st["m1"]
+    span_t = m1 - m0
+    tm = m0 + (t - b0)  # position in the motif audio
+    play_b = RIGHT_X0 + min(max((tm - m0) / span_t, 0.0), 1.0) * PANEL_W
+    for li in range(nlanes):
+        top = top0 + li * (lane_h + lane_gap)
+        rect(d, (RIGHT_X0, top, RIGHT_X0 + PANEL_W, top + lane_h), fill=mix(PAPER, LANE, a))
+        text(d, (RIGHT_X0, top - 36), c["lanes"][li], 26, "Medium", mix(PAPER, MUTED, a))
+        notes = st["notes"][li]
+        pmin, pmax = st["pitches"][li]
+        pspan = max(pmax - pmin, 1)
         for n in notes:
-            x = head_x + (n["start"] - t) * TRIO_PPS
-            if x + note_w < LANE_X0 or x > LANE_X1:
-                continue
-            y = top + 22 + (1 - (n["pitch"] - pmin) / span) * (LANE_H - 44)
-            a = 0.4 + 0.6 * min(max(n["velocity"], 0), 127) / 127
-            x0, x1 = max(x, LANE_X0), min(x + note_w, LANE_X1)
-            if x1 > x0:
-                rect(d, (x0, y - 7, x1, y + 7), fill=mix(LANE, INK, a), radius=3)
-    line(d, (head_x, LANES_Y[0] - 56), (head_x, LANES_Y[-1] + LANE_H + 28), 3)
-    mm, ss = divmod(int(t), 60)
-    dm, ds = divmod(int(round(_trio["duration"])), 60)
-    text(d, (LANE_X0, LANES_Y[-1] + LANE_H + 40), f"{mm:02d}:{ss:02d}", 34, "Medium", INK2)
-    text(d, (LANE_X1, LANES_Y[-1] + LANE_H + 40), f"{dm:02d}:{ds:02d}", 34, "Medium", MUTED, anchor="ra")
+            nx0 = RIGHT_X0 + (n["start"] - m0) / span_t * PANEL_W
+            nx1 = max(RIGHT_X0 + (n["end"] - m0) / span_t * PANEL_W, nx0 + 10)
+            if nlanes == 1:
+                ny, nh = top + lane_h / 2, 22
+            else:
+                ny, nh = top + 18 + (1 - (n["pitch"] - pmin) / pspan) * (lane_h - 36), 7
+            played = t >= b0 and tm >= n["start"]
+            col = mix(PAPER, INK, a) if played else mix(PAPER, UNPLAYED, a)
+            rect(d, (nx0, ny - nh, nx1, ny + nh), fill=col, radius=3)
+    if b0 <= t < b0 + db:
+        line(d, (play_b, top0 - 30), (play_b, top0 + block + 30), 3)
+
     return finish(img)
 
 
@@ -297,7 +301,7 @@ def trio_frame(fi):
 
 def _save(args):
     fn, fi, path = args
-    {"stack": stack_frame, "trio": trio_frame}[fn](fi).save(path)
+    pair_frame(fn, fi).save(path)
 
 
 def render_seq(kind, out, frames):
@@ -313,9 +317,7 @@ if __name__ == "__main__":
     what, out = sys.argv[1], sys.argv[2]
     if what == "cards":
         make_cards(out)
-    elif what == "stack":
-        render_seq("stack", out, int(STACK_SECONDS * FPS))
-    elif what == "trio":
-        render_seq("trio", out, int((TRIO_T1 - TRIO_T0) * FPS))
+    elif what in PAIRS:
+        render_seq(what, out, int(round(PAIR_SECONDS[what] * FPS)))
     else:
         raise SystemExit("unknown scene")

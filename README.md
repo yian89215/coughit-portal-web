@@ -42,18 +42,27 @@ Needs `ffmpeg`, Python 3 with Pillow and numpy, and macOS (uses the SF font).
 
 ```bash
 cd video
-python3 build.py        # writes ../assets/coughit-demo.mp4 and video-poster.jpg
+python3 build.py                 # writes ../assets/coughit-demo.mp4 and video-poster.jpg
+python3 build.py WORK OUT_DIR    # build a draft elsewhere without touching assets/
 ```
 
-Timeline (53 s): title card, "It starts with a cough." (app listens and
-catches a cough, real simulator recording), "Each cough becomes a track."
-(four coughs stack into one waveform), "Three coughs, one piece." (piano roll),
-end card.
+Timeline (about 63 s): title question "Can a cough become music?", "It starts
+with a cough." (app listens and catches a cough, simulator recording), "A cough
+becomes a rhythm." (web demo Crash 1: cough waveform to MIDI), "A cough becomes
+a melody." (web demo Trio 1), "Now imagine many coughs, played together.", two
+map-screen clips (drum, trio, 10 s each), end card. The word "co-create" never
+appears on screen.
 
-- `render.py` draws the cards and the two animated scenes (2x supersampled).
+- `render.py` draws the cards and the two cough-to-music scenes (2x supersampled).
+  Audio and MIDI come from `assets/demo/` (the same files the page plays).
 - `build.py` holds the timeline, cuts the simulator recording, mixes audio
-  (cough clip + drum/trio demo excerpts, normalized and soft-limited), encodes.
-- `source/` has the inputs: the simulator recording, the demo audio and MIDI
-  visualization data copied from the app's `assets/demo/`.
-- The iOS notification banner in the recording (it carries the colored app icon)
-  is painted white; the screen underneath is blank at that moment.
+  (normalized and soft-limited), encodes. Map clips are optional: it uses
+  `source/map_drum.mp4` and `source/map_trio.mp4` when they exist.
+- `prep_map.py RAW.mov drum|trio` turns a raw simulator recording of the app's
+  full-screen map into those clips: map and piano roll side by side, grayscale
+  with red kept, no controls and no tab row. Raw recordings are kept as
+  `source/raw_map_*.mov`.
+- `source/` also holds the older phone recording (`app_listen_cough.mov`, from
+  the previous app UI) and the earlier demo audio and MIDI visualization data.
+- The iOS notification banner in the phone recording (it carries the colored
+  app icon) is painted white; the screen underneath is blank at that moment.
