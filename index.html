@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=10">
+<link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
 
@@ -26,6 +26,7 @@
     <a href="#overview">Overview</a>
     <a href="#demo">Interactive Demo</a>
     <a href="#user-study">User Study</a>
+    <a href="https://dreamalitylab.cc/" target="_blank" rel="noopener">Dreamality Lab</a>
   </nav>
 </header>
 
@@ -33,16 +34,14 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="top">
-    <h1 class="tagline">Transform your cough<br>into music.</h1>
+    <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Start listening to your cough, creatively.</span></h1>
 
-    <figure class="listen" aria-hidden="true">
-      <div class="listen-stage" id="listen" data-state="idle">
-        <span class="listen-pulse"></span>
-        <span class="listen-circle">
-          <span class="listen-mark"></span>
-        </span>
-      </div>
-      <figcaption class="listen-caption" id="listen-caption">Tap to begin cough detection.</figcaption>
+    <figure class="listen">
+      <figcaption class="listen-caption">
+        <a class="app-store-link" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener" aria-label="Download CoughIt on the App Store">
+          <img src="assets/download-on-the-app-store.svg" width="120" height="40" alt="Download on the App Store">
+        </a>
+      </figcaption>
     </figure>
   </section>
 
@@ -54,7 +53,7 @@
     </header>
 
     <div class="section-intro">
-      <p>CoughIt turns cough sounds into musical material for individual expression and collaborative creation.</p>
+      <p>CoughIt is an interactive mobile application that detects and records your cough sounds, transforming them into melodic, rhythmic, and timbral musical outputs. Users can engage individually or with others, turning an involuntary cough into a joyful sonic moment.</p>
     </div>
 
     <div class="player" data-player>
@@ -92,7 +91,7 @@
     </header>
 
     <div class="section-intro">
-      <p>Hear how individual coughs become musical material, then come together as a shared composition. Play each cough and its matching instrument response, or hear the complete result.</p>
+      <p>Hear how individual coughs become musical material, then come together as a shared composition.</p>
     </div>
 
     <div class="demo-grid">
@@ -103,7 +102,7 @@
             <h3>Co-create Drum</h3>
           </div>
         </header>
-        <p class="demo-copy">Compare each cough with the drum sound generated from it, then hear the complete co-created track.</p>
+        <p class="demo-copy">Play each cough and its corresponding musical segment, then hear the final shared musical piece.</p>
         <div class="translation-list" aria-label="Seven cough-to-drum examples">
           <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-15.wav" data-motif-audio="assets/demo/drum/motif-15.wav" data-motif-midi="assets/demo/drum/motif-15.json" data-sync-start="0.10">
             <span class="translation-no">01</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 1</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Crash 1</span></button><canvas data-motif-canvas role="img" aria-label="Crash 1 MIDI generated from cough 1"></canvas></div>
@@ -127,7 +126,7 @@
             <span class="translation-no">07</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 7</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Low tom 7</span></button><canvas data-motif-canvas role="img" aria-label="Low tom 7 MIDI generated from cough 7"></canvas></div>
           </div>
         </div>
-        <div class="final-label"><span>Final Co-create</span><span>Complete track</span></div>
+        <div class="final-label"><span>Final Co-create</span></div>
         <div class="midi-frame">
           <canvas data-midi-canvas role="img" aria-label="Co-create Drum MIDI piano roll"></canvas>
           <span class="midi-status" data-midi-status>Loading MIDI</span>
@@ -156,7 +155,7 @@
             <span class="translation-no">03</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 3</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Trio 3</span></button><canvas data-motif-canvas role="img" aria-label="Trio 3 MIDI generated from cough 3"></canvas></div>
           </div>
         </div>
-        <div class="final-label"><span>Final Co-create</span><span>Complete track</span></div>
+        <div class="final-label"><span>Final Co-create</span></div>
         <div class="midi-frame">
           <canvas data-midi-canvas role="img" aria-label="Co-create Trio MIDI piano roll"></canvas>
           <span class="midi-status" data-midi-status>Loading MIDI</span>
@@ -176,7 +175,7 @@
     </header>
 
     <div class="prose">
-      <p>Help us understand how bodily sounds can become creative material and how people can make music together. Choose your preferred language to learn about the study and take part.</p>
+      <p>Help us gain a deeper understanding of your experience using CoughIt.</p>
     </div>
 
     <div class="actions">
@@ -188,24 +187,21 @@
         <span class="action-text">Join the User Study (English)</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
-      <a class="action" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener">
-        <span class="action-text">Download on the App Store</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
-      </a>
     </div>
   </section>
 
+  <p class="content-copyright">Copyright &copy; NTHU DREAMALITY Lab</p>
 </main>
 
 <!-- ============ FOOTER ============ -->
 <footer class="foot">
   <div class="foot-inner">
-    <p class="foot-line">&copy; 2026 CoughIt</p>
+    <p class="foot-line">Copyright &copy; NTHU DREAMALITY Lab</p>
     <p class="foot-line"><a href="mailto:dreamalitylabcoughit@gmail.com">dreamalitylabcoughit@gmail.com</a></p>
     <p class="foot-line"><a href="https://dreamalitylab.cc" target="_blank" rel="noopener">dreamalitylab.cc</a></p>
   </div>
 </footer>
 
-<script src="script.js?v=9"></script>
+<script src="script.js?v=13"></script>
 </body>
 </html>
