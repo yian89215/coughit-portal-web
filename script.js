@@ -1,4 +1,536 @@
-// Interactive co-creation demos: cough → generated music → final composition.
+// Demo data is embedded by assets/demo/data.js so the page also works when it is
+// opened straight from disk (browsers block fetch() for file:// pages).
+const loadDemoJson = (url) => {
+  const embedded = window.COUGHIT_DEMO && window.COUGHIT_DEMO.midi[url];
+  return embedded ? Promise.resolve(embedded) : fetch(url).then((response) => response.json());
+};
+
+// Open the page with ?draft to preview sections that are still waiting for assets.
+if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('draft');
+
+// TEMPORARY colour picker for the demo (remove with .demo-controls in styles.css and index.html).
+// Pick white, purple or black, or press C to cycle. The choice is remembered;
+// ?theme=white|purple|black also works.
+(function () {
+  const themes = [
+    { id: 'white', label: 'White', color: '#ffffff' },
+    { id: 'purple', label: 'Purple', color: '#590f8a' },
+    { id: 'black', label: 'Black', color: '#000000' }
+  ];
+  const select = document.querySelector('[data-theme-select]');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const fromUrl = (window.location.search.match(/[?&]theme=(\w+)/) || [])[1];
+  let saved = null;
+  try { saved = window.localStorage.getItem('coughit-theme'); } catch (e) {}
+  let index = Math.max(0, themes.findIndex((t) => t.id === (fromUrl || saved)));
+
+  const apply = () => {
+    const theme = themes[index];
+    document.documentElement.setAttribute('data-theme', theme.id);
+    if (meta) meta.setAttribute('content', theme.color);
+    if (select) select.value = theme.id;
+    try { window.localStorage.setItem('coughit-theme', theme.id); } catch (e) {}
+    window.dispatchEvent(new Event('coughit-theme'));
+  };
+
+  apply();
+  if (select) select.addEventListener('change', () => {
+    index = Math.max(0, themes.findIndex((t) => t.id === select.value));
+    apply();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+    if (event.key === 'c' || event.key === 'C') {
+      index = (index + 1) % themes.length;
+      apply();
+    }
+  });
+})();
+
+// Hero artwork: candidate drawings, all made from the demo's real data.
+// TEMPORARY: the Art picker (or the number keys 1 to 8) switches them. Keep one and delete the rest.
+(function () {
+  const canvas = document.querySelector('[data-hero-art]');
+  if (!canvas) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const variants = [
+    { id: 'transform', label: 'Cough to music', caption: ['From cough to music', 'Left, real coughs. Right, a melody made from them.', 'Drawn from the demo'] },
+    { id: 'mono', label: 'Mono (minimal)', caption: ['From cough to music', 'Seven coughs settle into a five-line staff', 'Drawn from the demo'] },
+    { id: 'light', label: 'Light', caption: ['Seven coughs', 'One surface', 'Real recordings from the demo'] },
+    { id: 'becoming', label: 'Becoming', caption: ['From cough to music', 'Left, a real cough. Right, music made from coughs.', 'Drawn from the demo'] },
+    { id: 'ridges', label: 'Ridges', caption: ['Coughs', 'Each line is one cough', 'Real recordings from the demo'] },
+    { id: 'ring', label: 'Ring', caption: ['One cough', 'Wrapped into a circle', 'A real recording from the demo'] },
+    { id: 'line', label: 'Line', caption: ['One cough', 'Drawn as it was heard', 'A real recording from the demo'] },
+    { id: 'score', label: 'Score', caption: ['Co-create', 'Drum and string trio', 'Drawn from the tracks in the demo'] }
+  ];
+  const select = document.querySelector('[data-art-select]');
+  const captionSpans = document.querySelectorAll('.hero-meta span');
+  const fromUrl = (window.location.search.match(/[?&]art=(\w+)/) || [])[1];
+  let saved = null;
+  try { saved = window.localStorage.getItem('coughit-art'); } catch (e) {}
+  let index = Math.max(0, variants.findIndex((v) => v.id === (fromUrl || saved)));
+
+  const demo = window.COUGHIT_DEMO || { peaks: {}, midi: {} };
+  const seen = new Set();
+  const coughs = Object.values(demo.peaks).filter((peaks) => {
+    const key = JSON.stringify(peaks);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).map((peaks) => {
+    const env = peaks.map(([lo, hi]) => Math.max(Math.abs(lo), Math.abs(hi)));
+    return env.map((v, i) => {
+      const a = env[Math.max(0, i - 2)], b = env[Math.min(env.length - 1, i + 2)];
+      return (a + 2 * v + b) / 4;
+    }).map((v, i) => ({ v, lo: peaks[i][0], hi: peaks[i][1] }));
+  });
+
+  let scoreData = null;
+  let reveal = reduced ? 1 : 0;
+  let frame = 0;
+
+  const draw = () => {
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+    const scale = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.round(rect.width * scale));
+    canvas.height = Math.max(1, Math.round(rect.height * scale));
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    const w = rect.width;
+    const h = rect.height;
+    if (w < 2 || h < 2) return;
+    const style = getComputedStyle(document.documentElement);
+    const ink = style.getPropertyValue('--ink').trim();
+    const paper = style.getPropertyValue('--paper').trim();
+    const accent = style.getPropertyValue('--accent').trim();
+    const hairline = style.getPropertyValue('--hairline').trim();
+    const id = variants[index].id;
+
+    if (id === 'light' || id === 'transform') {
+      ctx.fillStyle = '#07040c';
+      ctx.fillRect(0, 0, w, h);
+      const glow = ctx.createRadialGradient(w * 0.5, h * 0.62, 0, w * 0.5, h * 0.62, w * 0.55);
+      glow.addColorStop(0, 'rgba(110, 30, 170, 0.45)');
+      glow.addColorStop(1, 'rgba(7, 4, 12, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    ctx.save();
+    if (id === 'ring') ctx.globalAlpha = reveal;
+    else { ctx.beginPath(); ctx.rect(0, 0, w * reveal, h); ctx.clip(); }
+
+    if (id === 'mono' && coughs.length) {
+      // Flat and quiet: one line per cough, the seven lines settle into the five
+      // lines of a staff, and the melody sits on it. Ink on paper, one accent.
+      const n = coughs.length;
+      const gap = h * 0.085;
+      const staffY = (k) => h * 0.5 + (k - 2) * gap;
+      const s0 = 0.3;
+      const s1 = 0.62;
+      const smooth = (u) => {
+        const x = Math.min(1, Math.max(0, (u - s0) / (s1 - s0)));
+        return x * x * (3 - 2 * x);
+      };
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 1.5;
+      coughs.forEach((cough, row) => {
+        const t = row / (n - 1 || 1);
+        const spreadY = h * 0.2 + t * h * 0.62;
+        const targetY = staffY(Math.round(t * 4));
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += 2) {
+          const u = x / w;
+          const s = smooth(u);
+          const v = cough[Math.min(cough.length - 1, Math.floor(u * cough.length))].v;
+          const fade = Math.min(1, u / 0.06);
+          const y = spreadY + (targetY - spreadY) * s - v * (1 - s) * gap * 3.2 * fade;
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = ink;
+        ctx.stroke();
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+        ctx.fillStyle = paper;
+        ctx.fill();
+        ctx.stroke();
+      });
+      if (scoreData) {
+        const mel = scoreData.trio.tracks.find((t) => t.id === 'mel') || scoreData.trio.tracks[0];
+        const notes = mel.notes.slice(0, 9);
+        const lo = Math.min(...notes.map((q) => q.pitch));
+        const hi = Math.max(...notes.map((q) => q.pitch));
+        notes.forEach((q, i) => {
+          const x = w * 0.7 + (i / (notes.length - 1 || 1)) * w * 0.25;
+          const step = Math.round(((q.pitch - lo) / (hi - lo || 1)) * 8);
+          const y = staffY(4) - step * (gap / 2);
+          ctx.fillStyle = accent;
+          ctx.beginPath();
+          ctx.arc(x, y, gap * 0.42, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = ink;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          if (step < 5) { ctx.moveTo(x + gap * 0.42, y); ctx.lineTo(x + gap * 0.42, y - gap * 2.6); }
+          else { ctx.moveTo(x - gap * 0.42, y); ctx.lineTo(x - gap * 0.42, y + gap * 2.6); }
+          ctx.stroke();
+        });
+      }
+    } else if (id === 'transform' && coughs.length) {
+      // Left: a sheet of real coughs, raw and restless. Right: the same lines
+      // settle onto a five-line staff and the melody appears as notes.
+      const n = coughs.length;
+      const layers = 90;
+      const gap = h * 0.075;
+      const mid = h * 0.52;
+      const staffY = (k) => mid + (k - 2) * gap;
+      const sample = (c, u) => c[Math.min(c.length - 1, Math.floor(u * c.length))].v;
+      const s0 = 0.36;
+      const s1 = 0.7;
+      const smooth = (u) => {
+        const x = Math.min(1, Math.max(0, (u - s0) / (s1 - s0)));
+        return x * x * (3 - 2 * x);
+      };
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineJoin = 'round';
+      for (let pass = 0; pass < 2; pass += 1) {
+        for (let j = 0; j < layers; j += 1) {
+          const t = j / (layers - 1);
+          const f = t * (n - 1);
+          const a = coughs[Math.floor(f)];
+          const b = coughs[Math.min(n - 1, Math.floor(f) + 1)];
+          const mix = f - Math.floor(f);
+          const spreadY = h * 0.3 + t * h * 0.44;
+          const targetY = staffY(Math.round(t * 4));
+          ctx.beginPath();
+          for (let x = 0; x <= w; x += 2) {
+            const u = x / w;
+            const s = smooth(u);
+            const env = sample(a, u) * (1 - mix) + sample(b, u) * mix;
+            const fade = Math.min(1, u / 0.07);
+            const y = spreadY + (targetY - spreadY) * s - env * (1 - s) * h * 0.46 * fade;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          const r = Math.round(150 + 90 * t);
+          const g = Math.round(90 + 130 * t);
+          ctx.strokeStyle = pass === 0 ? `rgba(${r}, ${g}, 255, 0.05)` : `rgba(${r}, ${g}, 255, 0.42)`;
+          ctx.lineWidth = pass === 0 ? 5 : 1;
+          ctx.stroke();
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+
+      // the melody: real notes from the co-created string trio
+      if (scoreData) {
+        const mel = scoreData.trio.tracks.find((t) => t.id === 'mel') || scoreData.trio.tracks[0];
+        const notes = mel.notes.slice(0, 10);
+        const lo = Math.min(...notes.map((q) => q.pitch));
+        const hi = Math.max(...notes.map((q) => q.pitch));
+        ctx.shadowColor = 'rgba(205, 170, 255, 0.95)';
+        ctx.shadowBlur = 16;
+        notes.forEach((q, i) => {
+          const x = w * 0.74 + (i / (notes.length - 1 || 1)) * w * 0.22;
+          const step = Math.round(((q.pitch - lo) / (hi - lo || 1)) * 8);
+          const y = staffY(4) - step * (gap / 2);
+          ctx.fillStyle = '#f4ecff';
+          ctx.beginPath();
+          ctx.ellipse(x, y, gap * 0.6, gap * 0.43, -0.35, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#f4ecff';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          if (step < 5) { ctx.moveTo(x + gap * 0.56, y - 1); ctx.lineTo(x + gap * 0.56, y - gap * 2.8); }
+          else { ctx.moveTo(x - gap * 0.56, y + 1); ctx.lineTo(x - gap * 0.56, y + gap * 2.8); }
+          ctx.stroke();
+        });
+        ctx.shadowBlur = 0;
+      }
+    } else if (id === 'light' && coughs.length) {
+      // A sheet of light: every row is a blend of two neighbouring real coughs,
+      // so the whole surface runs through all of them. Overlaps add up and glow.
+      const n = coughs.length;
+      const layers = 84;
+      const sample = (c, u) => c[Math.min(c.length - 1, Math.floor(u * c.length))].v;
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineJoin = 'round';
+      for (let pass = 0; pass < 2; pass += 1) {
+        for (let j = 0; j < layers; j += 1) {
+          const t = j / (layers - 1);
+          const f = t * (n - 1);
+          const a = coughs[Math.floor(f)];
+          const b = coughs[Math.min(n - 1, Math.floor(f) + 1)];
+          const mix = f - Math.floor(f);
+          const baseY = h * 0.32 + t * h * 0.58;
+          ctx.beginPath();
+          for (let x = 0; x <= w; x += 2) {
+            const u = x / w;
+            const env = sample(a, u) * (1 - mix) + sample(b, u) * mix;
+            const taper = Math.pow(Math.sin(Math.PI * u), 0.8);
+            const bow = Math.sin(Math.PI * u) * (t - 0.5) * h * 0.12;
+            const y = baseY + bow - env * taper * h * 0.5;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          const r = Math.round(150 + 90 * t);
+          const g = Math.round(90 + 130 * t);
+          ctx.strokeStyle = pass === 0 ? `rgba(${r}, ${g}, 255, 0.05)` : `rgba(${r}, ${g}, 255, 0.5)`;
+          ctx.lineWidth = pass === 0 ? 5 : 1;
+          ctx.stroke();
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    } else if (id === 'becoming' && coughs.length) {
+      const energy = (c) => c.reduce((s, q) => s + q.v, 0);
+      const sorted = [...coughs].sort((a, b) => energy(b) - energy(a));
+      const main = sorted[0];
+      const zoneW = w * 0.34;
+      const staffX = w * 0.6;
+      const y0 = h / 2;
+      const gap = Math.max(10, h * 0.06);
+      const half = h * 0.4;
+      const peak = Math.max(...main.map((q) => Math.max(Math.abs(q.lo), Math.abs(q.hi))), 0.01);
+
+      // two quieter echoes of other coughs behind the main one
+      [sorted[1], sorted[2]].forEach((echo, n) => {
+        if (!echo) return;
+        const ep = Math.max(...echo.map((q) => Math.max(Math.abs(q.lo), Math.abs(q.hi))), 0.01);
+        ctx.strokeStyle = hairline;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x < zoneW; x += 3) {
+          const q = echo[Math.min(echo.length - 1, Math.floor((x / zoneW) * echo.length))];
+          const shift = (n === 0 ? -1 : 1) * h * 0.1;
+          ctx.moveTo(x + 0.5, y0 + shift - (q.hi / ep) * half * 0.55);
+          ctx.lineTo(x + 0.5, y0 + shift - (q.lo / ep) * half * 0.55);
+        }
+        ctx.stroke();
+      });
+
+      // the cough
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (let x = 0; x < zoneW; x += 2) {
+        const q = main[Math.min(main.length - 1, Math.floor((x / zoneW) * main.length))];
+        ctx.moveTo(x + 0.5, y0 - (q.hi / peak) * half);
+        ctx.lineTo(x + 0.5, y0 - (q.lo / peak) * half);
+      }
+      ctx.stroke();
+
+      // the staff
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 1;
+      for (let k = -2; k <= 2; k += 1) {
+        ctx.beginPath();
+        ctx.moveTo(staffX - w * 0.02, y0 + k * gap + 0.5);
+        ctx.lineTo(w - 2, y0 + k * gap + 0.5);
+        ctx.stroke();
+      }
+
+      // the music: first notes of the real melody track
+      const heads = [];
+      if (scoreData) {
+        const mel = scoreData.trio.tracks.find((t) => t.id === 'mel') || scoreData.trio.tracks[0];
+        const notes = mel.notes.slice(0, 10);
+        const lo = Math.min(...notes.map((n) => n.pitch));
+        const hi = Math.max(...notes.map((n) => n.pitch));
+        notes.forEach((n, i) => {
+          const x = staffX + 18 + (i / (notes.length - 1 || 1)) * (w - staffX - 56);
+          const step = Math.round(((n.pitch - lo) / (hi - lo || 1)) * 8);
+          const y = y0 + 2 * gap - step * (gap / 2);
+          heads.push({ x, y, up: step < 5 });
+        });
+      }
+
+      // threads: from the loudest moments of the cough to the notes
+      const env = main.map((q) => q.v);
+      const top = Math.max(...env, 0.01);
+      const peaks = [];
+      for (let i = 4; i < env.length - 4; i += 1) {
+        let isMax = env[i] > top * 0.22;
+        for (let j = -8; j <= 8 && isMax; j += 1) {
+          const v = env[i + j];
+          if (v !== undefined && v > env[i]) isMax = false;
+        }
+        if (isMax && (!peaks.length || i - peaks[peaks.length - 1] > 10)) peaks.push(i);
+      }
+      const pairs = Math.min(peaks.length, heads.length);
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.7;
+      for (let k = 0; k < pairs; k += 1) {
+        const pi = peaks[Math.floor((k / pairs) * peaks.length)];
+        const note = heads[Math.floor((k / pairs) * heads.length)];
+        const px = (pi / main.length) * zoneW;
+        const py = y0 - (main[pi].hi / peak) * half;
+        const mid = (note.x - px) * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.bezierCurveTo(px + mid, py, note.x - mid, note.y, note.x - 7, note.y);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+
+      // note heads and stems
+      ctx.fillStyle = accent;
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.5;
+      heads.forEach((n) => {
+        ctx.beginPath();
+        ctx.ellipse(n.x, n.y, gap * 0.56, gap * 0.4, -0.35, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        if (n.up) { ctx.moveTo(n.x + gap * 0.52, n.y - 1); ctx.lineTo(n.x + gap * 0.52, n.y - gap * 2.8); }
+        else { ctx.moveTo(n.x - gap * 0.52, n.y + 1); ctx.lineTo(n.x - gap * 0.52, n.y + gap * 2.8); }
+        ctx.stroke();
+      });
+    } else if (id === 'ridges' && coughs.length) {
+      const n = coughs.length;
+      const top = 18;
+      const gap = (h - top - 14) / n;
+      const amp = gap * 3.1;
+      ctx.lineJoin = 'round';
+      coughs.forEach((cough, row) => {
+        const base = top + gap * (row + 1);
+        ctx.beginPath();
+        ctx.moveTo(0, base);
+        for (let x = 0; x <= w; x += 2) {
+          const u = x / w;
+          const idx = Math.min(cough.length - 1, Math.floor(u * cough.length));
+          const taper = Math.pow(Math.sin(Math.PI * u), 0.75);
+          ctx.lineTo(x, base - cough[idx].v * amp * taper);
+        }
+        ctx.lineTo(w, base);
+        ctx.closePath();
+        ctx.fillStyle = paper;
+        ctx.fill();
+        ctx.strokeStyle = row === n - 1 ? accent : ink;
+        ctx.lineWidth = row === n - 1 ? 2 : 1.3;
+        ctx.stroke();
+      });
+    } else if (id === 'ring' && coughs.length) {
+      const cough = coughs.reduce((a, b) => (b.reduce((s, p) => s + p.v, 0) > a.reduce((s, p) => s + p.v, 0) ? b : a));
+      const peak = Math.max(...cough.map((p) => Math.max(Math.abs(p.lo), Math.abs(p.hi))), 0.01);
+      const cx = w / 2;
+      const cy = h / 2;
+      const r0 = Math.min(w, h) * 0.27;
+      const span = Math.min(w, h) * 0.2;
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      cough.forEach((p, k) => {
+        const theta = -Math.PI / 2 + (k / cough.length) * Math.PI * 2;
+        const r1 = r0 + (p.hi / peak) * span;
+        const r2 = r0 + (p.lo / peak) * span;
+        ctx.moveTo(cx + Math.cos(theta) * r2, cy + Math.sin(theta) * r2);
+        ctx.lineTo(cx + Math.cos(theta) * r1, cy + Math.sin(theta) * r1);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r0, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (id === 'line' && coughs.length) {
+      const cough = coughs.reduce((a, b) => (b.reduce((s, p) => s + p.v, 0) > a.reduce((s, p) => s + p.v, 0) ? b : a));
+      const peak = Math.max(...cough.map((p) => Math.max(Math.abs(p.lo), Math.abs(p.hi))), 0.01);
+      ctx.strokeStyle = hairline;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, h / 2 + 0.5); ctx.lineTo(w, h / 2 + 0.5); ctx.stroke();
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (let x = 0; x < w; x += 2) {
+        const p = cough[Math.min(cough.length - 1, Math.floor((x / w) * cough.length))];
+        ctx.moveTo(x + 0.5, h / 2 - (p.hi / peak) * h * 0.46);
+        ctx.lineTo(x + 0.5, h / 2 - (p.lo / peak) * h * 0.46);
+      }
+      ctx.stroke();
+      ctx.fillStyle = accent;
+      ctx.fillRect(0, h / 2 - 1, w, 2);
+    } else if (id === 'score' && scoreData) {
+      const split = h * 0.64;
+      ctx.strokeStyle = hairline;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, split + 0.5); ctx.lineTo(w, split + 0.5); ctx.stroke();
+      const melodic = scoreData.trio.tracks.flatMap((track) => track.notes);
+      const pitches = melodic.map((note) => note.pitch);
+      const lo = Math.min(...pitches);
+      const hi = Math.max(...pitches);
+      const trioLen = scoreData.trio.duration_sec;
+      ctx.fillStyle = accent;
+      melodic.forEach((note) => {
+        const x = (note.start / trioLen) * w;
+        const width = Math.max(2, ((note.end - note.start) / trioLen) * w);
+        const y = 6 + (1 - (note.pitch - lo) / (hi - lo || 1)) * (split - 24);
+        ctx.fillRect(x, y, width, 4);
+      });
+      const hits = scoreData.drum.tracks.flatMap((track) => track.notes);
+      const dPitches = hits.map((note) => note.pitch);
+      const dLo = Math.min(...dPitches);
+      const dHi = Math.max(...dPitches);
+      const drumLen = scoreData.drum.duration_sec;
+      ctx.fillStyle = ink;
+      hits.forEach((note) => {
+        const x = (note.start / drumLen) * w;
+        const y = split + 14 + (1 - (note.pitch - dLo) / (dHi - dLo || 1)) * (h - split - 30);
+        ctx.fillRect(x, y, 5, 5);
+      });
+    }
+    ctx.restore();
+  };
+
+  const run = () => {
+    cancelAnimationFrame(frame);
+    if (reduced) { reveal = 1; draw(); return; }
+    const begin = performance.now();
+    const tick = (now) => {
+      const progress = Math.min(1, (now - begin) / 2600);
+      reveal = 1 - Math.pow(1 - progress, 3);
+      draw();
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+  };
+
+  const label = () => {
+    const variant = variants[index];
+    if (select) select.value = variant.id;
+    variant.caption.forEach((text, i) => { if (captionSpans[i]) captionSpans[i].textContent = text; });
+    try { window.localStorage.setItem('coughit-art', variant.id); } catch (e) {}
+  };
+
+  label();
+  run();
+  Promise.all([
+    loadDemoJson('assets/demo/trio/final.json'),
+    loadDemoJson('assets/demo/drum/final.json')
+  ]).then(([trio, drum]) => {
+    scoreData = { trio, drum };
+    if (['score', 'becoming', 'transform', 'mono'].includes(variants[index].id)) draw();
+  }).catch(() => {});
+
+  if (select) select.addEventListener('change', () => {
+    index = Math.max(0, variants.findIndex((v) => v.id === select.value));
+    label();
+    run();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+    const n = Number(event.key);
+    if (n >= 1 && n <= variants.length) {
+      index = n - 1;
+      label();
+      run();
+    }
+  });
+  new ResizeObserver(draw).observe(canvas);
+  window.addEventListener('coughit-theme', draw);
+})();
+
+// Demos: Solo cards (cough → one instrument) and Co-create cards (one shared track).
 (function () {
   const demos = Array.from(document.querySelectorAll('[data-music-demo]'));
   if (!demos.length) return;
@@ -87,8 +619,24 @@
     }
   };
 
-  const drawWaveform = (canvas, buffer, progress = 0) => {
-    if (!canvas || !buffer) return;
+  const peaksOf = (buffer, count = 600) => {
+    const data = buffer.getChannelData(0);
+    const size = Math.max(1, Math.floor(data.length / count));
+    const out = [];
+    for (let i = 0; i < data.length; i += size) {
+      let min = 1;
+      let max = -1;
+      for (let j = i; j < Math.min(data.length, i + size); j += 1) {
+        min = Math.min(min, data[j]);
+        max = Math.max(max, data[j]);
+      }
+      out.push([min, max]);
+    }
+    return out;
+  };
+
+  const drawWaveform = (canvas, peaks, progress = 0) => {
+    if (!canvas || !peaks || !peaks.length) return;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
     const scale = Math.min(window.devicePixelRatio || 1, 2);
@@ -97,8 +645,6 @@
     ctx.setTransform(scale, 0, 0, scale, 0, 0);
     const w = rect.width;
     const h = rect.height;
-    const data = buffer.getChannelData(0);
-    const samplesPerPixel = Math.max(1, Math.floor(data.length / Math.max(1, w)));
 
     ctx.fillStyle = '#f7f7f5';
     ctx.fillRect(0, 0, w, h);
@@ -107,14 +653,7 @@
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let x = 0; x < w; x += 1) {
-        const start = Math.floor(x * samplesPerPixel);
-        const end = Math.min(data.length, start + samplesPerPixel);
-        let min = 1;
-        let max = -1;
-        for (let i = start; i < end; i += 1) {
-          min = Math.min(min, data[i]);
-          max = Math.max(max, data[i]);
-        }
+        const [min, max] = peaks[Math.min(peaks.length - 1, Math.floor((x / w) * peaks.length))];
         ctx.moveTo(x + 0.5, (1 + min) * h / 2);
         ctx.lineTo(x + 0.5, (1 + max) * h / 2);
       }
@@ -156,14 +695,15 @@
     const status = demo.querySelector('[data-midi-status]');
     const progress = demo.querySelector('[data-demo-progress]');
     let finalMidi = null;
+    const hasFinal = Boolean(finalAudio && finalButton && finalCanvas);
 
-    fetch(demo.dataset.finalMidi).then((response) => response.json()).then((data) => {
+    if (hasFinal) loadDemoJson(demo.dataset.finalMidi).then((data) => {
       finalMidi = data;
       status.hidden = true;
       drawRoll(finalCanvas, finalMidi);
     }).catch(() => { status.textContent = 'MIDI visualization unavailable'; });
 
-    finalButton.addEventListener('click', () => {
+    if (hasFinal) finalButton.addEventListener('click', () => {
       const name = demo.querySelector('h3').textContent;
       play(finalAudio, finalButton, () => {
         finalLabel.textContent = '❚❚ Pause ' + name;
@@ -176,7 +716,7 @@
       });
     });
 
-    finalCanvas.addEventListener('click', (event) => {
+    if (hasFinal) finalCanvas.addEventListener('click', (event) => {
       if (!finalAudio.duration) return;
       const rect = finalCanvas.getBoundingClientRect();
       finalAudio.currentTime = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)) * finalAudio.duration;
@@ -191,15 +731,15 @@
       const coughAudio = new Audio(contribution.dataset.coughAudio);
       const motifAudio = new Audio(contribution.dataset.motifAudio);
       let motifMidi = null;
-      let coughBuffer = null;
+      let coughPeaks = (window.COUGHIT_DEMO && window.COUGHIT_DEMO.peaks[contribution.dataset.coughAudio]) || null;
       const syncStart = Number(contribution.dataset.syncStart || 0);
 
-      fetch(contribution.dataset.motifMidi).then((response) => response.json()).then((data) => {
+      loadDemoJson(contribution.dataset.motifMidi).then((data) => {
         motifMidi = data;
         drawRoll(canvas, motifMidi);
       });
 
-      fetch(contribution.dataset.coughAudio)
+      if (!coughPeaks) fetch(contribution.dataset.coughAudio)
         .then((response) => response.arrayBuffer())
         .then((arrayBuffer) => {
           const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -208,15 +748,16 @@
           return waveformContext.decodeAudioData(arrayBuffer);
         })
         .then((buffer) => {
-          coughBuffer = buffer;
-          drawWaveform(waveform, coughBuffer);
+          coughPeaks = peaksOf(buffer);
+          drawWaveform(waveform, coughPeaks);
         })
         .catch(() => {});
+      if (coughPeaks) drawWaveform(waveform, coughPeaks);
 
       coughButton.addEventListener('click', () => {
         play(coughAudio, coughButton, () => {
-          drawWaveform(waveform, coughBuffer, coughAudio.currentTime / coughAudio.duration);
-        }, (completed) => drawWaveform(waveform, coughBuffer, completed ? 1 : 0));
+          drawWaveform(waveform, coughPeaks, coughAudio.currentTime / coughAudio.duration);
+        }, (completed) => drawWaveform(waveform, coughPeaks, completed ? 1 : 0));
       });
       motifButton.addEventListener('click', () => {
         play(motifAudio, motifButton, () => {
@@ -231,11 +772,11 @@
 
       new ResizeObserver(() => {
         drawRoll(canvas, motifMidi);
-        drawWaveform(waveform, coughBuffer);
+        drawWaveform(waveform, coughPeaks);
       }).observe(contribution);
     });
 
-    new ResizeObserver(() => drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration)).observe(finalCanvas);
+    if (hasFinal) new ResizeObserver(() => drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration)).observe(finalCanvas);
   });
 })();
 

@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CoughIt</title>
-<meta name="description" content="Transform your cough into music. CoughIt is an app that turns the sound of a cough into melody and rhythm.">
+<meta name="description" content="CoughIt is an art project that turns the sound of a cough into music with melody and rhythm.">
 <meta property="og:title" content="CoughIt">
 <meta property="og:description" content="Transform your cough into music.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/video-poster.jpg">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#590f8a">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=16">
+<link rel="stylesheet" href="styles.css?v=30">
 </head>
 <body>
 
@@ -24,8 +24,10 @@
   <a class="wordmark" href="#top" aria-label="CoughIt, back to top">CoughIt</a>
   <nav class="top-nav" aria-label="Sections">
     <a href="#overview">Overview</a>
-    <a href="#demo">Interactive Demo</a>
-    <a href="#user-study">User Study</a>
+    <a href="demo.html">Demo</a>
+    <a href="demo.html#co-create">Co-create</a>
+    <a href="#user-study">Usability Study</a>
+    <a class="draft-only" href="#your-cough">Your Cough</a>
     <a href="https://dreamalitylab.cc/" target="_blank" rel="noopener">Dreamality Lab</a>
   </nav>
 </header>
@@ -34,26 +36,41 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="top">
-    <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Start listening to your cough, creatively.</span></h1>
+    <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Transform your cough into music.</span></h1>
 
-    <figure class="listen">
-      <figcaption class="listen-caption">
+    <figure class="hero-art">
+      <canvas data-hero-art role="img" aria-label="Notes of two co-created tracks drawn across the page like a score"></canvas>
+      <figcaption class="hero-meta">
+        <span>Co-create</span>
+        <span>Drum and string trio</span>
+        <span>Drawn from the tracks in the demo</span>
+      </figcaption>
+    </figure>
+
+    <div class="download">
+      <p class="download-lead">Try it with your own voice.</p>
+      <p class="download-sub">Download from here.</p>
+      <div class="download-row">
         <a class="app-store-link" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener" aria-label="Download CoughIt on the App Store">
           <img src="assets/download-on-the-app-store.svg" width="120" height="40" alt="Download on the App Store">
         </a>
-      </figcaption>
-    </figure>
+        <!-- Android: replace this span with an <a href="..."> once the link is ready. -->
+        <span class="store-soon" aria-label="Android version coming soon">
+          <span class="store-soon-label">Android</span>
+          <span class="store-soon-text">Coming soon</span>
+        </span>
+      </div>
+    </div>
   </section>
 
-  <!-- ============ 01 OVERVIEW ============ -->
+  <!-- ============ OVERVIEW ============ -->
   <section class="block" id="overview" aria-labelledby="overview-title">
     <header class="block-head">
-      <span class="block-no">01</span>
       <h2 class="block-title" id="overview-title">Overview</h2>
     </header>
 
     <div class="section-intro">
-      <p>CoughIt is an interactive mobile application that detects and records your cough sounds, transforming them into melodic, rhythmic, and timbral musical outputs. Users can engage individually or with others, turning an involuntary cough into a joyful sonic moment.</p>
+      <p>CoughIt is an art project that turns the cough, a sound everyone knows but no one calls musical, into melody and rhythm. Each cough can become a solo or join other coughs in a shared piece. A mobile app lets everyone take part.</p>
     </div>
 
     <div class="player" data-player>
@@ -83,125 +100,106 @@
     </div>
   </section>
 
-  <!-- ============ 02 INTERACTIVE DEMO ============ -->
+  <!-- ============ DEMO (teaser; the demo lives on demo.html) ============ -->
   <section class="block" id="demo" aria-labelledby="demo-title">
     <header class="block-head">
-      <span class="block-no">02</span>
-      <h2 class="block-title" id="demo-title">Interactive Demo</h2>
+      <h2 class="block-title" id="demo-title">Demo</h2>
     </header>
 
     <div class="section-intro">
-      <p>Hear how individual coughs become musical material, then come together as a shared composition.</p>
-    </div>
-
-    <div class="demo-grid">
-      <article class="music-demo" data-music-demo data-kind="drum" data-final-audio="assets/demo/drum/final.wav" data-final-midi="assets/demo/drum/final.json">
-        <header class="demo-head">
-          <div>
-            <p class="demo-kicker">Rhythm</p>
-            <h3>Co-create Drum</h3>
-          </div>
-        </header>
-        <p class="demo-copy">Play each cough and its corresponding musical segment, then hear the final shared musical piece.</p>
-        <div class="translation-list" aria-label="Seven cough-to-drum examples">
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-15.wav" data-motif-audio="assets/demo/drum/motif-15.wav" data-motif-midi="assets/demo/drum/motif-15.json" data-sync-start="0.10">
-            <span class="translation-no">01</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 1</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Crash 1</span></button><canvas data-motif-canvas role="img" aria-label="Crash 1 MIDI generated from cough 1"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-12.wav" data-motif-audio="assets/demo/drum/motif-12.wav" data-motif-midi="assets/demo/drum/motif-12.json" data-sync-start="0.20">
-            <span class="translation-no">02</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 2</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Snare 2</span></button><canvas data-motif-canvas role="img" aria-label="Snare 2 MIDI generated from cough 2"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-16.wav" data-motif-audio="assets/demo/drum/motif-16.wav" data-motif-midi="assets/demo/drum/motif-16.json" data-sync-start="0.05">
-            <span class="translation-no">03</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 3</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Closed hi-hat 3</span></button><canvas data-motif-canvas role="img" aria-label="Closed hi-hat 3 MIDI generated from cough 3"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-13.wav" data-motif-audio="assets/demo/drum/motif-13.wav" data-motif-midi="assets/demo/drum/motif-13.json" data-sync-start="0.20">
-            <span class="translation-no">04</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 4</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Kick 4</span></button><canvas data-motif-canvas role="img" aria-label="Kick 4 MIDI generated from cough 4"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-8.wav" data-motif-audio="assets/demo/drum/motif-8.wav" data-motif-midi="assets/demo/drum/motif-8.json" data-sync-start="0.05">
-            <span class="translation-no">05</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 5</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Open hi-hat 5</span></button><canvas data-motif-canvas role="img" aria-label="Open hi-hat 5 MIDI generated from cough 5"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-3.wav" data-motif-audio="assets/demo/drum/motif-3.wav" data-motif-midi="assets/demo/drum/motif-3.json" data-sync-start="0.15">
-            <span class="translation-no">06</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 6</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Mid tom 6</span></button><canvas data-motif-canvas role="img" aria-label="Mid tom 6 MIDI generated from cough 6"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/drum/cough-14.wav" data-motif-audio="assets/demo/drum/motif-14.wav" data-motif-midi="assets/demo/drum/motif-14.json" data-sync-start="0.05">
-            <span class="translation-no">07</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 7</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Low tom 7</span></button><canvas data-motif-canvas role="img" aria-label="Low tom 7 MIDI generated from cough 7"></canvas></div>
-          </div>
-        </div>
-        <div class="final-label"><span>Final Co-create</span></div>
-        <div class="midi-frame">
-          <canvas data-midi-canvas role="img" aria-label="Co-create Drum MIDI piano roll"></canvas>
-          <span class="midi-status" data-midi-status>Loading MIDI</span>
-        </div>
-        <button class="demo-play demo-play-wide" type="button" data-demo-play aria-label="Play Co-create Drum"><span data-demo-play-icon>▶ Play Co-create Drum</span></button>
-        <div class="demo-timeline"><span data-demo-progress></span></div>
-        <audio preload="metadata" data-demo-audio src="assets/demo/drum/final.wav"></audio>
-      </article>
-
-      <article class="music-demo" data-music-demo data-kind="trio" data-final-audio="assets/demo/trio/final.wav" data-final-midi="assets/demo/trio/final.json">
-        <header class="demo-head">
-          <div>
-            <p class="demo-kicker">Harmony</p>
-            <h3>Co-create Trio</h3>
-          </div>
-        </header>
-        <p class="demo-copy">Compare each cough with its generated trio, then hear the contributions become one complete co-created track.</p>
-        <div class="translation-list" aria-label="Three cough-to-trio examples">
-          <div class="translation" data-contribution data-cough-audio="assets/demo/trio/cough-3.wav" data-motif-audio="assets/demo/trio/motif-3.wav" data-motif-midi="assets/demo/trio/motif-3.json" data-sync-start="0.70">
-            <span class="translation-no">01</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 1</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Trio 1</span></button><canvas data-motif-canvas role="img" aria-label="Trio 1 MIDI generated from cough 1"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/trio/cough-15.wav" data-motif-audio="assets/demo/trio/motif-15.wav" data-motif-midi="assets/demo/trio/motif-15.json" data-sync-start="1.35">
-            <span class="translation-no">02</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 2</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Trio 2</span></button><canvas data-motif-canvas role="img" aria-label="Trio 2 MIDI generated from cough 2"></canvas></div>
-          </div>
-          <div class="translation" data-contribution data-cough-audio="assets/demo/trio/cough-8.wav" data-motif-audio="assets/demo/trio/motif-8.wav" data-motif-midi="assets/demo/trio/motif-8.json" data-sync-start="0.55">
-            <span class="translation-no">03</span><div class="sample-panel"><button type="button" data-sample="cough"><span data-play-icon>▶</span><span>Cough 3</span></button><canvas data-waveform aria-hidden="true"></canvas></div><span class="translation-arrow" aria-hidden="true">→</span><div class="sample-panel"><button type="button" data-sample="motif"><span data-play-icon>▶</span><span>Trio 3</span></button><canvas data-motif-canvas role="img" aria-label="Trio 3 MIDI generated from cough 3"></canvas></div>
-          </div>
-        </div>
-        <div class="final-label"><span>Final Co-create</span></div>
-        <div class="midi-frame">
-          <canvas data-midi-canvas role="img" aria-label="Co-create Trio MIDI piano roll"></canvas>
-          <span class="midi-status" data-midi-status>Loading MIDI</span>
-        </div>
-        <button class="demo-play demo-play-wide" type="button" data-demo-play aria-label="Play Co-create Trio"><span data-demo-play-icon>▶ Play Co-create Trio</span></button>
-        <div class="demo-timeline"><span data-demo-progress></span></div>
-        <audio preload="metadata" data-demo-audio src="assets/demo/trio/final.wav"></audio>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============ 03 USER STUDY ============ -->
-  <section class="block" id="user-study" aria-labelledby="user-study-title">
-    <header class="block-head">
-      <span class="block-no">03</span>
-      <h2 class="block-title" id="user-study-title">Join Our User Study</h2>
-    </header>
-
-    <div class="prose">
-      <p>Help us gain a deeper understanding of your experience using CoughIt.</p>
+      <p>Hear how single coughs become instruments, then how several coughs come together as one track.</p>
     </div>
 
     <div class="actions">
-      <a class="action action-primary" href="https://dreamalitylab.cc/coughit-user-study/" target="_blank" rel="noopener" lang="zh-Hant">
-        <span class="action-text">參與使用者研究（繁體中文）</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
-      </a>
-      <a class="action" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
-        <span class="action-text">Join the User Study (English)</span>
+      <a class="action action-primary" href="demo.html">
+        <span class="action-text">Hear the demo</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
     </div>
   </section>
 
-  <p class="content-copyright">Copyright &copy; NTHU DREAMALITY Lab</p>
+  <!-- ============ USABILITY STUDY ============ -->
+  <section class="block" id="user-study" aria-labelledby="user-study-title">
+    <header class="block-head">
+      <h2 class="block-title" id="user-study-title">Invitation: Usability Study</h2>
+    </header>
+
+    <div class="prose">
+      <p>You will receive a maximum of NT$1,000 in cash rewards for taking part. Click the button below to see details.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action action-primary" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
+        <span class="action-text">See study details (English)</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
+      </a>
+      <a class="action" href="https://dreamalitylab.cc/coughit-user-study/" target="_blank" rel="noopener" lang="zh-Hant">
+        <span class="action-text">查看研究詳情（繁體中文）</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ YOUR COUGH (hidden until the app screenshots exist; preview with ?draft) ============ -->
+  <section class="block draft-only" id="your-cough" aria-labelledby="your-cough-title">
+    <header class="block-head">
+      <h2 class="block-title" id="your-cough-title">How much do you know about your cough?</h2>
+    </header>
+
+    <div class="section-intro">
+      <p>Open each card to see what CoughIt can show you about your own coughs.</p>
+    </div>
+
+    <div class="explore">
+      <details class="explore-item">
+        <summary>Your week</summary>
+        <p class="explore-caption">How many coughs you had on each day of the week.</p>
+        <div class="todo shot">Add: App screenshot or screen recording of Cough Tracking, Weekly. Save as assets/app/tracking-weekly.png (or .mp4).</div>
+      </details>
+      <details class="explore-item">
+        <summary>Asleep and awake</summary>
+        <p class="explore-caption">How your coughs are split between sleeping and waking hours.</p>
+        <div class="todo shot">Add: App screenshot or screen recording of the asleep / awake view. Save as assets/app/tracking-sleep.png (or .mp4).</div>
+      </details>
+      <details class="explore-item">
+        <summary>You and everyone</summary>
+        <p class="explore-caption">Your trend next to the trend of all users.</p>
+        <div class="todo shot">Add: App screenshot or screen recording of the two trend lines (you and all users, optionally split by gender). Save as assets/app/tracking-compare.png (or .mp4).</div>
+      </details>
+    </div>
+
+    <p class="aside-lead">Want to see your own?</p>
+    <div class="actions">
+      <a class="action action-primary" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
+        <span class="action-text">See study details (English)</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
+      </a>
+      <a class="action" href="https://dreamalitylab.cc/coughit-user-study/" target="_blank" rel="noopener" lang="zh-Hant">
+        <span class="action-text">查看研究詳情（繁體中文）</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
+      </a>
+    </div>
+  </section>
+
 </main>
 
 <!-- ============ FOOTER ============ -->
 <footer class="foot">
   <div class="foot-inner">
-    <p class="foot-line">Copyright &copy; NTHU DREAMALITY Lab</p>
+    <p class="foot-line">Copyright &copy; 2026 NTHU Dreamality Lab</p>
+    <!-- TODO: replace with a short, project-specific mailbox (not the lab's shared one). -->
     <p class="foot-line"><a href="mailto:dreamalitylabcoughit@gmail.com">dreamalitylabcoughit@gmail.com</a></p>
     <p class="foot-line"><a href="https://dreamalitylab.cc" target="_blank" rel="noopener">dreamalitylab.cc</a></p>
   </div>
 </footer>
 
-<script src="script.js?v=13"></script>
+<!-- TEMPORARY demo controls (art and colour). Remove with the .demo-controls CSS and the picker code in script.js. -->
+<div class="demo-controls" role="group" aria-label="Demo controls">
+  <label class="demo-control">Art <select data-art-select aria-label="Hero artwork"><option value="transform">1  Cough to music</option><option value="mono">2  Mono (minimal)</option><option value="light">3  Light</option><option value="becoming">4  Becoming</option><option value="ridges">5  Ridges</option><option value="ring">6  Ring</option><option value="line">7  Line</option><option value="score">8  Score</option></select></label>
+  <label class="demo-control">Color <select data-theme-select aria-label="Colour scheme"><option value="white">White</option><option value="purple">Purple</option><option value="black">Black</option></select></label>
+</div>
+
+<script src="assets/demo/data.js?v=1"></script>
+<script src="script.js?v=31"></script>
 </body>
 </html>

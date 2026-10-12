@@ -3,20 +3,77 @@
    Red is the only hue and is reserved for "a cough was caught". */
 
 :root {
+  /* Page: white paper, ink type, pure grays. The one colour is --accent
+     (NTHU purple) and it is only used for actions and the hero score. */
   --paper: #ffffff;
   --ink: #111111;
   --ink-2: #444444;
   --muted: #666666;
   --hairline: #dadada;
   --alert: #e5303f;
+  --accent: #590f8a;
+  --accent-ink: #ffffff;
 
   --rule: 1.5px;
   --gutter: clamp(20px, 5vw, 64px);
   --max: 1240px;
-  --hero-circle: clamp(120px, 16vw, 200px);
 
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
 }
+
+/* TEMPORARY, for the colour demo: palettes picked by the .theme-switch button.
+   White is the default (:root above). Remove these two blocks, the button
+   rules below and the theme block at the end of script.js once a colour is chosen. */
+:root[data-theme="purple"] {
+  --paper: #590f8a;
+  --ink: #ffffff;
+  --ink-2: #efe6f6;
+  --muted: #cdb8de;
+  --hairline: rgba(255, 255, 255, 0.32);
+  --alert: #ff7a86;
+  --accent: #ffffff;
+  --accent-ink: #590f8a;
+}
+:root[data-theme="black"] {
+  --paper: #000000;
+  --ink: #ffffff;
+  --ink-2: #e6e6e6;
+  --muted: #a8a8a8;
+  --hairline: rgba(255, 255, 255, 0.32);
+  --alert: #ff6b78;
+  --accent: #c79bf5;
+  --accent-ink: #000000;
+}
+
+.demo-controls {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+.demo-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 10px 0 12px;
+  border: var(--rule) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+.demo-control select {
+  font: inherit;
+  font-weight: 700;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.demo-control select option { color: #111111; background: #ffffff; }
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
@@ -60,7 +117,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 72px;
   padding: 0 var(--gutter);
   background: var(--paper);
   border-bottom: var(--rule) solid var(--ink);
@@ -69,9 +126,9 @@ a { color: inherit; }
 .wordmark {
   flex: none;
   margin-right: clamp(28px, 4vw, 48px);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   text-decoration: none;
 }
 
@@ -86,14 +143,20 @@ a { color: inherit; }
 .top-nav::-webkit-scrollbar { display: none; }
 
 .top-nav a {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   text-decoration: none;
-  color: var(--ink-2);
+  color: var(--ink);
   padding: 8px 0;
   border-bottom: 2px solid transparent;
 }
-.top-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.top-nav a:hover,
+.top-nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+
+/* The demo page has no hero, so the first block needs its own breathing room. */
+.page-demo #main { padding-top: clamp(32px, 6vh, 64px); }
+.download-inline { margin-top: 0; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -120,81 +183,51 @@ a { color: inherit; }
   letter-spacing: -0.035em;
 }
 
-/* The app's own start button, replayed under the tagline. */
-.listen {
+/* Hero artwork: the demo's own scores drawn large, like a work on the wall. */
+.hero-art {
+  margin-top: clamp(32px, 6vh, 64px);
+  border-top: var(--rule) solid var(--ink);
+  padding-top: 18px;
+}
+.hero-art canvas {
+  display: block;
+  width: 100%;
+  height: clamp(200px, 30vw, 380px);
+}
+.hero-meta {
   display: flex;
-  align-items: center;
-  gap: clamp(24px, 4vw, 48px);
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero-meta span + span { color: var(--muted); font-weight: 500; }
+
+/* Download: the sentence is the loudest thing here, the store button follows it. */
+.download {
   margin-top: clamp(40px, 7vh, 80px);
 }
-
-.listen-stage {
-  position: relative;
-  width: var(--hero-circle);
-  height: var(--hero-circle);
+.download-lead {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
-
-.listen-circle,
-.listen-pulse {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-}
-
-.listen-circle {
-  display: grid;
-  place-items: center;
-  background: var(--paper);
-  border: 2px solid var(--ink);
-  transition: border-color 0.25s ease;
-}
-
-/* The mark: hollow ring when idle, filled dot while listening, red on a cough. */
-.listen-mark {
-  width: 19%;
-  height: 19%;
-  border-radius: 50%;
-  border: 2px solid var(--ink);
-  background: transparent;
-  transition: background-color 0.25s ease, border-color 0.25s ease;
-}
-
-.listen-pulse {
-  border: 1.5px solid var(--ink);
-  opacity: 0;
-}
-
-.listen-stage[data-state="listening"] .listen-mark,
-.listen-stage[data-state="cough"] .listen-mark {
-  background: var(--ink);
-  animation: breathe 1.4s ease-in-out infinite;
-}
-
-.listen-stage[data-state="listening"] .listen-pulse,
-.listen-stage[data-state="cough"] .listen-pulse {
-  animation: ring 1.4s ease-out infinite;
-}
-
-.listen-stage[data-state="cough"] .listen-circle { border-color: var(--alert); }
-.listen-stage[data-state="cough"] .listen-mark { background: var(--alert); border-color: var(--alert); }
-.listen-stage[data-state="cough"] .listen-pulse { border-color: var(--alert); }
-
-@keyframes breathe {
-  0%, 100% { transform: scale(0.86); }
-  50%      { transform: scale(1.1); }
-}
-
-@keyframes ring {
-  0%   { transform: scale(1);    opacity: 0.55; }
-  100% { transform: scale(1.24); opacity: 0; }
-}
-
-.listen-caption {
-  font-size: clamp(18px, 2.2vw, 24px);
+.download-sub {
+  margin-top: 6px;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
   font-weight: 500;
-  line-height: 1.35;
-  max-width: 14em;
-  min-height: 2.7em;
+  color: var(--ink-2);
+}
+.download-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 22px;
 }
 .app-store-link {
   display: inline-flex;
@@ -205,8 +238,21 @@ a { color: inherit; }
   width: 180px;
   height: auto;
 }
+.store-soon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 180px;
+  padding: 0 18px;
+  border: 1.5px dashed var(--hairline);
+  color: var(--muted);
+  line-height: 1.25;
+  cursor: default;
+}
+.store-soon-label { font-size: 13px; font-weight: 500; }
+.store-soon-text { font-size: 20px; font-weight: 700; color: var(--ink-2); }
 .app-store-link:focus-visible {
-  outline: 3px solid #1d154a;
+  outline: 3px solid var(--ink);
   outline-offset: 5px;
 }
 
@@ -226,18 +272,11 @@ a { color: inherit; }
   border-top: var(--rule) solid var(--ink);
 }
 
-.block-no {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
 .block-title {
-  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  font-size: clamp(2.1rem, 5.2vw, 3.8rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
 }
 
 .prose { max-width: 40rem; }
@@ -255,28 +294,34 @@ a { color: inherit; }
 }
 .section-intro p + p { margin-top: 1em; }
 
-.content-copyright {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 0 var(--gutter) 32px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-/* ---------- Interactive co-creation demos ---------- */
+/* ---------- Demo and co-create cards ---------- */
 .demo-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 28px;
 }
 
+/* The video player is a framed screen: it keeps white paper on any page colour. */
+.player {
+  --paper: #ffffff;
+  --ink: #111111;
+  --ink-2: #444444;
+  --muted: #666666;
+  --hairline: #dadada;
+  --alert: #e5303f;
+  --accent: #590f8a;
+  --accent-ink: #ffffff;
+  color: var(--ink);
+}
+
+/* A demo is a wall label, not a widget: heavy rule on top, small caps meta line,
+   no box around it. */
 .music-demo {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: clamp(20px, 3vw, 32px);
-  border: var(--rule) solid var(--ink);
-  background: var(--paper);
+  padding-top: 18px;
+  border-top: var(--rule) solid var(--ink);
 }
 
 .demo-head {
@@ -296,25 +341,25 @@ a { color: inherit; }
 }
 
 .demo-head h3 {
-  font-size: clamp(1.45rem, 2.4vw, 2rem);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
 }
 
 .demo-play {
   flex: none;
   min-width: 76px;
-  height: 44px;
+  height: 48px;
   padding: 0 16px;
-  border: var(--rule) solid var(--ink);
-  background: var(--ink);
-  color: var(--paper);
+  border: var(--rule) solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 }
-.demo-play:hover { background: var(--paper); color: var(--ink); }
+.demo-play:hover { background: transparent; color: var(--accent); }
 
 .demo-copy {
   margin-top: 18px;
@@ -331,11 +376,11 @@ a { color: inherit; }
   padding-right: 8px;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-color: var(--ink) #e7e7e3;
+  scrollbar-color: var(--ink) var(--hairline);
   scrollbar-width: thin;
 }
 .translation-list::-webkit-scrollbar { width: 8px; }
-.translation-list::-webkit-scrollbar-track { background: #e7e7e3; }
+.translation-list::-webkit-scrollbar-track { background: var(--hairline); }
 .translation-list::-webkit-scrollbar-thumb { background: var(--ink); }
 
 .translation-list::after {
@@ -348,9 +393,8 @@ a { color: inherit; }
   grid-template-columns: 38px minmax(180px, 0.85fr) 28px minmax(300px, 1.55fr);
   align-items: center;
   gap: 10px;
-  padding: 10px;
-  border: 1px solid var(--hairline);
-  background: #fafaf8;
+  padding: 14px 0;
+  border-top: 1px solid var(--hairline);
   min-height: 126px;
 }
 
@@ -367,7 +411,8 @@ a { color: inherit; }
 }
 
 .translation button {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: flex-start;
   gap: 9px;
@@ -406,23 +451,13 @@ a { color: inherit; }
   background: #f7f7f5;
 }
 
-.final-label {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.final-label span + span { color: var(--muted); font-weight: 500; }
-
 .demo-play-wide {
   width: 100%;
   margin-top: 12px;
 }
+
+/* A co-create card is just copy + piano roll + play, so the roll gets room. */
+.demo-copy + .midi-frame { margin-top: 24px; }
 
 .cough-inputs {
   display: grid;
@@ -593,8 +628,10 @@ a { color: inherit; }
 .action-text { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; padding: 12px 0; }
 .action svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
-.action:hover, .action-primary { background: var(--ink); color: var(--paper); }
-.action-primary:hover { background: var(--paper); color: var(--ink); }
+.action:hover { background: var(--ink); color: var(--paper); }
+/* The accent colour belongs to the main action. */
+.action-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.action-primary:hover { background: transparent; color: var(--accent); }
 
 .aside {
   margin-top: 24px;
@@ -623,24 +660,62 @@ a { color: inherit; }
 .foot a { color: var(--ink-2); text-underline-offset: 3px; }
 .foot a:hover { color: var(--ink); }
 
-/* ---------- Draft placeholders (remove class "draft" from <body> when copy is final) ---------- */
+/* ---------- "How much do you know about your cough" ---------- */
+.explore { border-bottom: var(--rule) solid var(--ink); }
+
+.explore-item { border-top: var(--rule) solid var(--ink); }
+.explore-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  list-style: none;
+}
+.explore-item summary::-webkit-details-marker { display: none; }
+.explore-item summary::after {
+  content: "+";
+  flex: none;
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 1;
+}
+.explore-item[open] summary::after { content: "\2212"; }
+.explore-caption { color: var(--ink-2); margin-bottom: 16px; }
+.explore-item .shot { margin-bottom: 28px; }
+
+.aside-lead {
+  margin-top: clamp(28px, 4vh, 44px);
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+  font-weight: 700;
+}
+
+/* ---------- Draft-only content ----------
+   Anything marked .draft-only (and every .todo placeholder) is hidden for
+   visitors. Open the page with ?draft to see it, e.g. index.html?draft */
+body:not(.draft) .draft-only,
+body:not(.draft) .todo { display: none; }
+
 .draft .todo {
   border: 1.5px dashed var(--ink-2);
-  padding: 10px 14px;
+  padding: 14px 16px;
   color: var(--ink-2);
   font-size: 16px;
   line-height: 1.5;
-  background: repeating-linear-gradient(135deg, #fafafa 0 8px, #fff 8px 16px);
+  background: rgba(255, 255, 255, 0.08);
 }
-body:not(.draft) .todo { display: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 560px) {
   body { font-size: 17px; }
-  .top { height: 56px; }
-  .top-nav { gap: 16px; }
-  .listen { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .listen-caption { min-height: 1.4em; }
+  .top { height: 60px; }
+  .wordmark { font-size: 22px; margin-right: 20px; }
+  .top-nav { gap: 18px; }
+  .top-nav a { font-size: 16px; }
   .actions { flex-direction: column; }
   .action { width: 100%; }
   .player-overlay { width: 72px; height: 72px; }
@@ -660,16 +735,13 @@ body:not(.draft) .todo { display: none; }
   .translation {
     grid-template-columns: 28px 1fr 18px 1fr;
     gap: 6px;
-    padding: 8px;
+    padding: 10px 0;
   }
   .translation button { padding: 8px; font-size: 12px; }
   .sample-panel canvas { height: 54px; }
   .translation-list { max-height: 196px; padding-right: 5px; }
-  .final-label { align-items: flex-start; flex-direction: column; gap: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .listen-stage[data-state] .listen-mark,
-  .listen-stage[data-state] .listen-pulse { animation: none; }
 }
