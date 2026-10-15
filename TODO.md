@@ -1,38 +1,39 @@
-# CoughIt site v2: TODO
+# CoughIt site: TODO
 
-Everything unfinished is marked on the page by an element with class `todo`
-(dashed box). While `<body class="draft">` is set they are visible. When the
-copy is final: replace each `.todo` element and remove the `draft` class.
+Last updated 2026-10-16. Wording must match the app and the video; no em dashes.
 
-## Copy (owner: teammate writing it)
-- [ ] **About** (`#about`, `data-todo="about-copy"`): 3 to 5 sentences taken from
-      the paper's already revised text. Do not rewrite it.
-- [ ] **Join** (`#join`, `data-todo="join-copy"`): one sentence inviting people
-      to take part.
-- Rules from the 1003 meeting: no em dashes anywhere; consistent sentence
-  structure; do not use "quietly listen" or "all built from that one cough";
-  keep the tone light, not pressuring.
+## Waiting on someone
+- [ ] Android link: replace the `.store-soon` span with an `<a>` in `index.html`
+      and `demo.html`.
+- [ ] Contact line next to the mailbox (for example "For collaboration, press,
+      or participation, contact ..."). Agree the wording first.
+- [ ] Overview text: take it from the latest paper, do not rewrite (`#overview`).
+- [ ] Final web address: set `og:image` to a full URL and add `og:url`
+      (social previews do not resolve relative paths).
+- [ ] Pick one hero art and one colour, then remove the Art/Color selectors
+      (`.demo-controls` in both pages and `styles.css`, the picker code in
+      `script.js`).
+- [ ] Study pages on dreamalitylab.cc: check the dates they state against "by the
+      end of the year" (not this repo).
+- [ ] Check the reward amount in "Invitation: Usability Study" against the study
+      page.
 
-## Contact (footer, `data-todo="contact"`)
-- [ ] A short, project-specific email (not the lab's shared one).
-- [ ] One line such as "For collaboration, press, or participation, contact ...".
+## Needs App screens (assets/app/)
+- [ ] `tracking-weekly.png`, `tracking-sleep.png`, `tracking-compare.png`
+      (iPhone portrait, white, no banner, demo users only).
+- [ ] Then fill `#your-cough`: replace the three `.todo` boxes with `<img>` or
+      `<video>` (with alt text) and drop `draft-only` from the section and its
+      nav link.
 
-## Check before publishing
-- [ ] **The study page says the study period ended on September 30, 2026.**
-      "Join the study" links to it. Decide whether to keep the button, change
-      the wording, or update that page.
-- [ ] Android: the old page linked a Google Drive APK folder. v2 sends Android
-      users to the study page instead. Confirm that is acceptable.
-- [ ] Video: `assets/coughit-demo.mp4` (53 s, 1080p). Watch it with sound on.
-      Everyone on the team should review it before it goes to the professor.
-- [ ] `og:image` and the video poster use `assets/video-poster.jpg`.
-- [ ] Hosting: copy this folder as-is. No build step.
+## Done
+- [x] Demo split into Solo and Co-create, names without numbers, Crash Cymbal not first.
+- [x] Usability Study copy with reward and "Click the button below to see details".
+- [x] Download text next to the App Store badge (home and demo page).
+- [x] Project short mailbox `coughit121@gmail.com`.
+- [x] Video rebuilt from the current app (65.7 s); how it is made is in `README.md`.
 
-## Known limits of the video
-- Audio is 16 kHz mono (the demo assets), so highs are limited.
-- The drum scene names four coughs (crash, snare, hi-hat, kick). Those are the
-  four drums that are audibly driven by a cough in this demo; the other three
-  pieces only appear later as generated fill.
-- The Trio ending is drawn from the demo's MIDI data in the app's piano-roll
-  style; it is not a screen recording (the in-app demo screen is not polished
-  enough to film).
+## Before showing it
+- [ ] Click every link and button, including both study pages.
+- [ ] 375 px width: no horizontal scroll.
+- [ ] Open `index.html` straight from disk and from GitHub Pages: hero art and
+      demo waveforms appear in both.

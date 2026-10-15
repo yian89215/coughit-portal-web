@@ -5,10 +5,14 @@ Minimal-art redesign that matches the app (variant A): white paper, ink
 and appears only for "a cough was caught".
 
 ```
-index.html  styles.css  script.js     the page (no build step)
-assets/                               coughit-demo.mp4, video-poster.jpg, favicon.svg
-video/                                how the video is made (reproducible)
-TODO.md                               open items (copy, contact, checks)
+index.html      home: hero, overview video, demo teaser, usability study
+demo.html       Demo (Solo) and Co-create players, download block
+styles.css      shared styles, three colour themes (white, purple, black)
+script.js       theme and hero art pickers, players, demo drawing
+assets/         coughit-demo.mp4, video-poster.jpg, demo audio and MIDI, favicon
+tools/          build-demo-data.py (writes assets/demo/data.js)
+video/          how the video is made (reproducible)
+TODO.md         open items
 ```
 
 ## Preview
@@ -28,14 +32,29 @@ python3 -m http.server 4180
 - No build command or dependency installation is required.
 
 ## Page
-- Hero tagline `Transform your cough into music.` with the app's start button
-  replayed below it (hollow ring, filled dot while listening, red on a cough).
-- 01 Watch (video), 02 About (TODO copy), 03 Join (study page + App Store).
-- System font stack (SF on Apple devices, Inter elsewhere), same as the app.
+- `index.html`: "CoughIt" and the tagline, hero artwork drawn from the demo data,
+  download block (App Store; Android is a "Coming soon" placeholder), Overview
+  with the video, a Demo teaser, "Invitation: Usability Study" (English first,
+  then Traditional Chinese) and a hidden "How much do you know about your
+  cough?" section.
+- `demo.html`: Demo (Solo Drum, Solo String Trio: one cough, one instrument) and
+  Co-create (Co-create Drum, Co-create String Trio), then the download block.
+- Demo audio, MIDI and waveform peaks live in `assets/demo/`. The page reads
+  `assets/demo/data.js` (embedded copy, so `file://` works). After changing any
+  JSON or WAV in `assets/demo/`, run `python3 tools/build-demo-data.py`.
+- Preview switches (query string): `?draft` shows hidden sections that still
+  wait for assets (`draft-only`), `?theme=white|purple|black`, `?art=` picks the
+  hero artwork. The Art and Color selectors at the bottom right are temporary
+  controls for demos. Remove them (`.demo-controls`, the picker code in
+  `script.js`) once one art and one colour are chosen.
+- Wording follows the app and the video: Solo, Co-create, "Music (Kick)", full
+  instrument names (Kick, Snare, Closed Hi-hat, Open Hi-hat, Mid Tom, Low Tom,
+  Crash Cymbal). No em dashes.
 - Respects `prefers-reduced-motion`; keyboard and screen-reader labels on the
   player; no horizontal scroll at phone width.
-- Study page links: English `https://dreamalitylab.cc/coughit-eng/`,
-  Traditional Chinese `https://dreamalitylab.cc/coughit/`.
+- Study pages: English `https://dreamalitylab.cc/coughit-eng/`, Traditional
+  Chinese `https://dreamalitylab.cc/coughit-user-study/`. Contact:
+  `coughit121@gmail.com`.
 
 ## Video (`video/`)
 Needs `ffmpeg`, Python 3 with Pillow and numpy, and macOS (uses the SF font).
@@ -48,7 +67,7 @@ python3 build.py WORK OUT_DIR    # build a draft elsewhere without touching asse
 
 Timeline (about 63 s): title question "Can a cough become music?", "It starts
 with a cough." (app listens and catches a cough, simulator recording), "A cough
-becomes a rhythm." (web demo Crash 1: cough waveform to MIDI), "A cough becomes
+becomes a rhythm." (web demo, first Crash Cymbal example: cough waveform to MIDI), "A cough becomes
 a melody." (web demo Trio 1), "Now imagine many coughs, played together.", two
 map-screen clips (drum, trio, 10 s each), end card. The word "co-create" never
 appears on screen.
