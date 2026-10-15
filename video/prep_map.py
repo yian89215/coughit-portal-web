@@ -26,7 +26,7 @@ SCALE = 0.72
 
 # Crops in the recording's own pixels (1206 x 2622). x, y, w, h.
 CROPS = {
-    "drum": dict(map=(0, 520, 1206, 1080), roll=(60, 1838, 1090, 402)),
+    "drum": dict(map=(0, 520, 1206, 1030), roll=(60, 1838, 1090, 402)),
     "trio": dict(map=(0, 520, 1206, 900), roll=(60, 1662, 1090, 578)),
 }
 

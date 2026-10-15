@@ -133,9 +133,10 @@ def card_title(end=False):
         text(d, (MARGIN_X, 330 + 150 * 1.06), "into music.", 150, "Heavy", INK, tracking=-0.04)
         y = 800
         line(d, (MARGIN_X, y - 40), (W - MARGIN_X, y - 40), 1.5)
-        text(d, (MARGIN_X, y), "Download on the App Store", 44, "Bold", INK)
-        text(d, (MARGIN_X, y + 70), "dreamalitylab.cc/coughit-eng", 34, "Medium", MUTED)
-        text(d, (W - MARGIN_X, y + 70), "© 2026 CoughIt", 34, "Medium", MUTED, anchor="ra")
+        # same wording as the page's download block and footer
+        text(d, (MARGIN_X, y), "Try it with your own voice.", 44, "Bold", INK)
+        text(d, (MARGIN_X, y + 70), "Download from the App Store.", 34, "Medium", MUTED)
+        text(d, (W - MARGIN_X, y + 70), "© 2026 NTHU Dreamality Lab", 34, "Medium", MUTED, anchor="ra")
     else:
         text(d, (MARGIN_X, 330), "Can a cough", 150, "Heavy", INK, tracking=-0.04)
         text(d, (MARGIN_X, 330 + 150 * 1.06), "become music?", 150, "Heavy", INK, tracking=-0.04)
@@ -182,7 +183,7 @@ PAIRS = {
         cough=os.path.join(DEMO, "drum", "cough-15.wav"), cough_range=(0.7, 3.4),
         motif=os.path.join(DEMO, "drum", "motif-15.wav"), motif_range=(0.0, 3.8),
         midi=os.path.join(DEMO, "drum", "motif-15.json"),
-        label="Rhythm", lanes=["Crash"],
+        label="Rhythm", lanes=["Crash Cymbal"],
     ),
     "melody": dict(
         cough=os.path.join(DEMO, "trio", "cough-3.wav"), cough_range=(0.45, 4.35),

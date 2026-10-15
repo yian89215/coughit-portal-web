@@ -30,11 +30,12 @@ D_TITLE, D_SEP, D_BRIDGE, D_END = 3.5, 2.0, 2.8, 4.0
 D_RHYTHM = render.PAIR_SECONDS["rhythm"]
 D_MELODY = render.PAIR_SECONDS["melody"]
 
-# Simulator recording: tap at 4.03s, cough detected (red) at 14.10s. Listening
-# is static in between, so that stretch is cut and cross-faded.
-REC_A = (3.2, 4.12)      # idle ring -> tap; dissolves into the listening dot before the start toast (4.13s-6.2s) appears
-REC_B = (10.2, 17.6)     # listening -> red
-REC_RED_AT = 14.10       # first red frame in the recording
+# Simulator recording (app_listen_cough.mov, 22 s): tap at 4.13 s, the ring turns
+# blue when the app catches the cough at 14.23 s. Listening is quiet in between,
+# so that stretch is cut and cross-faded.
+REC_A = (2.0, 6.0)       # idle ring -> tap -> listening starts
+REC_B = (11.0, 17.8)     # quiet listening -> cough caught (ring turns blue)
+REC_RED_AT = 14.23       # first frame with the ring turned blue
 XFADE = 0.3
 D_PHONE = (REC_A[1] - REC_A[0]) + (REC_B[1] - REC_B[0]) - XFADE
 
@@ -111,10 +112,13 @@ def sequence(name, folder, dur):
 
 def phone_scene():
     """Simulator footage centered on white. The iOS notification banner (it
-    carries the colored app icon) is painted over; that area is blank white
-    in the app at this point, so nothing of the app itself is hidden."""
+    carries the colored app icon) is painted over; only the profile icon lives
+    in that band of the app, and it is put back from a banner-free frame."""
     rec = os.path.join(SRC, "app_listen_cough.mov")
-    mask = "drawbox=x=0:y=150:w=iw:h=345:color=white@1:t=fill"
+    # the "Cough detected" banner sits over y 177-374; paint it out, then put the
+    # profile icon (cut from a banner-free frame) back on top
+    mask = "drawbox=x=0:y=150:w=iw:h=300:color=white@1:t=fill"
+    icon = os.path.join(SRC, "phone_profile_icon.png")
     out = os.path.join(WORK, "phone.mp4")
     a_len = REC_A[1] - REC_A[0]
     ph = 900                                  # phone height in the 1080p frame
@@ -124,12 +128,12 @@ def phone_scene():
         f"[0:v]trim=start={REC_A[0]}:end={REC_A[1]},setpts=PTS-STARTPTS,fps={FPS}[a];"
         f"[0:v]trim=start={REC_B[0]}:end={REC_B[1]},setpts=PTS-STARTPTS,fps={FPS}[b];"
         f"[a][b]xfade=transition=fade:duration={XFADE}:offset={a_len - XFADE}[x];"
-        f"[x]{mask},scale={pw}:{ph}:flags=lanczos,"
+        f"[x]{mask}[xm];[xm][1:v]overlay=1020:228,scale={pw}:{ph}:flags=lanczos,"
         f"pad=1920:1080:{px}:{py}:color=white,"
         f"drawbox=x={px - 2}:y={py - 2}:w={pw + 4}:h={ph + 4}:color=0x111111:t=3,"
         f"{fade_vf(D_PHONE)}[v]"
     )
-    ffmpeg("-i", rec, "-filter_complex", fc, "-map", "[v]", "-t", str(D_PHONE), *ENC, out)
+    ffmpeg("-i", rec, "-i", icon, "-filter_complex", fc, "-map", "[v]", "-t", str(D_PHONE), *ENC, out)
     return out
 
 
