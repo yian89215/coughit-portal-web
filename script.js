@@ -62,7 +62,7 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
     { id: 'ridges', label: 'Ridges', caption: ['Coughs', 'Each line is one cough', 'Real recordings from the demo'] },
     { id: 'ring', label: 'Ring', caption: ['One cough', 'Wrapped into a circle', 'A real recording from the demo'] },
     { id: 'line', label: 'Line', caption: ['One cough', 'Drawn as it was heard', 'A real recording from the demo'] },
-    { id: 'score', label: 'Score', caption: ['Co-create', 'Drum and string trio', 'Drawn from the tracks in the demo'] }
+    { id: 'score', label: 'Score', caption: ['Demo', 'Drum and string trio', 'Drawn from the tracks in the demo'] }
   ];
   const select = document.querySelector('[data-art-select]');
   const captionSpans = document.querySelectorAll('.hero-meta span');
@@ -222,7 +222,7 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
       }
       ctx.globalCompositeOperation = 'source-over';
 
-      // the melody: real notes from the co-created string trio
+      // the melody: real notes from the complete string trio track
       if (scoreData) {
         const mel = scoreData.trio.tracks.find((t) => t.id === 'mel') || scoreData.trio.tracks[0];
         const notes = mel.notes.slice(0, 10);
@@ -530,7 +530,120 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   window.addEventListener('coughit-theme', draw);
 })();
 
-// Demos: Solo cards (cough → one instrument) and Co-create cards (one shared track).
+// Interactive maps mirror the city-level demo locations used by the app.
+(function () {
+  const mapElements = document.querySelectorAll('[data-cough-map]');
+  if (!mapElements.length || !window.L) return;
+
+  const colors = ['#e5303f', '#f56c27', '#d314db', '#188f2a', '#146e91', '#535896', '#9e472b'];
+  const locations = {
+    drum: [
+      { name: 'Banqiao, TW', lat: 25.014, lng: 121.463 },
+      { name: 'Taichung, TW', lat: 24.147, lng: 120.673 },
+      { name: 'Hsinchu, TW', lat: 24.807, lng: 120.968 },
+      { name: 'Taipei, TW', lat: 25.03, lng: 121.56 },
+      { name: 'Taipei, TW', lat: 25.048, lng: 121.517 },
+      { name: 'Hsinchu, TW', lat: 24.795, lng: 120.994 },
+      { name: 'Banqiao, TW', lat: 25.02, lng: 121.469 }
+    ],
+    trio: [
+      { name: 'Taoyuan, TW', lat: 24.99, lng: 121.30 },
+      { name: 'Taipei, TW', lat: 25.03, lng: 121.56 },
+      { name: 'Hsinchu, TW', lat: 24.81, lng: 120.97 }
+    ]
+  };
+  const playbackOrder = {
+    // Final Drum is arranged in app timing order; the web rows are ordered by
+    // instrument, so map each four-second window back to its visible row.
+    drum: [3, 1, 2, 0, 4, 5, 6],
+    trio: [0, 1, 2]
+  };
+  const playbackStarts = {
+    drum: [0, 4, 8, 12, 16, 20, 24],
+    trio: [0, 8, 16]
+  };
+
+  const pinIcon = (location, color, selected) => L.divIcon({
+    className: 'cough-map-marker' + (selected ? ' is-selected' : ''),
+    html: '<span class="cough-map-name" style="--pin-color:' + color + '">' + location.name + '</span>' +
+      '<span class="cough-map-pin" style="--pin-color:' + color + '"></span>',
+    iconSize: [120, 54],
+    iconAnchor: [60, 50]
+  });
+
+  mapElements.forEach((element) => {
+    const demo = element.closest('[data-music-demo]');
+    const rows = Array.from(demo.querySelectorAll('[data-contribution]'));
+    const list = demo.querySelector('.translation-list');
+    const kind = element.dataset.kind;
+    const points = locations[kind] || [];
+    const map = L.map(element, { scrollWheelZoom: true, zoomControl: true });
+    // The basemap provider attribution remains required; the optional Leaflet
+    // prefix is removed to keep the compact Demo map visually quiet.
+    map.attributionControl.setPrefix(false);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 18,
+      attribution: '&copy; Esri, TomTom, Garmin, FAO, NOAA, USGS, OpenStreetMap contributors, GIS User Community'
+    }).addTo(map);
+
+    const markers = points.map((point, index) => {
+      const marker = L.marker([point.lat, point.lng], {
+        icon: pinIcon(point, colors[index % colors.length], false),
+        keyboard: true,
+        title: point.name,
+        alt: 'Play cough ' + (index + 1) + ' from ' + point.name
+      }).addTo(map);
+      marker.on('click', () => {
+        const row = rows[index];
+        if (row && list) {
+          const listRect = list.getBoundingClientRect();
+          const rowRect = row.getBoundingClientRect();
+          const top = list.scrollTop + rowRect.top - listRect.top - (list.clientHeight - row.clientHeight) / 2;
+          list.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        }
+        const button = row && row.querySelector('[data-sample="cough"]');
+        if (button) button.click();
+      });
+      return marker;
+    });
+
+    const selectPins = (indices, focusIndex) => {
+      markers.forEach((marker, index) => {
+        marker.setIcon(pinIcon(points[index], colors[index % colors.length], indices.includes(index)));
+      });
+      if (Number.isInteger(focusIndex) && points[focusIndex]) {
+        map.flyTo([points[focusIndex].lat, points[focusIndex].lng], Math.max(map.getZoom(), 11), {
+          animate: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          duration: 0.55
+        });
+      }
+    };
+
+    rows.forEach((row, index) => row.querySelectorAll('[data-sample]').forEach((button) => {
+      button.addEventListener('click', () => selectPins([index], index));
+    }));
+    demo.addEventListener('demo-map-progress', (event) => {
+      if (!event.detail.stepChanged) return;
+      const time = event.detail.time || 0;
+      const order = playbackOrder[kind] || [];
+      const starts = playbackStarts[kind] || [];
+      let step = 0;
+      starts.forEach((start, index) => { if (time >= start) step = index; });
+      const focusIndex = order[step];
+      const selected = kind === 'drum' ? order.slice(0, step + 1) : [focusIndex];
+      selectPins(selected, event.detail.stepChanged ? focusIndex : null);
+    });
+
+    if (points.length) {
+      map.fitBounds(L.latLngBounds(points.map((point) => [point.lat, point.lng])), { padding: [34, 34], maxZoom: 9 });
+    } else {
+      map.setView([23.7, 121], 6);
+    }
+    setTimeout(() => map.invalidateSize(), 0);
+  });
+})();
+
+// Demo cards: cough-to-music examples followed by their complete shared track.
 (function () {
   const demos = Array.from(document.querySelectorAll('[data-music-demo]'));
   if (!demos.length) return;
@@ -705,10 +818,18 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
 
     if (hasFinal) finalButton.addEventListener('click', () => {
       const name = demo.querySelector('h3').textContent;
+      let lastMapStep = -1;
       play(finalAudio, finalButton, () => {
         finalLabel.textContent = '❚❚ Pause ' + name;
         progress.style.width = ((finalAudio.currentTime / finalAudio.duration) * 100 || 0) + '%';
         drawRoll(finalCanvas, finalMidi, finalAudio.currentTime, finalAudio.duration);
+        const starts = demo.dataset.kind === 'drum' ? [0, 4, 8, 12, 16, 20, 24] : [0, 8, 16];
+        let mapStep = 0;
+        starts.forEach((start, index) => { if (finalAudio.currentTime >= start) mapStep = index; });
+        demo.dispatchEvent(new CustomEvent('demo-map-progress', {
+          detail: { time: finalAudio.currentTime, duration: finalAudio.duration, stepChanged: mapStep !== lastMapStep }
+        }));
+        lastMapStep = mapStep;
       }, (completed) => {
         finalLabel.textContent = '▶ Play ' + name;
         progress.style.width = completed ? '100%' : '0%';
@@ -801,9 +922,16 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
     toggles.forEach((btn) => {
       const play = btn.querySelector('.icon-play');
       const pause = btn.querySelector('.icon-pause');
-      if (play) play.hidden = playing;
-      if (pause) pause.hidden = !playing;
+      if (play) {
+        play.hidden = playing;
+        play.style.display = playing ? 'none' : 'block';
+      }
+      if (pause) {
+        pause.hidden = !playing;
+        pause.style.display = playing ? 'block' : 'none';
+      }
       btn.setAttribute('aria-label', playing ? 'Pause video' : 'Play video');
+      btn.setAttribute('aria-pressed', String(playing));
     });
   };
 
@@ -833,6 +961,7 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   });
 
   media.addEventListener('play', () => setPlaying(true));
+  media.addEventListener('playing', () => setPlaying(true));
   media.addEventListener('pause', () => setPlaying(false));
   media.addEventListener('loadedmetadata', () => { time.textContent = fmt(media.duration); });
   media.addEventListener('timeupdate', () => {

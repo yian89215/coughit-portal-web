@@ -6,7 +6,7 @@ and appears only for "a cough was caught".
 
 ```
 index.html      home: hero, overview video, demo teaser, usability study
-demo.html       Demo (Solo) and Co-create players, download block
+demo.html       Drum and Trio players, interactive maps, download block
 styles.css      shared styles, three colour themes (white, purple, black)
 script.js       theme and hero art pickers, players, demo drawing
 assets/         coughit-demo.mp4, video-poster.jpg, demo audio and MIDI, favicon
@@ -37,17 +37,17 @@ python3 -m http.server 4180
   with the video, a Demo teaser, "Invitation: Usability Study" (English first,
   then Traditional Chinese) and a hidden "How much do you know about your
   cough?" section.
-- `demo.html`: Demo (Solo Drum, Solo String Trio: one cough, one instrument) and
-  Co-create (Co-create Drum, Co-create String Trio), then the download block.
+- `demo.html`: one Demo section containing cough-to-music examples, interactive
+  maps using the App demo's city-level locations, the complete Drum and Trio
+  tracks, and the download block. Leaflet 1.9.4 is loaded from its official CDN.
 - Demo audio, MIDI and waveform peaks live in `assets/demo/`. The page reads
   `assets/demo/data.js` (embedded copy, so `file://` works). After changing any
   JSON or WAV in `assets/demo/`, run `python3 tools/build-demo-data.py`.
 - Preview switches (query string): `?draft` shows hidden sections that still
   wait for assets (`draft-only`), `?theme=white|purple|black`, `?art=` picks the
-  hero artwork. The Art and Color selectors at the bottom right are temporary
-  controls for demos. Remove them (`.demo-controls`, the picker code in
-  `script.js`) once one art and one colour are chosen.
-- Wording follows the app and the video: Solo, Co-create, "Music (Kick)", full
+  hero artwork. The temporary Art and Color selectors are commented out in the
+  HTML, so visitors do not see them while the final art direction is pending.
+- Wording follows the app and the video: "Music (Kick)", full
   instrument names (Kick, Snare, Closed Hi-hat, Open Hi-hat, Mid Tom, Low Tom,
   Crash Cymbal). No em dashes.
 - Respects `prefers-reduced-motion`; keyboard and screen-reader labels on the
@@ -77,10 +77,15 @@ appears on screen.
 - `build.py` holds the timeline, cuts the simulator recording, mixes audio
   (normalized and soft-limited), encodes. Map clips are optional: it uses
   `source/map_drum.mp4` and `source/map_trio.mp4` when they exist.
-- `prep_map.py RAW.mov drum|trio` turns a raw simulator recording of the app's
-  full-screen map into those clips: map and piano roll side by side, grayscale
-  with red kept, no controls and no tab row. Raw recordings are kept as
-  `source/raw_map_*.mov`.
+- `prep_map.py RAW.mov drum|trio` preserves the older crop-based workflow for
+  the App Demo recordings. Raw recordings are kept as `source/raw_map_*.mov`.
+- `render_synced_map.py RAW.mov drum|trio [OUT_DIR]` rebuilds the map panel from
+  the App demo's city-level coordinates and MIDI data. Drum locations highlight
+  cumulatively while Trio follows the latest segment; the camera follows the
+  newest contributor. Drum lanes keep the corresponding contributor/pin colour,
+  and the clean MIDI roll omits instrument names, time labels and panel borders.
+  Set `COUGHIT_MAP_CLIP_DIR` when running `build.py` to preview these clips
+  without overwriting the checked-in map sources.
 - `source/` also holds the older phone recording (`app_listen_cough.mov`, from
   the previous app UI) and the earlier demo audio and MIDI visualization data.
 - The iOS notification banner in the phone recording (it carries the colored

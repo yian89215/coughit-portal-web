@@ -10,9 +10,9 @@ Last updated 2026-10-16. Wording must match the app and the video; no em dashes.
 - [ ] Overview text: take it from the latest paper, do not rewrite (`#overview`).
 - [ ] Final web address: set `og:image` to a full URL and add `og:url`
       (social previews do not resolve relative paths).
-- [ ] Pick one hero art and one colour, then remove the Art/Color selectors
-      (`.demo-controls` in both pages and `styles.css`, the picker code in
-      `script.js`).
+- [ ] Pick one hero art and one colour. The Art/Color controls are commented out
+      in both HTML pages so visitors cannot see them; remove the unused picker
+      CSS and JavaScript after the final choices are approved.
 - [ ] Study pages on dreamalitylab.cc: check the dates they state against "by the
       end of the year" (not this repo).
 - [ ] Check the reward amount in "Invitation: Usability Study" against the study
@@ -26,14 +26,15 @@ Last updated 2026-10-16. Wording must match the app and the video; no em dashes.
       nav link.
 
 ## Done
-- [x] Demo split into Solo and Co-create, names without numbers, Crash Cymbal not first.
+- [x] Demo is one section: cough-to-music examples followed by the complete
+      Drum and Trio tracks. Solo can be added later when its content is ready.
 - [x] Usability Study copy with reward and "Click the button below to see details".
 - [x] Download text next to the App Store badge (home and demo page).
 - [x] Project short mailbox `coughit121@gmail.com`.
 - [x] Video rebuilt from the current app (65.7 s); how it is made is in `README.md`.
 
 ## Before showing it
-- [ ] Click every link and button, including both study pages.
+- [ ] Click every link, button, and Demo map pin, including both study pages.
 - [ ] 375 px width: no horizontal scroll.
 - [ ] Open `index.html` straight from disk and from GitHub Pages: hero art and
       demo waveforms appear in both.

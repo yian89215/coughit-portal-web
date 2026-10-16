@@ -17,6 +17,9 @@ import render
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "source")
+# A preview build can point at newly rendered map clips without overwriting the
+# checked-in source clips. Normal builds keep using video/source/.
+MAP_SRC = os.environ.get("COUGHIT_MAP_CLIP_DIR", SRC)
 OUT = os.path.abspath(sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "assets"))
 DEMO = os.path.join(HERE, "..", "assets", "demo")
 WORK = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "_work"))
@@ -52,8 +55,8 @@ def probe_duration(path):
     return float(out.stdout.strip())
 
 
-MAPS = [(n, a, st, os.path.join(SRC, n + ".mp4")) for n, a, st in MAP_CLIPS
-        if os.path.exists(os.path.join(SRC, n + ".mp4"))]
+MAPS = [(n, a, st, os.path.join(MAP_SRC, n + ".mp4")) for n, a, st in MAP_CLIPS
+        if os.path.exists(os.path.join(MAP_SRC, n + ".mp4"))]
 MAPS = [(n, a, st, p, probe_duration(p)) for n, a, st, p in MAPS]
 
 T_TITLE = 0.0

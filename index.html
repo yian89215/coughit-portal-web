@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=30">
+<link rel="stylesheet" href="styles.css?v=34">
 </head>
 <body>
 
@@ -25,7 +25,6 @@
   <nav class="top-nav" aria-label="Sections">
     <a href="#overview">Overview</a>
     <a href="demo.html">Demo</a>
-    <a href="demo.html#co-create">Co-create</a>
     <a href="#user-study">Usability Study</a>
     <a class="draft-only" href="#your-cough">Your Cough</a>
     <a href="https://dreamalitylab.cc/" target="_blank" rel="noopener">Dreamality Lab</a>
@@ -39,9 +38,9 @@
     <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Transform your cough into music.</span></h1>
 
     <figure class="hero-art">
-      <canvas data-hero-art role="img" aria-label="Notes of two co-created tracks drawn across the page like a score"></canvas>
+      <canvas data-hero-art role="img" aria-label="Notes from the Drum and Trio demos drawn across the page like a score"></canvas>
       <figcaption class="hero-meta">
-        <span>Co-create</span>
+        <span>Demo</span>
         <span>Drum and string trio</span>
         <span>Drawn from the tracks in the demo</span>
       </figcaption>
@@ -75,8 +74,8 @@
 
     <div class="player" data-player>
       <div class="player-stage">
-      <video class="player-media" preload="metadata" poster="assets/video-poster.jpg" playsinline>
-        <source src="assets/coughit-demo.mp4" type="video/mp4">
+      <video class="player-media" preload="metadata" poster="assets/video-poster.jpg?v=4" playsinline>
+        <source src="assets/coughit-demo.mp4?v=4" type="video/mp4">
       </video>
       <button class="player-overlay" type="button" data-playtoggle aria-label="Play video">
         <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
@@ -107,7 +106,7 @@
     </header>
 
     <div class="section-intro">
-      <p>Hear how single coughs become instruments, then how several coughs come together as one track.</p>
+      <p>Hear how several coughs come together as one Drum or Trio track.</p>
     </div>
 
     <div class="actions">
@@ -130,11 +129,11 @@
 
     <div class="actions">
       <a class="action action-primary" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
-        <span class="action-text">See study details (English)</span>
+        <span class="action-text">See details</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
       <a class="action" href="https://dreamalitylab.cc/coughit-user-study/" target="_blank" rel="noopener" lang="zh-Hant">
-        <span class="action-text">查看研究詳情（繁體中文）</span>
+        <span class="action-text">查看詳情</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
     </div>
@@ -171,11 +170,11 @@
     <p class="aside-lead">Want to see your own?</p>
     <div class="actions">
       <a class="action action-primary" href="https://dreamalitylab.cc/coughit-eng/" target="_blank" rel="noopener">
-        <span class="action-text">See study details (English)</span>
+        <span class="action-text">See details</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
       <a class="action" href="https://dreamalitylab.cc/coughit-user-study/" target="_blank" rel="noopener" lang="zh-Hant">
-        <span class="action-text">查看研究詳情（繁體中文）</span>
+        <span class="action-text">查看詳情</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none"/></svg>
       </a>
     </div>
@@ -193,13 +192,14 @@
   </div>
 </footer>
 
-<!-- TEMPORARY demo controls (art and colour). Remove with the .demo-controls CSS and the picker code in script.js. -->
+<!-- TEMPORARY Art/Color controls are intentionally hidden from visitors.
 <div class="demo-controls" role="group" aria-label="Demo controls">
   <label class="demo-control">Art <select data-art-select aria-label="Hero artwork"><option value="transform">1  Cough to music</option><option value="mono">2  Mono (minimal)</option><option value="light">3  Light</option><option value="becoming">4  Becoming</option><option value="ridges">5  Ridges</option><option value="ring">6  Ring</option><option value="line">7  Line</option><option value="score">8  Score</option></select></label>
   <label class="demo-control">Color <select data-theme-select aria-label="Colour scheme"><option value="white">White</option><option value="purple">Purple</option><option value="black">Black</option></select></label>
 </div>
+-->
 
 <script src="assets/demo/data.js?v=1"></script>
-<script src="script.js?v=31"></script>
+<script src="script.js?v=37"></script>
 </body>
 </html>
