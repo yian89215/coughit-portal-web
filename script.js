@@ -933,17 +933,71 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
     });
   };
 
-  toggles.forEach((btn) => btn.addEventListener('click', () => {
-    if (media.paused) media.play(); else media.pause();
-  }));
-  media.addEventListener('click', () => { if (media.paused) media.play(); else media.pause(); });
+  const togglePlayback = () => {
+    if (media.paused) {
+      if (media.ended || (isFinite(media.duration) && media.currentTime >= media.duration - 0.05)) {
+        media.currentTime = 0;
+      }
+      media.play();
+    } else {
+      media.pause();
+    }
+  };
+
+  toggles.forEach((btn) => btn.addEventListener('click', togglePlayback));
+  media.addEventListener('click', togglePlayback);
+
+  let activePointer = null;
+  let pendingSeekRatio = null;
+
+  const paintSeek = (ratio) => {
+    const clamped = Math.min(Math.max(ratio, 0), 1);
+    const pct = clamped * 100;
+    fill.style.width = pct + '%';
+    track.setAttribute('aria-valuenow', String(Math.round(pct)));
+    if (isFinite(media.duration) && media.duration > 0) {
+      time.textContent = fmt(clamped * media.duration);
+    }
+  };
 
   const seekTo = (ratio) => {
-    if (isFinite(media.duration)) media.currentTime = Math.min(Math.max(ratio, 0), 1) * media.duration;
+    const clamped = Math.min(Math.max(ratio, 0), 1);
+    paintSeek(clamped);
+    if (isFinite(media.duration) && media.duration > 0) {
+      media.currentTime = clamped * media.duration;
+      pendingSeekRatio = null;
+    } else {
+      pendingSeekRatio = clamped;
+    }
   };
-  track.addEventListener('click', (e) => {
+
+  const seekFromPointer = (e) => {
     const r = track.getBoundingClientRect();
-    seekTo((e.clientX - r.left) / r.width);
+    if (r.width > 0) seekTo((e.clientX - r.left) / r.width);
+  };
+
+  track.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    activePointer = e.pointerId;
+    track.classList.add('is-seeking');
+    track.setPointerCapture?.(e.pointerId);
+    seekFromPointer(e);
+  });
+  track.addEventListener('pointermove', (e) => {
+    if (activePointer === e.pointerId) seekFromPointer(e);
+  });
+  const finishSeek = (e) => {
+    if (activePointer !== e.pointerId) return;
+    seekFromPointer(e);
+    track.releasePointerCapture?.(e.pointerId);
+    activePointer = null;
+    track.classList.remove('is-seeking');
+  };
+  track.addEventListener('pointerup', finishSeek);
+  track.addEventListener('pointercancel', (e) => {
+    if (activePointer !== e.pointerId) return;
+    activePointer = null;
+    track.classList.remove('is-seeking');
   });
   track.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') media.currentTime = Math.min(media.currentTime + 5, media.duration || 0);
@@ -961,14 +1015,17 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   media.addEventListener('play', () => setPlaying(true));
   media.addEventListener('playing', () => setPlaying(true));
   media.addEventListener('pause', () => setPlaying(false));
-  media.addEventListener('loadedmetadata', () => { time.textContent = fmt(media.duration); });
+  media.addEventListener('loadedmetadata', () => {
+    if (pendingSeekRatio !== null) seekTo(pendingSeekRatio);
+    else time.textContent = fmt(media.currentTime);
+  });
   media.addEventListener('timeupdate', () => {
     if (media.duration > 0) {
       const pct = (media.currentTime / media.duration) * 100;
       fill.style.width = pct + '%';
       track.setAttribute('aria-valuenow', String(Math.round(pct)));
     }
-    time.textContent = fmt(media.paused ? media.duration : media.currentTime);
+    if (activePointer === null) time.textContent = fmt(media.currentTime);
   });
-  media.addEventListener('ended', () => { fill.style.width = '0%'; setPlaying(false); time.textContent = fmt(media.duration); });
+  media.addEventListener('ended', () => { fill.style.width = '100%'; setPlaying(false); time.textContent = fmt(media.duration); });
 })();

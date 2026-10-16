@@ -682,9 +682,22 @@ a { color: inherit; }
   height: 2px;
   background: var(--hairline);
   cursor: pointer;
+  touch-action: none;
 }
 .player-track::before { content: ""; position: absolute; inset: -18px 0; } /* bigger hit area */
 .player-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--ink); }
+.player-fill::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translateY(-50%);
+}
+.player-track.is-seeking .player-fill::after { transform: translateY(-50%) scale(1.25); }
 
 .player-time {
   flex: none;

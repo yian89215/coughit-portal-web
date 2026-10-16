@@ -189,7 +189,7 @@ PAIRS = {
         cough=os.path.join(DEMO, "trio", "cough-3.wav"), cough_range=(0.45, 4.35),
         motif=os.path.join(DEMO, "trio", "motif-3.wav"), motif_range=(0.5, 4.6),
         midi=os.path.join(DEMO, "trio", "motif-3.json"),
-        label="Melody", lanes=["Violin", "Viola", "Double bass"],
+        label="Trio", lanes=["", "", ""],
     ),
 }
 
