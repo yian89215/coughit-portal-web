@@ -1004,13 +1004,24 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
     if (e.key === 'ArrowLeft') media.currentTime = Math.max(media.currentTime - 5, 0);
   });
 
+  const soundIcon = muteBtn.querySelector('.icon-sound');
+  const mutedIcon = muteBtn.querySelector('.icon-muted');
+  const updateMuteState = () => {
+    const muted = media.muted;
+    muteBtn.setAttribute('aria-pressed', String(muted));
+    muteBtn.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+    soundIcon.hidden = muted;
+    soundIcon.style.display = muted ? 'none' : 'block';
+    mutedIcon.hidden = !muted;
+    mutedIcon.style.display = muted ? 'block' : 'none';
+  };
+
   muteBtn.addEventListener('click', () => {
     media.muted = !media.muted;
-    muteBtn.setAttribute('aria-pressed', String(media.muted));
-    muteBtn.setAttribute('aria-label', media.muted ? 'Unmute' : 'Mute');
-    muteBtn.querySelector('.icon-sound').hidden = media.muted;
-    muteBtn.querySelector('.icon-muted').hidden = !media.muted;
+    updateMuteState();
   });
+  media.addEventListener('volumechange', updateMuteState);
+  updateMuteState();
 
   media.addEventListener('play', () => setPlaying(true));
   media.addEventListener('playing', () => setPlaying(true));
