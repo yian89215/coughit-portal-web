@@ -55,17 +55,16 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   if (!canvas) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const variants = [
-    { id: 'transform', label: 'Cough to music', caption: ['From cough to music', 'Left, real coughs. Right, a melody made from them.', 'Drawn from the demo'] },
-    { id: 'mono', label: 'Mono (minimal)', caption: ['From cough to music', 'Seven coughs settle into a five-line staff', 'Drawn from the demo'] },
-    { id: 'light', label: 'Light', caption: ['Seven coughs', 'One surface', 'Real recordings from the demo'] },
-    { id: 'becoming', label: 'Becoming', caption: ['From cough to music', 'Left, a real cough. Right, music made from coughs.', 'Drawn from the demo'] },
-    { id: 'ridges', label: 'Ridges', caption: ['Coughs', 'Each line is one cough', 'Real recordings from the demo'] },
-    { id: 'ring', label: 'Ring', caption: ['One cough', 'Wrapped into a circle', 'A real recording from the demo'] },
-    { id: 'line', label: 'Line', caption: ['One cough', 'Drawn as it was heard', 'A real recording from the demo'] },
-    { id: 'score', label: 'Score', caption: ['Demo', 'Drum and string trio', 'Drawn from the tracks in the demo'] }
+    { id: 'transform', label: 'Cough to music' },
+    { id: 'mono', label: 'Mono (minimal)' },
+    { id: 'light', label: 'Light' },
+    { id: 'becoming', label: 'Becoming' },
+    { id: 'ridges', label: 'Ridges' },
+    { id: 'ring', label: 'Ring' },
+    { id: 'line', label: 'Line' },
+    { id: 'score', label: 'Score' }
   ];
   const select = document.querySelector('[data-art-select]');
-  const captionSpans = document.querySelectorAll('.hero-meta span');
   const fromUrl = (window.location.search.match(/[?&]art=(\w+)/) || [])[1];
   let saved = null;
   try { saved = window.localStorage.getItem('coughit-art'); } catch (e) {}
@@ -497,7 +496,6 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   const label = () => {
     const variant = variants[index];
     if (select) select.value = variant.id;
-    variant.caption.forEach((text, i) => { if (captionSpans[i]) captionSpans[i].textContent = text; });
     try { window.localStorage.setItem('coughit-art', variant.id); } catch (e) {}
   };
 
