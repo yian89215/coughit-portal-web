@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoughIt</title>
+<meta name="description" content="CoughIt turns a sudden cough into music with melody and rhythm. Free for iPhone.">
+<meta property="og:title" content="CoughIt">
+<meta property="og:description" content="Transform your cough into music.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/video-poster.jpg">
+<meta name="theme-color" content="#590f8a">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=37">
+</head>
+<body data-version="art">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="wordmark" href="#top" aria-label="CoughIt, back to top">CoughIt</a>
+  <nav class="top-nav" aria-label="Sections">
+    <a href="#about">About</a>
+    <a href="#film">Film</a>
+    <a href="#contact">Contact</a>
+    <a href="https://dreamalitylab.cc/" target="_blank" rel="noopener">Dreamality Lab</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Transform your cough into music.</span></h1>
+
+    <figure class="hero-art">
+      <canvas data-hero-art role="img" aria-label="Artwork drawn across the page"></canvas>
+      <p class="hero-note" data-hero-note></p>
+    </figure>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="block" id="about" aria-labelledby="about-title">
+    <header class="block-head">
+      <h2 class="block-title" id="about-title">About</h2>
+    </header>
+
+    <div class="section-intro">
+      <p>A cough is a sound everyone knows, yet no one calls musical. CoughIt turns a sudden cough into music with melody and rhythm.</p>
+    </div>
+  </section>
+
+  <!-- ============ FILM ============ -->
+  <section class="block" id="film" aria-labelledby="film-title">
+    <header class="block-head">
+      <h2 class="block-title" id="film-title">Film</h2>
+    </header>
+
+    <div class="player" data-player>
+      <div class="player-stage">
+      <video class="player-media" preload="metadata" poster="assets/video-poster.jpg?v=5" playsinline>
+        <source src="assets/coughit-demo.mp4?v=5" type="video/mp4">
+      </video>
+      <button class="player-overlay" type="button" data-playtoggle aria-label="Play video">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 4.5h4v15H6zM14 4.5h4v15h-4z"/></svg>
+      </button>
+      </div>
+      <div class="player-bar">
+        <button class="player-btn" type="button" data-playtoggle aria-label="Play video">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M6 4.5h4v15H6zM14 4.5h4v15h-4z"/></svg>
+        </button>
+        <div class="player-track" data-track role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="player-fill" data-fill></div>
+        </div>
+        <span class="player-time" data-time>0:00</span>
+        <button class="player-btn" type="button" data-mute aria-label="Mute" aria-pressed="false">
+          <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z"/><path class="wave" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" fill="none"/></svg>
+          <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z"/><path class="wave" d="M16 9.5l5 5M21 9.5l-5 5" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot" id="contact">
+  <div class="foot-inner">
+    <p class="foot-line foot-contact">For collaboration, press, or participation, please contact us.</p>
+    <p class="foot-line">Copyright &copy; 2026 NTHU Dreamality Lab</p>
+    <p class="foot-line"><a href="mailto:coughit121@gmail.com">coughit121@gmail.com</a></p>
+    <p class="foot-line"><a href="https://dreamalitylab.cc" target="_blank" rel="noopener">dreamalitylab.cc</a></p>
+  </div>
+</footer>
+
+<!-- TEMPORARY style picker for the demo (version, hero art, colour). Remove with the
+     .demo-controls CSS and the picker code in script.js once a style is chosen. -->
+<div class="demo-controls" role="group" aria-label="Style picker (temporary)">
+  <label class="demo-control">Version <select data-version-select aria-label="Page version"><option value="paper">Paper (Demo + Study)</option><option value="art">Art (the work only)</option></select></label>
+  <label class="demo-control">Art <select data-art-select aria-label="Hero artwork"><option value="longitude">1  Longitude ring</option><option value="transform">2  Cough to music</option><option value="mono">3  Mono (minimal)</option><option value="light">4  Light</option><option value="becoming">5  Becoming</option><option value="ridges">6  Ridges</option><option value="ring">7  Ring</option><option value="line">8  Line</option><option value="score">9  Score</option></select></label>
+  <label class="demo-control">Color <select data-theme-select aria-label="Colour scheme"><option value="accent">White, purple accents</option><option value="night">Black, purple accents</option><option value="mono">White, black only</option><option value="purple">Purple page</option></select></label>
+</div>
+
+<script src="assets/demo/data.js?v=1"></script>
+<script src="script.js?v=41"></script>
+</body>
+</html>

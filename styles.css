@@ -3,8 +3,9 @@
    Red is the only hue and is reserved for "a cough was caught". */
 
 :root {
-  /* Page: white paper, ink type, pure grays. The one colour is --accent
-     (NTHU purple) and it is only used for actions and the hero score. */
+  /* Page: white paper, ink type, pure grays. Purple (--accent, NTHU purple) is
+     the only colour and it is a garnish, never a full-page fill: thin rules,
+     section titles, the menu, the contact line, buttons and the hero artwork. */
   --paper: #ffffff;
   --ink: #111111;
   --ink-2: #444444;
@@ -13,6 +14,10 @@
   --alert: #e5303f;
   --accent: #590f8a;
   --accent-ink: #ffffff;
+  --line: var(--accent);
+  --head: var(--accent);
+  --menu: var(--accent);
+  --link: var(--accent);
 
   --rule: 1.5px;
   --gutter: clamp(20px, 5vw, 64px);
@@ -21,9 +26,26 @@
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
-/* TEMPORARY, for the colour demo: palettes picked by the .theme-switch button.
-   White is the default (:root above). Remove these two blocks, the button
-   rules below and the theme block at the end of script.js once a colour is chosen. */
+/* TEMPORARY, for the style demo: themes picked with the Color selector.
+   The default is :root above (white, purple accents). Remove the three blocks
+   below, the .demo-controls rules and the picker code in script.js once a
+   style is chosen. */
+:root[data-theme="night"] {
+  --paper: #000000;
+  --ink: #ffffff;
+  --ink-2: #e6e6e6;
+  --muted: #a8a8a8;
+  --hairline: rgba(255, 255, 255, 0.28);
+  --alert: #ff6b78;
+  --accent: #c79bf5;
+  --accent-ink: #000000;
+}
+:root[data-theme="mono"] {
+  --line: var(--ink);
+  --head: var(--ink);
+  --menu: var(--ink);
+  --link: var(--ink-2);
+}
 :root[data-theme="purple"] {
   --paper: #590f8a;
   --ink: #ffffff;
@@ -34,16 +56,6 @@
   --accent: #ffffff;
   --accent-ink: #590f8a;
 }
-:root[data-theme="black"] {
-  --paper: #000000;
-  --ink: #ffffff;
-  --ink-2: #e6e6e6;
-  --muted: #a8a8a8;
-  --hairline: rgba(255, 255, 255, 0.32);
-  --alert: #ff6b78;
-  --accent: #c79bf5;
-  --accent-ink: #000000;
-}
 
 .demo-controls {
   position: fixed;
@@ -51,7 +63,10 @@
   bottom: 16px;
   z-index: 30;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 8px;
+  max-width: calc(100vw - 32px);
 }
 .demo-control {
   display: flex;
@@ -78,7 +93,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 
 body {
   background: var(--paper);
@@ -115,19 +130,23 @@ a { color: inherit; }
   top: 0;
   z-index: 10;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  height: 72px;
-  padding: 0 var(--gutter);
+  padding: 22px var(--gutter) 0;
   background: var(--paper);
-  border-bottom: var(--rule) solid var(--ink);
+  border-bottom: var(--rule) solid var(--line);
 }
 
+/* The space between a word and the rule under it is a fraction of that word's
+   own size (0.42em), so small menu text sits close to the line and the large
+   wordmark sits further away. */
 .wordmark {
   flex: none;
   margin-right: clamp(28px, 4vw, 48px);
-  font-size: 26px;
+  padding-bottom: 0.42em;
+  font-size: 28px;
   font-weight: 800;
+  line-height: 1.1;
   letter-spacing: -0.03em;
   text-decoration: none;
 }
@@ -143,16 +162,17 @@ a { color: inherit; }
 .top-nav::-webkit-scrollbar { display: none; }
 
 .top-nav a {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 700;
+  line-height: 1.1;
   letter-spacing: -0.01em;
   text-decoration: none;
-  color: var(--ink);
-  padding: 8px 0;
-  border-bottom: 2px solid transparent;
+  color: var(--menu);
+  padding: 0 0 0.42em;
+  border-bottom: 0.12em solid transparent;
 }
 .top-nav a:hover,
-.top-nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+.top-nav a[aria-current="page"] { border-bottom-color: var(--menu); }
 
 /* The demo page has no hero, so the first block needs its own breathing room. */
 .page-demo #main { padding-top: clamp(32px, 6vh, 64px); }
@@ -186,7 +206,7 @@ a { color: inherit; }
 /* Hero artwork: the demo's own scores drawn large, like a work on the wall. */
 .hero-art {
   margin-top: clamp(32px, 6vh, 64px);
-  border-top: var(--rule) solid var(--ink);
+  border-top: var(--rule) solid var(--line);
   padding-top: 18px;
 }
 .hero-art canvas {
@@ -194,6 +214,13 @@ a { color: inherit; }
   width: 100%;
   height: clamp(200px, 30vw, 380px);
 }
+.hero-note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.hero-note:empty { display: none; }
 /* Download: the sentence is the loudest thing here, the store button follows it. */
 .download {
   margin-top: clamp(40px, 7vh, 80px);
@@ -206,9 +233,15 @@ a { color: inherit; }
 }
 .download-sub {
   margin-top: 6px;
+  max-width: 34em;
   font-size: clamp(1.15rem, 2vw, 1.5rem);
   font-weight: 500;
   color: var(--ink-2);
+}
+.download-ask {
+  margin-top: 20px;
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  font-weight: 700;
 }
 .download-row {
   display: flex;
@@ -226,19 +259,6 @@ a { color: inherit; }
   width: 180px;
   height: auto;
 }
-.store-soon {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 180px;
-  padding: 0 18px;
-  border: 1.5px dashed var(--hairline);
-  color: var(--muted);
-  line-height: 1.25;
-  cursor: default;
-}
-.store-soon-label { font-size: 13px; font-weight: 500; }
-.store-soon-text { font-size: 20px; font-weight: 700; color: var(--ink-2); }
 .app-store-link:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 5px;
@@ -251,20 +271,23 @@ a { color: inherit; }
   padding: 0 var(--gutter) clamp(56px, 9vh, 104px);
 }
 
+/* The gap between a rule and its title is 0.3em of the title's own size. */
 .block-head {
   display: flex;
   align-items: baseline;
   gap: 18px;
-  padding-top: 20px;
+  font-size: clamp(2.1rem, 5.2vw, 3.8rem);
+  padding-top: 0.3em;
   margin-bottom: clamp(24px, 4vh, 44px);
-  border-top: var(--rule) solid var(--ink);
+  border-top: var(--rule) solid var(--line);
 }
 
 .block-title {
-  font-size: clamp(2.1rem, 5.2vw, 3.8rem);
+  font-size: 1em;
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.02;
+  color: var(--head);
 }
 
 .prose { max-width: 40rem; }
@@ -309,7 +332,7 @@ a { color: inherit; }
   flex-direction: column;
   min-width: 0;
   padding-top: 18px;
-  border-top: var(--rule) solid var(--ink);
+  border-top: var(--rule) solid var(--line);
 }
 
 .demo-head {
@@ -618,7 +641,7 @@ a { color: inherit; }
 
 /* ---------- Player ---------- */
 .player {
-  border: var(--rule) solid var(--ink);
+  border: var(--rule) solid var(--line);
   background: var(--paper);
 }
 
@@ -657,7 +680,7 @@ a { color: inherit; }
   gap: 14px;
   padding: 8px 14px;
   background: var(--paper);
-  border-top: var(--rule) solid var(--ink);
+  border-top: var(--rule) solid var(--line);
 }
 
 .player-btn {
@@ -754,7 +777,7 @@ a { color: inherit; }
 }
 .foot-inner {
   padding-top: 20px;
-  border-top: var(--rule) solid var(--ink);
+  border-top: var(--rule) solid var(--line);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -762,13 +785,19 @@ a { color: inherit; }
   font-size: 15px;
   color: var(--muted);
 }
-.foot a { color: var(--ink-2); text-underline-offset: 3px; }
-.foot a:hover { color: var(--ink); }
+.foot-contact {
+  flex-basis: 100%;
+  color: var(--ink-2);
+  font-size: 16px;
+  font-weight: 500;
+}
+.foot a { color: var(--link); font-weight: 600; text-underline-offset: 3px; }
+.foot a:hover { text-decoration-thickness: 2px; }
 
 /* ---------- "How much do you know about your cough" ---------- */
-.explore { border-bottom: var(--rule) solid var(--ink); }
+.explore { border-bottom: var(--rule) solid var(--line); }
 
-.explore-item { border-top: var(--rule) solid var(--ink); }
+.explore-item { border-top: var(--rule) solid var(--line); }
 .explore-item summary {
   display: flex;
   align-items: center;
@@ -831,6 +860,7 @@ body:not(.draft) .todo { display: none; }
   .wordmark {
     width: 100%;
     margin-right: 0;
+    padding-bottom: 0;
     font-size: 22px;
   }
   .top-nav {
@@ -873,6 +903,13 @@ body:not(.draft) .todo { display: none; }
   .translation button { padding: 8px; font-size: 12px; }
   .sample-panel canvas { height: 54px; }
   .translation-list { max-height: 196px; padding-right: 5px; }
+}
+
+/* The temporary style picker stays small on a phone so it covers less of the page. */
+@media (max-width: 560px) {
+  .demo-controls { right: 8px; bottom: 8px; left: 8px; max-width: none; gap: 6px; }
+  .demo-control { flex: 1 1 auto; min-height: 36px; padding: 0 4px 0 8px; gap: 4px; font-size: 12px; }
+  .demo-control select { max-width: 104px; font-size: 12px; text-overflow: ellipsis; }
 }
 
 @media (prefers-reduced-motion: reduce) {

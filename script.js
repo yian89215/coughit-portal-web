@@ -5,17 +5,29 @@ const loadDemoJson = (url) => {
   return embedded ? Promise.resolve(embedded) : fetch(url).then((response) => response.json());
 };
 
+// TEMPORARY version switch for the demo: the paper page (Demo + Usability Study)
+// and the art page (the work only) share one look.
+(function () {
+  const select = document.querySelector('[data-version-select]');
+  if (!select) return;
+  select.value = document.body.dataset.version === 'art' ? 'art' : 'paper';
+  select.addEventListener('change', () => {
+    window.location.href = select.value === 'art' ? 'art.html' : 'index.html';
+  });
+})();
+
 // Open the page with ?draft to preview sections that are still waiting for assets.
 if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('draft');
 
-// TEMPORARY colour picker for the demo (remove with .demo-controls in styles.css and index.html).
-// Pick white, purple or black, or press C to cycle. The choice is remembered;
-// ?theme=white|purple|black also works.
+// TEMPORARY colour picker for the demo (remove with .demo-controls in styles.css and the pages).
+// Pick a style, or press C to cycle. The choice is remembered;
+// ?theme=accent|night|mono|purple also works.
 (function () {
   const themes = [
-    { id: 'white', label: 'White', color: '#ffffff' },
-    { id: 'purple', label: 'Purple', color: '#590f8a' },
-    { id: 'black', label: 'Black', color: '#000000' }
+    { id: 'accent', label: 'White, purple accents', color: '#ffffff' },
+    { id: 'night', label: 'Black, purple accents', color: '#000000' },
+    { id: 'mono', label: 'White, black only', color: '#ffffff' },
+    { id: 'purple', label: 'Purple page', color: '#590f8a' }
   ];
   const select = document.querySelector('[data-theme-select]');
   const meta = document.querySelector('meta[name="theme-color"]');
@@ -49,12 +61,13 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
 })();
 
 // Hero artwork: candidate drawings, all made from the demo's real data.
-// TEMPORARY: the Art picker (or the number keys 1 to 8) switches them. Keep one and delete the rest.
+// TEMPORARY: the Art picker (or the number keys 1 to 9) switches them. Keep one and delete the rest.
 (function () {
   const canvas = document.querySelector('[data-hero-art]');
   if (!canvas) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const variants = [
+    { id: 'longitude', label: 'Longitude ring', note: 'Illustration with sample data. Each bar is a line of longitude; longer, darker bars mean more coughs.' },
     { id: 'transform', label: 'Cough to music' },
     { id: 'mono', label: 'Mono (minimal)' },
     { id: 'light', label: 'Light' },
@@ -65,6 +78,7 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
     { id: 'score', label: 'Score' }
   ];
   const select = document.querySelector('[data-art-select]');
+  const note = document.querySelector('[data-hero-note]');
   const fromUrl = (window.location.search.match(/[?&]art=(\w+)/) || [])[1];
   let saved = null;
   try { saved = window.localStorage.getItem('coughit-art'); } catch (e) {}
@@ -118,9 +132,49 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
 
     ctx.save();
     if (id === 'ring') ctx.globalAlpha = reveal;
-    else { ctx.beginPath(); ctx.rect(0, 0, w * reveal, h); ctx.clip(); }
+    else if (id !== 'longitude') { ctx.beginPath(); ctx.rect(0, 0, w * reveal, h); ctx.clip(); }
 
-    if (id === 'mono' && coughs.length) {
+    if (id === 'longitude') {
+      // One bar per 5 degrees of longitude, west to east, clockwise from the top.
+      // The counts are sample data (an illustration): a strong peak at Taiwan
+      // (121 E) and a few quiet ones elsewhere, until more places are recorded.
+      const bins = 72;
+      const peaks = [[121, 1, 5], [-122, 0.34, 7], [-74, 0.28, 6], [2, 0.3, 6], [139, 0.22, 4], [77, 0.2, 6], [151, 0.14, 4], [-47, 0.12, 6]];
+      const counts = Array.from({ length: bins }, (_, k) => {
+        const lng = -180 + (k + 0.5) * (360 / bins);
+        let v = 0.035;
+        peaks.forEach(([c, a, s]) => {
+          let d = Math.abs(lng - c);
+          d = Math.min(d, 360 - d);
+          v += a * Math.exp(-(d * d) / (2 * s * s));
+        });
+        return Math.min(1, v);
+      });
+      const cx = w / 2;
+      const cy = h / 2;
+      const r0 = Math.min(w, h) * 0.27;
+      const span = Math.min(w, h) * 0.22;
+      const shown = Math.floor(bins * reveal);
+      ctx.lineCap = 'butt';
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = Math.max(2, ((2 * Math.PI * r0) / bins) * 0.62);
+      for (let k = 0; k < shown; k += 1) {
+        const theta = -Math.PI / 2 + (k / bins) * Math.PI * 2;
+        const v = counts[k];
+        const r1 = r0 + 4 + span * (0.1 + 0.9 * v);
+        ctx.globalAlpha = 0.14 + 0.86 * v;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(theta) * (r0 + 4), cy + Math.sin(theta) * (r0 + 4));
+        ctx.lineTo(cx + Math.cos(theta) * r1, cy + Math.sin(theta) * r1);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r0, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (id === 'mono' && coughs.length) {
       // Flat and quiet: one line per cough, the seven lines settle into the five
       // lines of a staff, and the melody sits on it. Ink on paper, one accent.
       const n = coughs.length;
@@ -496,6 +550,7 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   const label = () => {
     const variant = variants[index];
     if (select) select.value = variant.id;
+    if (note) note.textContent = variant.note || '';
     try { window.localStorage.setItem('coughit-art', variant.id); } catch (e) {}
   };
 

@@ -5,10 +5,11 @@ Minimal-art redesign that matches the app (variant A): white paper, ink
 and appears only for "a cough was caught".
 
 ```
-index.html      home: hero, overview video, demo teaser, usability study
+index.html      paper version: hero, overview video, demo teaser, usability study
+art.html        art version: hero, about, film (no Demo, no Usability Study)
 demo.html       Drum and Trio players, interactive maps, download block
-styles.css      shared styles, three colour themes (white, purple, black)
-script.js       theme and hero art pickers, players, demo drawing
+styles.css      shared styles, four colour themes (see Page)
+script.js       version, theme and hero art pickers, players, demo drawing
 assets/         coughit-demo.mp4, video-poster.jpg, demo audio and MIDI, favicon
 tools/          build-demo-data.py (writes assets/demo/data.js)
 video/          how the video is made (reproducible)
@@ -43,10 +44,21 @@ python3 -m http.server 4180
 - Demo audio, MIDI and waveform peaks live in `assets/demo/`. The page reads
   `assets/demo/data.js` (embedded copy, so `file://` works). After changing any
   JSON or WAV in `assets/demo/`, run `python3 tools/build-demo-data.py`.
-- Preview switches (query string): `?draft` shows hidden sections that still
-  wait for assets (`draft-only`), `?theme=white|purple|black`, `?art=` picks the
-  hero artwork. The temporary Art and Color selectors are commented out in the
-  HTML, so visitors do not see them while the final art direction is pending.
+- Two versions, one look (1017 meeting): `index.html` is for the paper (Demo and
+  Usability Study), `art.html` is for art submissions (the work only). Both
+  share `styles.css` and `script.js`.
+- Style picker (temporary, bottom right, for choosing with the professor):
+  Version (paper or art), Art (9 hero drawings, keys 1 to 9) and Color (white
+  with purple accents, black with purple accents, white black only, purple
+  page; key C cycles). URL options: `?art=longitude|transform|mono|light|becoming|ridges|ring|line|score`,
+  `?theme=accent|night|mono|purple`, `?draft` for hidden sections.
+  To hide the picker for visitors, put the `.demo-controls` block of each page
+  in an HTML comment. When one style is chosen, delete the picker, the unused
+  hero drawings and the extra themes.
+- Purple (`--accent`) is a garnish: thin rules, section titles, the menu, the
+  contact line, buttons. Text stays black and white. The default hero drawing
+  is the longitude ring (illustration with sample data; replace the counts in
+  `script.js` with real ones when more places are recorded).
 - Wording follows the app and the video: "Music (Kick)", full
   instrument names (Kick, Snare, Closed Hi-hat, Open Hi-hat, Mid Tom, Low Tom,
   Crash Cymbal). No em dashes.

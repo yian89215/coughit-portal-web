@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CoughIt</title>
-<meta name="description" content="CoughIt is an art project that turns the sound of a cough into music with melody and rhythm.">
+<meta name="description" content="CoughIt turns a sudden cough into music with melody and rhythm. Free for iPhone.">
 <meta property="og:title" content="CoughIt">
 <meta property="og:description" content="Transform your cough into music.">
 <meta property="og:type" content="website">
@@ -14,9 +14,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=35">
+<link rel="stylesheet" href="styles.css?v=37">
 </head>
-<body>
+<body data-version="paper">
 
 <a class="skip" href="#main">Skip to content</a>
 
@@ -38,21 +38,20 @@
     <h1 class="tagline"><span class="tagline-title">CoughIt</span><span class="tagline-sub">Transform your cough into music.</span></h1>
 
     <figure class="hero-art">
-      <canvas data-hero-art role="img" aria-label="Notes from the Drum and Trio demos drawn across the page like a score"></canvas>
+      <canvas data-hero-art role="img" aria-label="Artwork drawn across the page"></canvas>
+      <p class="hero-note" data-hero-note></p>
     </figure>
 
     <div class="download">
-      <p class="download-lead">Try it with your own voice.</p>
-      <p class="download-sub">Download from here.</p>
+      <p class="download-lead">Experience your own cough as music.</p>
+      <p class="download-sub">Free for iPhone. It works in the background, so there is nothing extra to do.</p>
+      <p class="download-ask">Would you like to download CoughIt?</p>
       <div class="download-row">
         <a class="app-store-link" href="https://apps.apple.com/tw/app/coughit/id6755471885" target="_blank" rel="noopener" aria-label="Download CoughIt on the App Store">
           <img src="assets/download-on-the-app-store.svg" width="120" height="40" alt="Download on the App Store">
         </a>
-        <!-- Android: replace this span with an <a href="..."> once the link is ready. -->
-        <span class="store-soon" aria-label="Android version coming soon">
-          <span class="store-soon-label">Android</span>
-          <span class="store-soon-text">Coming soon</span>
-        </span>
+        <!-- Android: add a second store badge here once Apple has approved the app
+             and the Android build is published. Do not show "coming soon". -->
       </div>
     </div>
   </section>
@@ -64,7 +63,7 @@
     </header>
 
     <div class="section-intro">
-      <p>CoughIt is an art project that turns the cough, a sound everyone knows but no one calls musical, into melody and rhythm. Each cough can become a solo or join other coughs in a shared piece. A mobile app lets everyone take part.</p>
+      <p>A cough is a sound everyone knows, yet no one calls musical. CoughIt turns a sudden cough into music with melody and rhythm. It is free for iPhone and works in the background, so there is nothing extra to do. A recent cold or a long-term cough makes this a good time to experience it, and a single cough is enough.</p>
     </div>
 
     <div class="player" data-player>
@@ -101,7 +100,7 @@
     </header>
 
     <div class="section-intro">
-      <p>Hear how several coughs come together as one Drum or Trio track.</p>
+      <p>Listen to a single cough, then hear the sound of the instrument it becomes.</p>
     </div>
 
     <div class="actions">
@@ -178,23 +177,24 @@
 </main>
 
 <!-- ============ FOOTER ============ -->
-<footer class="foot">
+<footer class="foot" id="contact">
   <div class="foot-inner">
+    <p class="foot-line foot-contact">For collaboration, press, or participation, please contact us.</p>
     <p class="foot-line">Copyright &copy; 2026 NTHU Dreamality Lab</p>
-    <!-- TODO: replace with a short, project-specific mailbox (not the lab's shared one). -->
     <p class="foot-line"><a href="mailto:coughit121@gmail.com">coughit121@gmail.com</a></p>
     <p class="foot-line"><a href="https://dreamalitylab.cc" target="_blank" rel="noopener">dreamalitylab.cc</a></p>
   </div>
 </footer>
 
-<!-- TEMPORARY Art/Color controls are intentionally hidden from visitors.
-<div class="demo-controls" role="group" aria-label="Demo controls">
-  <label class="demo-control">Art <select data-art-select aria-label="Hero artwork"><option value="transform">1  Cough to music</option><option value="mono">2  Mono (minimal)</option><option value="light">3  Light</option><option value="becoming">4  Becoming</option><option value="ridges">5  Ridges</option><option value="ring">6  Ring</option><option value="line">7  Line</option><option value="score">8  Score</option></select></label>
-  <label class="demo-control">Color <select data-theme-select aria-label="Colour scheme"><option value="white">White</option><option value="purple">Purple</option><option value="black">Black</option></select></label>
+<!-- TEMPORARY style picker for the demo (version, hero art, colour). Remove with the
+     .demo-controls CSS and the picker code in script.js once a style is chosen. -->
+<div class="demo-controls" role="group" aria-label="Style picker (temporary)">
+  <label class="demo-control">Version <select data-version-select aria-label="Page version"><option value="paper">Paper (Demo + Study)</option><option value="art">Art (the work only)</option></select></label>
+  <label class="demo-control">Art <select data-art-select aria-label="Hero artwork"><option value="longitude">1  Longitude ring</option><option value="transform">2  Cough to music</option><option value="mono">3  Mono (minimal)</option><option value="light">4  Light</option><option value="becoming">5  Becoming</option><option value="ridges">6  Ridges</option><option value="ring">7  Ring</option><option value="line">8  Line</option><option value="score">9  Score</option></select></label>
+  <label class="demo-control">Color <select data-theme-select aria-label="Colour scheme"><option value="accent">White, purple accents</option><option value="night">Black, purple accents</option><option value="mono">White, black only</option><option value="purple">Purple page</option></select></label>
 </div>
--->
 
 <script src="assets/demo/data.js?v=1"></script>
-<script src="script.js?v=40"></script>
+<script src="script.js?v=41"></script>
 </body>
 </html>
