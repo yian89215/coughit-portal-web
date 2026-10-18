@@ -33,6 +33,7 @@ jobs:
           mkdir _site
           cp index.html demo.html art.html styles.css script.js .nojekyll _site/
           cp -R assets _site/assets
+          python3 tools/version-site.py
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v4

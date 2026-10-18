@@ -102,3 +102,13 @@ appears on screen.
   the previous app UI) and the earlier demo audio and MIDI visualization data.
 - The iOS notification banner in the phone recording (it carries the colored
   app icon) is painted white; the screen underneath is blank at that moment.
+
+## Automatic updates on the lab website
+
+The WordPress pages `/coughit/` and `/coughit/demo/` embed GitHub Pages.
+Their inline loader adds a fresh `_refresh` query parameter each time the page
+is opened, so no manual WordPress version changes are needed after a push.
+The deployment workflow runs `tools/version-site.py` on `_site` to stamp local
+HTML asset references with the commit SHA and writes `version.txt` for checks.
+Wait for the Pages deployment to succeed, then reload the lab page. Already
+open pages do not reload automatically during audio or video listening.
