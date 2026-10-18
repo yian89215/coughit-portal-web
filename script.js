@@ -80,9 +80,8 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
   const select = document.querySelector('[data-art-select]');
   const note = document.querySelector('[data-hero-note]');
   const fromUrl = (window.location.search.match(/[?&]art=(\w+)/) || [])[1];
-  let saved = null;
-  try { saved = window.localStorage.getItem('coughit-art'); } catch (e) {}
-  let index = Math.max(0, variants.findIndex((v) => v.id === (fromUrl || saved)));
+  // Use the current published default unless an artwork is explicitly requested.
+  let index = Math.max(0, variants.findIndex((v) => v.id === fromUrl));
 
   const demo = window.COUGHIT_DEMO || { peaks: {}, midi: {} };
   const seen = new Set();
@@ -551,7 +550,6 @@ if (/[?&]draft\b/.test(window.location.search)) document.body.classList.add('dra
     const variant = variants[index];
     if (select) select.value = variant.id;
     if (note) note.textContent = variant.note || '';
-    try { window.localStorage.setItem('coughit-art', variant.id); } catch (e) {}
   };
 
   label();
